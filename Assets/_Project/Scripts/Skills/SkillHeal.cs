@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class SkillHeal : MonoBehaviour
 {
+    private GameObject player;
+    public float healAmount;
+
     private void UseSkill()
     {
-        Debug.Log("used heal");
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<StatsController>().RegenerateHealth(healAmount);
     }
 }
