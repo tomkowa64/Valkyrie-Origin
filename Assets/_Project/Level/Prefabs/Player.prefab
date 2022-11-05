@@ -150,8 +150,6 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 64
-  rb: {fileID: 0}
-  coll: {fileID: 0}
 --- !u!114 &5265136329306072748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,3 +169,7 @@ MonoBehaviour:
   deffense: 20
   movementSpeed: 5
   jumpPower: 7
+  dashPower: 2.5
+  climbingSpeed: 2.5
+  dodgingTime: 0.2
+  dodgeCooldown: 0.5

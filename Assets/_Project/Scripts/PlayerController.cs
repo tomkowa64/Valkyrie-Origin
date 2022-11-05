@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour
 
     private bool canDodge = true;
     private bool isDodging;
-    private float dodgingTime = 0.2f;
-    private float dodgeCooldown = 0.5f;
 
     private float rotationCounter = 0f;
     private bool canFlip = true;
@@ -46,7 +44,12 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = new Vector2(dirX * playerStats.movementSpeed, rb.velocity.y);
 
-        if(Input.GetButtonDown("Jump"))
+        if (Input.GetButtonUp("Jump") || IsGrounded() || !IsNextToWall())
+        {
+            CancelInvoke(nameof(Climb));
+        }
+
+        if (Input.GetButtonDown("Jump"))
         {
             if(IsGrounded())
             {
@@ -54,8 +57,7 @@ public class PlayerController : MonoBehaviour
             } 
             else if(IsNextToWall())
             {
-                Debug.Log("Climbing");
-                rb.velocity = new Vector2(rb.velocity.x, playerStats.jumpPower);
+                InvokeRepeating(nameof(Climb), 0f, 0.01f);
             }
         }
 
@@ -91,14 +93,19 @@ public class PlayerController : MonoBehaviour
             || Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.right, .1f, jumpableGround);
     }
 
+    private void Climb()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, playerStats.climbingSpeed);
+    }
+
     private IEnumerator Dodge()
     {
         canDodge = false;
         isDodging = true;
-        rb.velocity = new Vector2(lastXDir * playerStats.movementSpeed * 2.5f, rb.velocity.y);
-        yield return new WaitForSeconds(dodgingTime);
+        rb.velocity = new Vector2(lastXDir * playerStats.movementSpeed * playerStats.dashPower, rb.velocity.y);
+        yield return new WaitForSeconds(playerStats.dodgingTime);
         isDodging = false;
-        yield return new WaitForSeconds(dodgeCooldown);
+        yield return new WaitForSeconds(playerStats.dodgeCooldown);
         canDodge = true;
     }
 

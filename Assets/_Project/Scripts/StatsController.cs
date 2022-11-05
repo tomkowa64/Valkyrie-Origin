@@ -11,6 +11,10 @@ public class StatsController : MonoBehaviour
     public int deffense;
     public float movementSpeed;
     public float jumpPower;
+    public float dashPower;
+    public float climbingSpeed;
+    public float dodgingTime;
+    public float dodgeCooldown;
 
     // Start is called before the first frame update
     void Start()
