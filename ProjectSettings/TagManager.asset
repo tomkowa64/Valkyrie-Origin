@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - DoAFlip
+  - Weapon
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -13,9 +15,9 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Weapon
   - 
   - 
   - 

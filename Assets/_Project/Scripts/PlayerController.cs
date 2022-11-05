@@ -15,10 +15,17 @@ public class PlayerController : MonoBehaviour
 
     private bool isDead = false;
 
+    [Header ("Attack")]
+    private bool canAttack = true;
+    public bool isAttacking = false;
+    public float attackStaminaCost = 15f;
+
+    [Header("Dodge")]
     private bool canDodge = true;
     private bool isDodging;
     public float dodgeStaminaCost = 20f;
 
+    [Header("Climb")]
     public float climbingStaminaCost = 3f;
 
     private float rotationCounter = 0f;
@@ -50,6 +57,7 @@ public class PlayerController : MonoBehaviour
         if(dirX != 0)
         {
             lastXDir = dirX;
+            transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
         }
 
         rb.velocity = new Vector2(dirX * playerStats.movementSpeed, rb.velocity.y);
@@ -90,6 +98,11 @@ public class PlayerController : MonoBehaviour
                     InvokeRepeating(nameof(DoAFlip), 0f, 0.01f);
                 }
             }
+        }
+
+        if(Input.GetButtonDown("Fire1") && canAttack)
+        {
+            StartCoroutine(Attack());
         }
     }
 
@@ -135,6 +148,18 @@ public class PlayerController : MonoBehaviour
             canFlip = true;
             CancelInvoke(nameof(DoAFlip));
         }
+    }
+
+    private IEnumerator Attack()
+    {
+        canAttack = false;
+        isAttacking = true;
+        playerStats.UseStamina(attackStaminaCost, true);
+        yield return new WaitForSeconds(playerStats.attackingTime);
+        isAttacking = false;
+        playerStats.UseStamina(0f, false);
+        yield return new WaitForSeconds(playerStats.attackCooldown);
+        canAttack = true;
     }
 
     private void Die()

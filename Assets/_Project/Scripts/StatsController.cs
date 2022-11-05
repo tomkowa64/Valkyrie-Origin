@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class StatsController : MonoBehaviour
 {
+    [Header ("Health")]
     public float health;
     public float maxHealth;
+
+    [Header("Mana")]
     public float mana;
     public float maxMana;
     public float manaRegen;
+
+    [Header("Stamina")]
     public float stamina;
     public float maxStamina;
     public float staminaRegen;
+
+    [Header("Fighting")]
     public float attack;
-    public float deffense;
+    public float defence;
+    public float attackingTime;
+    public float attackCooldown;
+
+    [Header("Movement")]
     public float movementSpeed;
     public float jumpPower;
     public float dashPower;

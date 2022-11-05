@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TargetDummyController : MonoBehaviour
 {
-    private StatsController dummyStats;
+    public StatsController dummyStats;
 
     private int timeFromLastDamage = 0;
-    private int healAfterSeconds = 5;
+    private int healAfterSeconds = 4;
     private bool isRegenerating = false;
     private float lastRecordedHealth;
 
