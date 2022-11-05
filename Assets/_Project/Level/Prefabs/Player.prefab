@@ -150,6 +150,9 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 64
+  isDead: 0
+  dodgeStaminaCost: 20
+  climbingStaminaCost: 3
 --- !u!114 &5265136329306072748
 MonoBehaviour:
   m_ObjectHideFlags: 0
