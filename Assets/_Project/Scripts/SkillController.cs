@@ -7,13 +7,13 @@ public class SkillController : MonoBehaviour
     public string skillName;
     public float manaCost;
     public float cooldownTime;
-    public float cdTimer = 0;
+    public float cdTimer = 0f;
     public bool onCooldown = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame

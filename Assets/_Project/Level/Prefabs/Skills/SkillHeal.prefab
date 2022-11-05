@@ -48,8 +48,8 @@ MonoBehaviour:
   skillName: Heal
   manaCost: 20
   cooldownTime: 15
-  cdTimer: 4.460007
-  onCooldown: 1
+  cdTimer: 0
+  onCooldown: 0
 --- !u!114 &-1205658764138950861
 MonoBehaviour:
   m_ObjectHideFlags: 0

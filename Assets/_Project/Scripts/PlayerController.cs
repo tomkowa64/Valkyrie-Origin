@@ -43,6 +43,24 @@ public class PlayerController : MonoBehaviour
         playerStats = GetComponent<StatsController>();
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+
+        if(skill1 != null)
+        {
+            skill1.GetComponent<SkillController>().cdTimer = 0f;
+            skill1.GetComponent<SkillController>().onCooldown = false;
+        }
+
+        if (skill2 != null)
+        {
+            skill2.GetComponent<SkillController>().cdTimer = 0f;
+            skill2.GetComponent<SkillController>().onCooldown = false;
+        }
+
+        if (skill3 != null)
+        {
+            skill3.GetComponent<SkillController>().cdTimer = 0f;
+            skill3.GetComponent<SkillController>().onCooldown = false;
+        }
     }
 
     // Update is called once per frame
@@ -106,7 +124,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonDown("Fire1") && canAttack)
+        if(Input.GetButtonDown("Fire1") && canAttack && playerStats.stamina >= attackStaminaCost)
         {
             StartCoroutine(Attack());
         }
@@ -201,16 +219,25 @@ public class PlayerController : MonoBehaviour
     {
         if (!chosenSkill.GetComponent<SkillController>().onCooldown)
         {
-            foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
+            if(chosenSkill.GetComponent<SkillController>().manaCost <= playerStats.mana)
             {
-                if (script.GetType().ToString() != "SkillController")
+                playerStats.mana -= chosenSkill.GetComponent<SkillController>().manaCost;
+
+                foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
                 {
-                    script.Invoke("UseSkill", 0f);
+                    if (script.GetType().ToString() != "SkillController")
+                    {
+                        script.Invoke("UseSkill", 0f);
+                    }
+                    else
+                    {
+                        script.Invoke("StartCooldown", 0f);
+                    }
                 }
-                else
-                {
-                    script.Invoke("StartCooldown", 0f);
-                }
+            }
+            else
+            {
+                Debug.Log("Not enough mana");
             }
         }
         else
