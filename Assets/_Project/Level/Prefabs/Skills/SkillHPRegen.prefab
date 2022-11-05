@@ -63,5 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   regenerated: 0
-  toRegen: 50
+  minToRegen: 40
+  toRegen: 41.199944
+  maxToRegen: 60
   regenPerTick: 0.5

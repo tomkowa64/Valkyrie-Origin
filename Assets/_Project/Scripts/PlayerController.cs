@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [Header("Skills")]
     public GameObject[] skills;
     [SerializeField] private GameObject chosenSkill;
+    public bool skillCancelled = false;
+    public bool skillIsLoading = false;
 
     [Header("Dodge")]
     private bool canDodge = true;
@@ -113,17 +115,45 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonDown("Fire1") && canAttack && playerStats.stamina >= attackStaminaCost)
+        if(Input.GetButtonDown("Fire1") && canAttack && playerStats.stamina >= attackStaminaCost && !skillIsLoading)
         {
             StartCoroutine(Attack());
         }
 
-        if(Input.GetButtonDown("Fire2") && chosenSkill != null)
+        if(Input.GetButtonDown("Fire1") && skillIsLoading)
         {
-            UseSkill();
+            skillCancelled = true;
+            skillIsLoading = false;
         }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if(Input.GetButtonDown("Fire2") && chosenSkill != null && !skillCancelled)
+        {
+            skillIsLoading = true;
+            InvokeRepeating(nameof(LoadSkill), 0f, 0.01f);
+        }
+
+        if(skillCancelled)
+        {
+            CancelInvoke(nameof(LoadSkill));
+            CancelLoading();
+        }
+
+        if(Input.GetButtonUp("Fire2") && chosenSkill != null)
+        {
+            CancelInvoke(nameof(LoadSkill));
+            skillIsLoading = false;
+
+            if (skillCancelled)
+            {
+                skillCancelled = false;
+            }
+            else
+            {
+                UseSkill();
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha1) && !skillIsLoading)
         {
             if(skills[0] != null)
             {
@@ -131,7 +161,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !skillIsLoading)
         {
             if (skills[1] != null)
             {
@@ -139,7 +169,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha3) && !skillIsLoading)
         {
             if (skills[2] != null)
             {
@@ -202,6 +232,42 @@ public class PlayerController : MonoBehaviour
         playerStats.UseStamina(0f, false);
         yield return new WaitForSeconds(playerStats.attackCooldown);
         canAttack = true;
+    }
+
+    private void LoadSkill()
+    {
+        if (!chosenSkill.GetComponent<SkillController>().onCooldown)
+        {
+            if (chosenSkill.GetComponent<SkillController>().manaCost <= playerStats.mana)
+            {
+                foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
+                {
+                    if (script.GetType().ToString() != "SkillController")
+                    {
+                        script.Invoke("LoadSkill", 0f);
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Not enough mana");
+            }
+        }
+        else
+        {
+            Debug.Log("Skill on cooldown");
+        }
+    }
+
+    private void CancelLoading()
+    {
+        foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
+        {
+            if (script.GetType().ToString() != "SkillController")
+            {
+                script.Invoke("ResetLoading", 0f);
+            }
+        }
     }
 
     private void UseSkill()
