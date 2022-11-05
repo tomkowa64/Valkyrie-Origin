@@ -163,8 +163,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 200
+  maxHealth: 200
   mana: 100
+  maxMana: 100
+  manaRegen: 2
   stamina: 100
+  maxStamina: 100
+  staminaRegen: 10
   attack: 20
   deffense: 20
   movementSpeed: 5
