@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float jumpPower = 7f;
-    public float movementSpeed = 4f;
+    private StatsController playerStats;
+    public float jumpPower;
+    public float movementSpeed;
 
     [SerializeField] private LayerMask jumpableGround;
 
@@ -15,6 +16,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerStats = GetComponent<StatsController>();
+        jumpPower = playerStats.jumpPower;
+        movementSpeed = playerStats.movementSpeed;
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
     }
