@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Skills")]
     public GameObject[] skills;
-    private GameObject chosenSkill;
+    [SerializeField] private GameObject chosenSkill;
 
     [Header("Dodge")]
     private bool canDodge = true;
