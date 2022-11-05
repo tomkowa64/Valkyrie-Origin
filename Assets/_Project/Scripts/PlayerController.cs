@@ -21,9 +21,7 @@ public class PlayerController : MonoBehaviour
     public float attackStaminaCost = 15f;
 
     [Header("Skills")]
-    public GameObject skill1;
-    public GameObject skill2;
-    public GameObject skill3;
+    public GameObject[] skills;
     private GameObject chosenSkill;
 
     [Header("Dodge")]
@@ -44,22 +42,13 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
 
-        if(skill1 != null)
+        foreach(GameObject skill in skills)
         {
-            skill1.GetComponent<SkillController>().cdTimer = 0f;
-            skill1.GetComponent<SkillController>().onCooldown = false;
-        }
-
-        if (skill2 != null)
-        {
-            skill2.GetComponent<SkillController>().cdTimer = 0f;
-            skill2.GetComponent<SkillController>().onCooldown = false;
-        }
-
-        if (skill3 != null)
-        {
-            skill3.GetComponent<SkillController>().cdTimer = 0f;
-            skill3.GetComponent<SkillController>().onCooldown = false;
+            if(skill != null)
+            {
+                skill.GetComponent<SkillController>().cdTimer = 0f;
+                skill.GetComponent<SkillController>().onCooldown = false;
+            }
         }
     }
 
@@ -136,25 +125,25 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if(skill1 != null)
+            if(skills[0] != null)
             {
-                chosenSkill = skill1;
+                chosenSkill = skills[0];
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            if (skill2 != null)
+            if (skills[1] != null)
             {
-                chosenSkill = skill2;
+                chosenSkill = skills[1];
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            if (skill3 != null)
+            if (skills[2] != null)
             {
-                chosenSkill = skill3;
+                chosenSkill = skills[2];
             }
         }
     }
