@@ -35,34 +35,82 @@ public class StatsController : MonoBehaviour
     {
         if(mana < maxMana && !regeneratingMana)
         {
-            InvokeRepeating(nameof(regenerateMana), 0f, 1f / manaRegen);
+            InvokeRepeating(nameof(RegenerateMana), 0f, 1f / manaRegen);
         }
 
         if(stamina < maxStamina && !regeneratingStamina)
         {
-            InvokeRepeating(nameof(regenerateStamina), 0f, 1f / staminaRegen);
+            InvokeRepeating(nameof(RegenerateStamina), 0f, 1f / staminaRegen);
         }
     }
 
-    private void regenerateMana()
+    private void RegenerateMana()
     {
         regeneratingMana = true;
         mana++;
         if(mana == maxMana)
         {
             regeneratingMana = false;
-            CancelInvoke(nameof(regenerateMana));
+            CancelInvoke(nameof(RegenerateMana));
         }
     }
 
-    private void regenerateStamina()
+    public void UseMana(int amount)
+    {
+        if(mana < amount)
+        {
+            mana = 0;
+        }
+        else
+        {
+            mana -= amount;
+        }
+    }
+
+    private void RegenerateStamina()
     {
         regeneratingStamina = true;
         stamina++;
         if(stamina == maxStamina)
         {
             regeneratingStamina = false;
-            CancelInvoke(nameof(regenerateStamina));
+            CancelInvoke(nameof(RegenerateStamina));
+        }
+    }
+
+    public void UseStamina(int amount)
+    {
+        if(stamina < amount)
+        {
+            stamina = 0;
+        }
+        else
+        {
+            stamina -= amount;
+        }
+    }
+
+    public void RegenerateHealth(int amount)
+    {
+        if(health + amount > maxHealth)
+        {
+            health = maxHealth;
+        }
+        else
+        {
+            health += amount;
+        }
+    }
+
+    public void GetDamage(int amount)
+    {
+        if(health - amount < 0)
+        {
+            health = 0;
+        }
+        else
+        {
+            health -= amount;
         }
     }
 }
