@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    //[SerializeField] private Transform player;
+    [SerializeField] private Transform player;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
     }
 }
