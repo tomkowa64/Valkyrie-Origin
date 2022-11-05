@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     private float rotationCounter = 0f;
     private bool canFlip = true;
+    private bool canMove = true;
 
     // Start is called before the first frame update
     void Start()
@@ -69,13 +70,16 @@ public class PlayerController : MonoBehaviour
 
         float dirX = Input.GetAxisRaw("Horizontal");
 
-        if(dirX != 0)
+        if (dirX != 0 && canMove)
         {
             lastXDir = dirX;
             transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
         }
 
-        rb.velocity = new Vector2(dirX * playerStats.movementSpeed, rb.velocity.y);
+        if (canMove)
+        {
+            rb.velocity = new Vector2(dirX * playerStats.movementSpeed, rb.velocity.y);
+        }
 
         if (Input.GetButtonUp("Jump") || IsGrounded() || !IsNextToWall() || playerStats.stamina == 0f)
         {
@@ -83,7 +87,7 @@ public class PlayerController : MonoBehaviour
             playerStats.UseStamina(0f, false);
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && canMove)
         {
             if(IsGrounded())
             {
@@ -95,7 +99,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if(Input.GetKeyDown(KeyCode.LeftShift) && canMove)
         {
             if(IsGrounded())
             {
@@ -126,7 +130,7 @@ public class PlayerController : MonoBehaviour
             skillIsLoading = false;
         }
 
-        if(Input.GetButtonDown("Fire2") && chosenSkill != null && !skillCancelled)
+        if(Input.GetButtonDown("Fire2") && chosenSkill != null && !skillCancelled && IsGrounded())
         {
             skillIsLoading = true;
             InvokeRepeating(nameof(LoadSkill), 0f, 0.01f);
@@ -138,7 +142,7 @@ public class PlayerController : MonoBehaviour
             CancelLoading();
         }
 
-        if(Input.GetButtonUp("Fire2") && chosenSkill != null)
+        if(Input.GetButtonUp("Fire2") && chosenSkill != null && skillIsLoading)
         {
             CancelInvoke(nameof(LoadSkill));
             skillIsLoading = false;
@@ -240,6 +244,8 @@ public class PlayerController : MonoBehaviour
         {
             if (chosenSkill.GetComponent<SkillController>().manaCost <= playerStats.mana)
             {
+                canMove = chosenSkill.GetComponent<SkillController>().playerCanMoveWhileLoading;
+
                 foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
                 {
                     if (script.GetType().ToString() != "SkillController")
@@ -261,6 +267,8 @@ public class PlayerController : MonoBehaviour
 
     private void CancelLoading()
     {
+        canMove = true;
+
         foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
         {
             if (script.GetType().ToString() != "SkillController")
@@ -272,6 +280,8 @@ public class PlayerController : MonoBehaviour
 
     private void UseSkill()
     {
+        canMove = true;
+
         if (!chosenSkill.GetComponent<SkillController>().onCooldown)
         {
             if(chosenSkill.GetComponent<SkillController>().manaCost <= playerStats.mana)

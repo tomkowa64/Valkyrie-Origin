@@ -9,6 +9,7 @@ public class SkillController : MonoBehaviour
     public float cooldownTime;
     public float cdTimer = 0f;
     public bool onCooldown = false;
+    public bool playerCanMoveWhileLoading = true;
 
     // Start is called before the first frame update
     void Start()

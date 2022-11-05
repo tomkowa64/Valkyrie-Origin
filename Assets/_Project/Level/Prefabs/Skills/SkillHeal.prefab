@@ -50,6 +50,7 @@ MonoBehaviour:
   cooldownTime: 15
   cdTimer: 0
   onCooldown: 0
+  playerCanMoveWhileLoading: 0
 --- !u!114 &-1205658764138950861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +64,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHealAmount: 20
-  healAmount: 20
   maxHealAmount: 30
-  loadingTime: 0
