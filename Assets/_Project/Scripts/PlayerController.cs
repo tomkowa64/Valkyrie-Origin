@@ -199,7 +199,24 @@ public class PlayerController : MonoBehaviour
 
     private void UseSkill()
     {
-        Debug.Log(chosenSkill);
+        if (!chosenSkill.GetComponent<SkillController>().onCooldown)
+        {
+            foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
+            {
+                if (script.GetType().ToString() != "SkillController")
+                {
+                    script.Invoke("UseSkill", 0f);
+                }
+                else
+                {
+                    script.Invoke("StartCooldown", 0f);
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Skill on cooldown");
+        }
     }
 
     private void Die()

@@ -153,6 +153,9 @@ MonoBehaviour:
     m_Bits: 64
   isAttacking: 0
   attackStaminaCost: 15
+  skill1: {fileID: 3043863169511407678, guid: 96e220c2605c0094c9bde90b9e0cac30, type: 3}
+  skill2: {fileID: 0}
+  skill3: {fileID: 0}
   dodgeStaminaCost: 20
   climbingStaminaCost: 3
 --- !u!114 &5265136329306072748
@@ -176,7 +179,7 @@ MonoBehaviour:
   maxStamina: 100
   staminaRegen: 10
   attack: 20
-  deffense: 20
+  defence: 0
   attackingTime: 0.5
   attackCooldown: 0.5
   movementSpeed: 5
