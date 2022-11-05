@@ -20,6 +20,12 @@ public class PlayerController : MonoBehaviour
     public bool isAttacking = false;
     public float attackStaminaCost = 15f;
 
+    [Header("Skills")]
+    public GameObject skill1;
+    public GameObject skill2;
+    public GameObject skill3;
+    private GameObject chosenSkill;
+
     [Header("Dodge")]
     private bool canDodge = true;
     private bool isDodging;
@@ -104,6 +110,35 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(Attack());
         }
+
+        if(Input.GetButtonDown("Fire2") && chosenSkill != null)
+        {
+            UseSkill();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if(skill1 != null)
+            {
+                chosenSkill = skill1;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (skill2 != null)
+            {
+                chosenSkill = skill2;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (skill3 != null)
+            {
+                chosenSkill = skill3;
+            }
+        }
     }
 
     private bool IsGrounded()
@@ -160,6 +195,11 @@ public class PlayerController : MonoBehaviour
         playerStats.UseStamina(0f, false);
         yield return new WaitForSeconds(playerStats.attackCooldown);
         canAttack = true;
+    }
+
+    private void UseSkill()
+    {
+        Debug.Log(chosenSkill);
     }
 
     private void Die()
