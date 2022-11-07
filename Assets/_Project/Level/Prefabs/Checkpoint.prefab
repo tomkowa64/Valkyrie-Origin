@@ -124,4 +124,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3125c69f12a7334b86950af672a243f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkpointNumber: 0
   isStartingPoint: 0

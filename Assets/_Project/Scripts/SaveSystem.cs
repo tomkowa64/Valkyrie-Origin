@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public static class SaveSystem
 {
     private static string path = Application.persistentDataPath + "/";
-    private static string fileExtension = ".kjg";
+    private static string fileExtension = ".vo";
 
     public static void Save (string saveName, GameObject player, SceneController scene)
     {

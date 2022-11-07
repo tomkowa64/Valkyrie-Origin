@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
             CancelLoading();
         }
 
-        if(Input.GetButtonUp("Fire2") && chosenSkill != null && skillIsLoading)
+        if(Input.GetButtonUp("Fire2") && chosenSkill != null)
         {
             CancelInvoke(nameof(LoadSkill));
             skillIsLoading = false;
