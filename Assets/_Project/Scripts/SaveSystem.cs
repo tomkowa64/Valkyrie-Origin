@@ -7,7 +7,7 @@ public static class SaveSystem
     private static string path = Application.persistentDataPath + "/";
     private static string fileExtension = ".kjg";
 
-    public static void Save (string saveName, PlayerController player, SceneController scene)
+    public static void Save (string saveName, GameObject player, SceneController scene)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path + saveName + fileExtension, FileMode.Create);
@@ -22,6 +22,8 @@ public static class SaveSystem
     {
         if (File.Exists(path + saveName + fileExtension))
         {
+            Debug.Log("Loaded save file from path: " + path + saveName + fileExtension);
+
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path + saveName + fileExtension, FileMode.Open);
 

@@ -5,7 +5,9 @@ using UnityEngine;
 public class SceneController : MonoBehaviour
 {
     public int levelNumber;
-    public GameObject player;
+    private GameManager gameManager;
+    private GameObject playerPrefab;
+    private GameObject player;
     private GameObject[] checkpoints;
     private GameObject startingPoint;
     public GameObject lastCheckpoint;
@@ -14,6 +16,8 @@ public class SceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        playerPrefab = gameManager.playerPrefab;
         checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
 
         foreach (GameObject checkpoint in checkpoints)
@@ -22,6 +26,11 @@ public class SceneController : MonoBehaviour
             {
                 startingPoint = checkpoint;
                 startingPointsCounter++;
+            }
+
+            if (checkpoint.GetComponent<CheckpointController>().checkpointNumber == gameManager.saveData.checkpointNumber)
+            {
+                lastCheckpoint = checkpoint;
             }
         }
 
@@ -37,6 +46,8 @@ public class SceneController : MonoBehaviour
             }
 
             RespawnPlayer();
+            player = GameObject.FindGameObjectWithTag("Player");
+            LoadPlayerData();
         }
     }
 
@@ -49,10 +60,16 @@ public class SceneController : MonoBehaviour
     public void CheckpointReached(GameObject checkpoint)
     {
         lastCheckpoint = checkpoint;
+        SaveSystem.Save(gameManager.saveName, player, this);
     }
 
     public void RespawnPlayer()
     {
-        Instantiate(player, lastCheckpoint.transform.position, Quaternion.identity);
+        Instantiate(playerPrefab, lastCheckpoint.transform.position, Quaternion.identity);
+    }
+
+    private void LoadPlayerData()
+    {
+        player.GetComponent<StatsController>().health = gameManager.saveData.playerHealth;
     }
 }

@@ -9,7 +9,7 @@ public class SaveData
     public int levelNumber;
     public int checkpointNumber;
 
-    public SaveData (PlayerController player, SceneController scene)
+    public SaveData (GameObject player, SceneController scene)
     {
         playerHealth = player.GetComponent<StatsController>().health;
         levelNumber = scene.levelNumber;

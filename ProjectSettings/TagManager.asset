@@ -8,6 +8,7 @@ TagManager:
   - Weapon
   - Enemy
   - Checkpoint
+  - GameManager
   layers:
   - Default
   - TransparentFX
