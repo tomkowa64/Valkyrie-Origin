@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 5088284}
   m_Layer: 0
   m_Name: SceneController
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 5936557769075872516, guid: a18092ad83047ad459a3afb7a7f73a9c, type: 3}
+  lastCheckpoint: {fileID: 0}
 --- !u!4 &5088285
 Transform:
   m_ObjectHideFlags: 0
@@ -453,6 +454,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 830570930}
     m_Modifications:
+    - target: {fileID: -1338631996966666260, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
+      propertyPath: isStartingPoint
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1994547175257977332, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_Name
       value: Checkpoint
@@ -463,15 +468,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7325978951660405435, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.0927272
+      value: -2.59
       objectReference: {fileID: 0}
     - target: {fileID: 7325978951660405435, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.40318596
+      value: -0.85
       objectReference: {fileID: 0}
     - target: {fileID: 7325978951660405435, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.809182
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7325978951660405435, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_LocalRotation.w
@@ -760,6 +765,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 830570930}
     m_Modifications:
+    - target: {fileID: -1338631996966666260, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
+      propertyPath: isStartingPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1338631996966666260, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
+      propertyPath: checkpointNumber
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1994547175257977332, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_Name
       value: Checkpoint (1)
@@ -770,15 +783,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7325978951660405435, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.7295748
+      value: 4.19
       objectReference: {fileID: 0}
     - target: {fileID: 7325978951660405435, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.36478734
+      value: 2.36
       objectReference: {fileID: 0}
     - target: {fileID: 7325978951660405435, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.809182
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7325978951660405435, guid: 70c42b337fa854545b5e198d9cbb4641, type: 3}
       propertyPath: m_LocalRotation.w
