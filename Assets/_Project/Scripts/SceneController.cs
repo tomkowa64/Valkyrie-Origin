@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SceneController : MonoBehaviour
 {
+    public int levelNumber;
     public GameObject player;
     private GameObject[] checkpoints;
     private GameObject startingPoint;
