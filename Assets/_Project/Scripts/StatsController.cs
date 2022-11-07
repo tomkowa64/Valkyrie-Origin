@@ -4,26 +4,32 @@ using UnityEngine;
 
 public class StatsController : MonoBehaviour
 {
+    #region Variables
+    #region Health
     [Header ("Health")]
     public float health;
     public float maxHealth;
-
+    #endregion
+    #region Mana
     [Header("Mana")]
     public float mana;
     public float maxMana;
     public float manaRegen;
-
+    #endregion
+    #region Stamina
     [Header("Stamina")]
     public float stamina;
     public float maxStamina;
     public float staminaRegen;
-
+    #endregion
+    #region Fighting
     [Header("Fighting")]
     public float attack;
     public float defence;
     public float attackingTime;
     public float attackCooldown;
-
+    #endregion
+    #region Movement
     [Header("Movement")]
     public float movementSpeed;
     public float jumpPower;
@@ -31,11 +37,14 @@ public class StatsController : MonoBehaviour
     public float climbingSpeed;
     public float dodgingTime;
     public float dodgeCooldown;
-
+    #endregion
+    #region Bools
     private bool regeneratingMana = false;
     private bool regeneratingStamina = false;
     private bool staminaInUse = false;
     private bool manaInUse = false;
+    #endregion
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +78,7 @@ public class StatsController : MonoBehaviour
         }
     }
 
+    #region Mana Functions
     private void RegenerateMana()
     {
         regeneratingMana = true;
@@ -92,7 +102,9 @@ public class StatsController : MonoBehaviour
             mana -= amount;
         }
     }
+    #endregion
 
+    #region Stamina Functions
     private void RegenerateStamina()
     {
         regeneratingStamina = true;
@@ -118,7 +130,9 @@ public class StatsController : MonoBehaviour
             stamina -= amount;
         }
     }
+    #endregion
 
+    #region Health Functions
     public void RegenerateHealth(float amount)
     {
         if(health + amount > maxHealth)
@@ -142,4 +156,5 @@ public class StatsController : MonoBehaviour
             health -= amount;
         }
     }
+    #endregion
 }

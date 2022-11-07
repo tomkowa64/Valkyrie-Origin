@@ -315,5 +315,6 @@ public class PlayerController : MonoBehaviour
     {
         isDead = true;
         Destroy(gameObject);
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<SceneController>().RespawnPlayer();
     }
 }
