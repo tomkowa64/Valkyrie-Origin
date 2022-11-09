@@ -48,9 +48,10 @@ MonoBehaviour:
   skillName: Heal
   manaCost: 20
   cooldownTime: 15
-  cdTimer: 0
-  onCooldown: 0
+  cdTimer: 10.760151
+  onCooldown: 1
   playerCanMoveWhileLoading: 0
+  mastering: 1
 --- !u!114 &-1205658764138950861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,3 +66,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minHealAmount: 20
   maxHealAmount: 30
+  sumOfHealingDone: 100
+  healingForLevelOne: 1000

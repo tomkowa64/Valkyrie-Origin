@@ -60,7 +60,7 @@ public class SceneController : MonoBehaviour
     public void CheckpointReached(GameObject checkpoint)
     {
         lastCheckpoint = checkpoint;
-        SaveSystem.Save(gameManager.saveName, player, this);
+        SaveSystem.Save(gameManager.saveName, player, this, gameManager.skills);
     }
 
     public void RespawnPlayer()

@@ -9,10 +9,15 @@ public class SaveData
     public int levelNumber;
     public int checkpointNumber;
 
-    public SaveData (GameObject player, SceneController scene)
+    #region Skills mastering
+    public float skillHealProgress;
+    #endregion
+
+    public SaveData (GameObject player, SceneController scene, GameObject[] skills)
     {
         playerHealth = player.GetComponent<StatsController>().health;
         levelNumber = scene.levelNumber;
         checkpointNumber = scene.lastCheckpoint.GetComponent<CheckpointController>().checkpointNumber;
+        skillHealProgress = skills[0].GetComponent<SkillHeal>().sumOfHealingDone;
     }
 }
