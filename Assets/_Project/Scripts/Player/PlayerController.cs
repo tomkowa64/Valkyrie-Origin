@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject chosenSkill;
     public bool skillCancelled = false;
     public bool skillIsLoading = false;
+    private float skillLoadingTime = 0f;
 
     [Header("Dodge")]
     private bool canDodge = true;
@@ -52,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
         foreach(GameObject skill in skills)
         {
-            if(skill != null)
+            if (skill != null)
             {
                 skill.GetComponent<SkillController>().cdTimer = 0f;
                 skill.GetComponent<SkillController>().onCooldown = false;
@@ -63,12 +64,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isDodging || isDead)
+        if (isDodging || isDead)
         {
             return;
         }
 
-        if(playerStats.health <= 0)
+        if (playerStats.health <= 0)
         {
             Die();
         }
@@ -94,28 +95,28 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && canMove)
         {
-            if(IsGrounded())
+            if (IsGrounded())
             {
                 rb.velocity = new Vector2(rb.velocity.x, playerStats.jumpPower);
             } 
-            else if(IsNextToWall() && playerStats.stamina >= climbingStaminaCost * 0.1f)
+            else if (IsNextToWall() && playerStats.stamina >= climbingStaminaCost * 0.1f)
             {
                 InvokeRepeating(nameof(Climb), 0f, 0.01f);
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftShift) && canMove)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canMove)
         {
-            if(IsGrounded())
+            if (IsGrounded())
             {
-                if(canDodge && playerStats.stamina >= dodgeStaminaCost && !IsNextToWall())
+                if (canDodge && playerStats.stamina >= dodgeStaminaCost && !IsNextToWall())
                 {
                     StartCoroutine(Dodge());
                 }
             }
             else
             {
-                if(canFlip)
+                if (canFlip)
                 {
                     canFlip = false;
                     GameObject.FindGameObjectWithTag("DoAFlip").GetComponent<Text>().color = Color.white;
@@ -124,30 +125,41 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonDown("Fire1") && canAttack && playerStats.stamina >= attackStaminaCost && !skillIsLoading)
+        if (Input.GetButtonDown("Fire1") && canAttack && playerStats.stamina >= attackStaminaCost && !skillIsLoading)
         {
             StartCoroutine(Attack());
         }
 
-        if(Input.GetButtonDown("Fire1") && skillIsLoading)
+        if (Input.GetButtonDown("Fire1") && skillIsLoading)
         {
             skillCancelled = true;
             skillIsLoading = false;
         }
 
-        if(Input.GetButtonDown("Fire2") && chosenSkill != null && !skillCancelled && IsGrounded())
+        if (Input.GetButtonDown("Fire2") && chosenSkill != null && !skillCancelled)
         {
-            skillIsLoading = true;
-            InvokeRepeating(nameof(LoadSkill), 0f, 0.01f);
+            if (chosenSkill.GetComponent<SkillController>().playerCanMoveWhileLoading)
+            {
+                skillIsLoading = true;
+                InvokeRepeating(nameof(LoadSkill), 0f, 0.01f);
+            }
+            else
+            {
+                if (IsGrounded())
+                {
+                    skillIsLoading = true;
+                    InvokeRepeating(nameof(LoadSkill), 0f, 0.01f);
+                }
+            }
         }
 
-        if(skillCancelled)
+        if (skillCancelled)
         {
             CancelInvoke(nameof(LoadSkill));
             CancelLoading();
         }
 
-        if(Input.GetButtonUp("Fire2") && chosenSkill != null)
+        if (Input.GetButtonUp("Fire2") && chosenSkill != null)
         {
             CancelInvoke(nameof(LoadSkill));
             skillIsLoading = false;
@@ -158,13 +170,23 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                UseSkill();
+                if (chosenSkill.GetComponent<SkillController>().playerCanMoveWhileLoading)
+                {
+                    UseSkill();
+                }
+                else
+                {
+                    if (IsGrounded())
+                    {
+                        UseSkill();
+                    }
+                }
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Alpha1) && !skillIsLoading)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !skillIsLoading)
         {
-            if(skills[0] != null)
+            if (skills[0] != null)
             {
                 chosenSkill = skills[0];
             }
@@ -236,7 +258,7 @@ public class PlayerController : MonoBehaviour
     {
         rotationCounter += 10f;
         GetComponent<Rigidbody2D>().rotation += 10f;
-        if(rotationCounter >= 360f)
+        if (rotationCounter >= 360f)
         {
             GetComponent<Rigidbody2D>().rotation = 0f;
             rotationCounter = 0f;
@@ -264,6 +286,7 @@ public class PlayerController : MonoBehaviour
         {
             if (chosenSkill.GetComponent<SkillController>().manaCost <= playerStats.mana)
             {
+                skillLoadingTime += 0.01f;
                 canMove = chosenSkill.GetComponent<SkillController>().playerCanMoveWhileLoading;
 
                 foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
@@ -287,6 +310,7 @@ public class PlayerController : MonoBehaviour
 
     private void CancelLoading()
     {
+        skillLoadingTime = 0f;
         canMove = true;
 
         foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
@@ -300,34 +324,38 @@ public class PlayerController : MonoBehaviour
 
     private void UseSkill()
     {
-        canMove = true;
-
-        if (!chosenSkill.GetComponent<SkillController>().onCooldown)
+        if (skillLoadingTime > 0f)
         {
-            if(chosenSkill.GetComponent<SkillController>().manaCost <= playerStats.mana)
-            {
-                playerStats.mana -= chosenSkill.GetComponent<SkillController>().manaCost;
+            skillLoadingTime = 0f;
+            canMove = true;
 
-                foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
+            if (!chosenSkill.GetComponent<SkillController>().onCooldown)
+            {
+                if (chosenSkill.GetComponent<SkillController>().manaCost <= playerStats.mana)
                 {
-                    if (script.GetType().ToString() != "SkillController")
+                    playerStats.mana -= chosenSkill.GetComponent<SkillController>().manaCost;
+
+                    foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
                     {
-                        script.Invoke("UseSkill", 0f);
+                        if (script.GetType().ToString() != "SkillController")
+                        {
+                            script.Invoke("UseSkill", 0f);
+                        }
+                        else
+                        {
+                            script.Invoke("StartCooldown", 0f);
+                        }
                     }
-                    else
-                    {
-                        script.Invoke("StartCooldown", 0f);
-                    }
+                }
+                else
+                {
+                    Debug.Log("Not enough mana");
                 }
             }
             else
             {
-                Debug.Log("Not enough mana");
+                Debug.Log("Skill on cooldown");
             }
-        }
-        else
-        {
-            Debug.Log("Skill on cooldown");
         }
     }
 

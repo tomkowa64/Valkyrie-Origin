@@ -11,18 +11,6 @@ public class SkillController : MonoBehaviour
     public bool onCooldown = false;
     public bool playerCanMoveWhileLoading = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void StartCooldown()
     {
         onCooldown = true;

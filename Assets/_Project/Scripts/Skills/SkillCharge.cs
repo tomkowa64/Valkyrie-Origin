@@ -61,24 +61,27 @@ public class SkillCharge : MonoBehaviour
 
     private void UseSkill()
     {
-        lastTarget = null;
-        player = GameObject.FindGameObjectWithTag("Player");
-        rb = player.GetComponent<Rigidbody2D>();
-        coll = player.GetComponent<BoxCollider2D>();
-        gravity = rb.gravityScale;
-
-        if (chargePower < minChargePower)
+        if (loadingTime > 0)
         {
+            lastTarget = null;
+            player = GameObject.FindGameObjectWithTag("Player");
+            rb = player.GetComponent<Rigidbody2D>();
+            coll = player.GetComponent<BoxCollider2D>();
+            gravity = rb.gravityScale;
+
+            if (chargePower < minChargePower)
+            {
+                chargePower = minChargePower;
+            }
+
+            destinationX = player.GetComponent<PlayerController>().lastXDir * chargePower + player.transform.position.x;
+
+            player.GetComponent<PlayerController>().canMove = false;
+            InvokeRepeating(nameof(MovePlayer), 0f, 0.01f);
+
             chargePower = minChargePower;
+            loadingTime = 0f;
         }
-
-        destinationX = player.GetComponent<PlayerController>().lastXDir * chargePower + player.transform.position.x;
-
-        player.GetComponent<PlayerController>().canMove = false;
-        InvokeRepeating(nameof(MovePlayer), 0f, 0.01f);
-
-        chargePower = minChargePower;
-        loadingTime = 0f;
     }
 
     private void LoadSkill()

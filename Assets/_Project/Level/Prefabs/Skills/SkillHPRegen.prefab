@@ -50,6 +50,7 @@ MonoBehaviour:
   cooldownTime: 20
   cdTimer: 0
   onCooldown: 0
+  playerCanMoveWhileLoading: 1
 --- !u!114 &-6095025365967434301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +65,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   regenerated: 0
   minToRegen: 40
-  toRegen: 41.199944
+  toRegen: 40
   maxToRegen: 60
   regenPerTick: 0.5
