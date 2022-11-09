@@ -13,6 +13,12 @@ public class SkillHeal : MonoBehaviour
     private void UseSkill()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        if (healAmount < minHealAmount)
+        {
+            healAmount = minHealAmount;
+        }
+
         player.GetComponent<StatsController>().RegenerateHealth(healAmount);
         healAmount = minHealAmount;
         loadingTime = 0f;

@@ -16,9 +16,16 @@ public class SkillHPRegen : MonoBehaviour
     {
         regenerated = 0f;
         player = GameObject.FindGameObjectWithTag("Player");
+
+        if (toRegen < minToRegen)
+        {
+            toRegen = minToRegen;
+        }
+
         InvokeRepeating(nameof(HealthRegen), 0f, 0.1f);
         loadingTime = 0f;
     }
+
     private void LoadSkill()
     {
         if (loadingTime >= 0.5f)

@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Variables
     private StatsController playerStats;
 
     [SerializeField] private LayerMask jumpableGround;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private BoxCollider2D coll;
+    public GameObject triggerTarget;
 
-    private float lastXDir = 1;
+    public float lastXDir = 1;
 
     private bool isDead = false;
 
@@ -34,9 +36,12 @@ public class PlayerController : MonoBehaviour
     [Header("Climb")]
     public float climbingStaminaCost = 3f;
 
+    [Header("Rest")]
     private float rotationCounter = 0f;
     private bool canFlip = true;
-    private bool canMove = true;
+    public bool canMove = true;
+    public float gravity;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
@@ -103,7 +108,7 @@ public class PlayerController : MonoBehaviour
         {
             if(IsGrounded())
             {
-                if(canDodge && playerStats.stamina >= dodgeStaminaCost)
+                if(canDodge && playerStats.stamina >= dodgeStaminaCost && !IsNextToWall())
                 {
                     StartCoroutine(Dodge());
                 }
@@ -182,12 +187,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        triggerTarget = collision.gameObject;
+
+        if (triggerTarget.layer == LayerMask.NameToLayer("Ground"))
+        {
+            coll.isTrigger = false;
+        }
+    }
+
     private bool IsGrounded()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 
-    private bool IsNextToWall()
+    public bool IsNextToWall()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.left, .1f, jumpableGround) 
             || Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.right, .1f, jumpableGround);
@@ -201,12 +216,17 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Dodge()
     {
+        gravity = rb.gravityScale;
         canDodge = false;
         isDodging = true;
+        rb.gravityScale = 0f;
+        coll.isTrigger = true;
         rb.velocity = new Vector2(lastXDir * playerStats.movementSpeed * playerStats.dashPower, rb.velocity.y);
         playerStats.UseStamina(dodgeStaminaCost, true);
         yield return new WaitForSeconds(playerStats.dodgingTime);
         isDodging = false;
+        coll.isTrigger = false;
+        rb.gravityScale = gravity;
         playerStats.UseStamina(0f, false);
         yield return new WaitForSeconds(playerStats.dodgeCooldown);
         canDodge = true;

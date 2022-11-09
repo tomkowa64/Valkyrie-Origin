@@ -152,12 +152,14 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 64
+  rb: {fileID: 0}
+  lastXDir: 1
   isAttacking: 0
   attackStaminaCost: 15
   skills:
   - {fileID: 3043863169511407678, guid: 96e220c2605c0094c9bde90b9e0cac30, type: 3}
   - {fileID: 5291843138108624243, guid: 9829f54eb323d1a4da0273652d555a54, type: 3}
-  - {fileID: 0}
+  - {fileID: 5147196970901925947, guid: df04ca8f424d4c1489d27438412e49dc, type: 3}
   chosenSkill: {fileID: 0}
   skillCancelled: 0
   skillIsLoading: 0
@@ -287,7 +289,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
