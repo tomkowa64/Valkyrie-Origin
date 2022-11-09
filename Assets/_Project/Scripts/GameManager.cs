@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     public string saveName;
     public SaveData saveData;
 
+    #region Skills
+
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +31,7 @@ public class GameManager : MonoBehaviour
 
         if (saveData.levelNumber == -1)
         {
-            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+            SceneManager.LoadScene("Sandbox", LoadSceneMode.Single);
         }
     }
 

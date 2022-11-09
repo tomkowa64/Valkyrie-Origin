@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Level/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/_Project/Level/Scenes/Test.unity
+    guid: b349b882d77a73049b108bed66cd7b7c
+  - enabled: 1
+    path: Assets/_Project/Level/Scenes/Sandbox.unity
+    guid: 2d5dca34d321be442991cdbc3053009c
   m_configObjects: {}
