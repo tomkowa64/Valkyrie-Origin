@@ -50,8 +50,9 @@ public class PlayerController : MonoBehaviour
         playerStats = GetComponent<StatsController>();
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+        GetComponent<LineRenderer>().positionCount = 0;
 
-        foreach(GameObject skill in skills)
+        foreach (GameObject skill in skills)
         {
             if (skill != null)
             {
@@ -134,6 +135,7 @@ public class PlayerController : MonoBehaviour
         {
             skillCancelled = true;
             skillIsLoading = false;
+            GetComponent<LineRenderer>().positionCount = 0;
         }
 
         if (Input.GetButtonDown("Fire2") && chosenSkill != null && !skillCancelled)

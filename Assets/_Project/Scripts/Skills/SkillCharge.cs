@@ -61,6 +61,8 @@ public class SkillCharge : MonoBehaviour
 
     private void UseSkill()
     {
+        player.GetComponent<LineRenderer>().positionCount = 0;
+
         if (loadingTime > 0)
         {
             lastTarget = null;
@@ -86,11 +88,18 @@ public class SkillCharge : MonoBehaviour
 
     private void LoadSkill()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        destinationX = player.GetComponent<PlayerController>().lastXDir * chargePower + player.transform.position.x;
+
         if (loadingTime >= 0.1f)
         {
+            player.GetComponent<LineRenderer>().positionCount = 2;
+            player.GetComponent<LineRenderer>().SetPosition(0, player.transform.position);
+            player.GetComponent<LineRenderer>().SetPosition(1, new Vector3(destinationX + player.GetComponent<PlayerController>().lastXDir, player.transform.position.y, player.transform.position.z));
+
             if (chargePower < maxChargePower)
             {
-                chargePower += 0.1f;
+                chargePower += 0.01f;
             }
 
             if (chargePower >= maxChargePower)
