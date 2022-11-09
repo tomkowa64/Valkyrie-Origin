@@ -36,4 +36,11 @@ public class GameManager : MonoBehaviour
     {
         
     }
+
+    public void LoadTestField()
+    {
+        saveName = "test";
+        saveData = SaveSystem.Load(saveName);
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+    }
 }
