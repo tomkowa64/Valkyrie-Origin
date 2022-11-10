@@ -132,7 +132,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2.5
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -193,10 +193,10 @@ MonoBehaviour:
   defence: 0
   attackingTime: 0.5
   attackCooldown: 0.5
-  movementSpeed: 5
-  jumpPower: 7
+  movementSpeed: 8.5
+  jumpPower: 18
   dashPower: 2.5
-  climbingSpeed: 2.5
+  climbingSpeed: 5
   dodgingTime: 0.2
   dodgeCooldown: 0.5
 --- !u!95 &-3372430894120356210

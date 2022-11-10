@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadSkillsData()
     {
+        #region Heal data
         skills[0].GetComponent<SkillHeal>().sumOfHealingDone = saveData.skillHealProgress;
         if (saveData.skillHealProgress <= skills[0].GetComponent<SkillHeal>().healingForLevelOne)
         {
@@ -88,6 +89,16 @@ public class GameManager : MonoBehaviour
         {
             skills[0].GetComponent<SkillController>().mastering = 1 + saveData.skillHealProgress / skills[0].GetComponent<SkillHeal>().healingForLevelTwo;
         }
-        
+        #endregion
+
+        #region HP Regen data
+        skills[1].GetComponent<SkillHPRegen>().sumOfHealthRegen = saveData.skillHealthRegenProgeess;
+        skills[1].GetComponent<SkillController>().mastering = saveData.skillHealthRegenProgeess / skills[1].GetComponent<SkillHPRegen>().regenForLevelOne;
+        #endregion
+
+        #region Charge data
+        skills[2].GetComponent<SkillCharge>().sumOfEnemiesHit = saveData.skillChargeProgress;
+        skills[2].GetComponent<SkillController>().mastering = saveData.skillChargeProgress / skills[2].GetComponent<SkillCharge>().hitsForLevelOne;
+        #endregion
     }
 }

@@ -49,7 +49,7 @@ public class SkillHeal : MonoBehaviour
     {
         if (GetComponent<SkillController>().mastering >= 2f)
         {
-            if(standardCooldown == 0f)
+            if (standardCooldown == 0f)
             {
                 standardCooldown = GetComponent<SkillController>().cooldownTime;
             }

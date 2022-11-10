@@ -15,6 +15,8 @@ public class SkillCharge : MonoBehaviour
     private float destinationX;
     private float gravity;
     private GameObject lastTarget;
+    public int sumOfEnemiesHit;
+    public int hitsForLevelOne;
 
     private void MovePlayer()
     {
@@ -27,6 +29,12 @@ public class SkillCharge : MonoBehaviour
         {
             lastTarget = player.GetComponent<PlayerController>().triggerTarget;
             player.GetComponent<PlayerController>().triggerTarget.GetComponent<StatsController>().DealDamage(damage);
+
+            if (sumOfEnemiesHit < hitsForLevelOne)
+            {
+                sumOfEnemiesHit++;
+                GetComponent<SkillController>().mastering = sumOfEnemiesHit / hitsForLevelOne;
+            }
         }
         
         if (player.GetComponent<PlayerController>().IsNextToWall())
@@ -97,14 +105,29 @@ public class SkillCharge : MonoBehaviour
             player.GetComponent<LineRenderer>().SetPosition(0, player.transform.position);
             player.GetComponent<LineRenderer>().SetPosition(1, new Vector3(destinationX + player.GetComponent<PlayerController>().lastXDir, player.transform.position.y, player.transform.position.z));
 
-            if (chargePower < maxChargePower)
+            if (GetComponent<SkillController>().mastering >= 1f)
             {
-                chargePower += 0.01f;
-            }
+                if (chargePower < maxChargePower)
+                {
+                    chargePower += 0.05f;
+                }
 
-            if (chargePower >= maxChargePower)
+                if (chargePower >= maxChargePower)
+                {
+                    chargePower = maxChargePower;
+                }
+            }
+            else
             {
-                chargePower = maxChargePower;
+                if (chargePower < maxChargePower)
+                {
+                    chargePower += 0.01f;
+                }
+
+                if (chargePower >= maxChargePower)
+                {
+                    chargePower = maxChargePower;
+                }
             }
         }
         else
