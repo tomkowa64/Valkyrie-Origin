@@ -4,11 +4,16 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveSystem
 {
-    private static string path = Application.persistentDataPath + "/";
+    private static string path = Application.persistentDataPath + "/saves/";
     private static string fileExtension = ".vo";
 
     public static void NewSave (string saveName)
     {
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path + saveName + fileExtension, FileMode.Create);
 
