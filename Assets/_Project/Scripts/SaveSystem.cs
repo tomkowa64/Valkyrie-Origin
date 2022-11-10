@@ -7,6 +7,17 @@ public static class SaveSystem
     private static string path = Application.persistentDataPath + "/";
     private static string fileExtension = ".vo";
 
+    public static void NewSave (string saveName)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream stream = new FileStream(path + saveName + fileExtension, FileMode.Create);
+
+        SaveData data = new SaveData();
+
+        formatter.Serialize(stream, data);
+        stream.Close();
+    }
+
     public static void Save (string saveName, GameObject player, SceneController scene, GameObject[] skills)
     {
         BinaryFormatter formatter = new BinaryFormatter();
@@ -16,6 +27,11 @@ public static class SaveSystem
 
         formatter.Serialize(stream, data);
         stream.Close();
+    }
+
+    public static bool SaveExists (string saveName)
+    {
+        return File.Exists(path + saveName + fileExtension);
     }
 
     public static SaveData Load (string saveName)

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public GameObject playerPrefab;
     public string saveName;
+    private string newSaveName;
     public SaveData saveData;
     public GameObject[] skills;
 
@@ -23,7 +24,9 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
 
+    /*
         saveData = SaveSystem.Load(saveName);
         LoadSkillsData();
 
@@ -31,12 +34,39 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("Sandbox", LoadSceneMode.Single);
         }
+     */
+
+    public void SaveNameInput(string value)
+    {
+        newSaveName = value;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CreateNewSave()
     {
-        
+        if (newSaveName != null && newSaveName != "")
+        {
+            if (SaveSystem.SaveExists(newSaveName))
+            {
+                Debug.LogError("Save with that name already exists");
+            }
+            else
+            {
+                SaveSystem.NewSave(newSaveName);
+                saveName = newSaveName;
+                LoadGame();
+            }
+        }
+        else
+        {
+            Debug.LogError("Cannot create save with no name");
+        }
+    }
+
+    public void LoadGame()
+    {
+        saveData = SaveSystem.Load(saveName);
+        LoadSkillsData();
+        SceneManager.LoadScene("Level" + saveData.levelNumber, LoadSceneMode.Single);
     }
 
     public void LoadTestField()
@@ -44,10 +74,10 @@ public class GameManager : MonoBehaviour
         saveName = "test";
         saveData = SaveSystem.Load(saveName);
         LoadSkillsData();
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Sandbox", LoadSceneMode.Single);
     }
 
-    public void LoadSkillsData()
+    private void LoadSkillsData()
     {
         skills[0].GetComponent<SkillHeal>().sumOfHealingDone = saveData.skillHealProgress;
         if (saveData.skillHealProgress <= skills[0].GetComponent<SkillHeal>().healingForLevelOne)
