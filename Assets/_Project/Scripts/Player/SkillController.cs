@@ -7,6 +7,7 @@ public class SkillController : MonoBehaviour
     public string skillName;
     public float manaCost;
     public float cooldownTime;
+    public float standardCooldownTime;
     public float cdTimer = 0f;
     public bool onCooldown = false;
     public bool playerCanMoveWhileLoading = true;
@@ -28,6 +29,7 @@ public class SkillController : MonoBehaviour
         {
             cdTimer = 0f;
             onCooldown = false;
+            cooldownTime = standardCooldownTime;
             CancelInvoke(nameof(CooldownTimer));
         }
     }

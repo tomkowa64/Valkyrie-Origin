@@ -50,6 +50,14 @@ public class GameManager : MonoBehaviour
     public void LoadSkillsData()
     {
         skills[0].GetComponent<SkillHeal>().sumOfHealingDone = saveData.skillHealProgress;
-        skills[0].GetComponent<SkillController>().mastering = saveData.skillHealProgress / skills[0].GetComponent<SkillHeal>().healingForLevelOne;
+        if (saveData.skillHealProgress <= skills[0].GetComponent<SkillHeal>().healingForLevelOne)
+        {
+            skills[0].GetComponent<SkillController>().mastering = saveData.skillHealProgress / skills[0].GetComponent<SkillHeal>().healingForLevelOne;
+        }
+        else
+        {
+            skills[0].GetComponent<SkillController>().mastering = 1 + saveData.skillHealProgress / skills[0].GetComponent<SkillHeal>().healingForLevelTwo;
+        }
+        
     }
 }
