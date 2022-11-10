@@ -6,20 +6,47 @@ public class SkillHPRegen : MonoBehaviour
 {
     private GameObject player;
     public float regenerated = 0f;
-    public float minToRegen;
+    public float minToRegenDefault;
+    public float minToRegenMastered;
     public float toRegen;
-    public float maxToRegen;
-    public float regenPerTick = 0.5f;
+    public float maxToRegenDefault;
+    public float maxToRegenMastered;
+    public float regenPerTickDefault = 0.5f;
+    public float regenPerTickMastered = 0.75f;
     private float loadingTime = 0f;
+    public float sumOfHealthRegen;
+    public float regenForLevelOne;
 
     private void UseSkill()
     {
         regenerated = 0f;
         player = GameObject.FindGameObjectWithTag("Player");
 
-        if (toRegen < minToRegen)
+        if (GetComponent<SkillController>().mastering >= 1f)
         {
-            toRegen = minToRegen;
+            if (toRegen < minToRegenMastered)
+            {
+                toRegen = minToRegenMastered;
+            }
+        }
+        else
+        {
+            if (toRegen < minToRegenDefault)
+            {
+                toRegen = minToRegenDefault;
+            }
+        }
+
+        if (sumOfHealthRegen <= regenForLevelOne)
+        {
+            sumOfHealthRegen += toRegen;
+            GetComponent<SkillController>().mastering = sumOfHealthRegen / regenForLevelOne;
+
+            if (sumOfHealthRegen >= regenForLevelOne)
+            {
+                sumOfHealthRegen = regenForLevelOne;
+                GetComponent<SkillController>().mastering = sumOfHealthRegen / regenForLevelOne;
+            }
         }
 
         InvokeRepeating(nameof(HealthRegen), 0f, 0.1f);
@@ -30,14 +57,29 @@ public class SkillHPRegen : MonoBehaviour
     {
         if (loadingTime >= 0.5f)
         {
-            if (toRegen < maxToRegen)
+            if (GetComponent<SkillController>().mastering >= 1f)
             {
-                toRegen += 0.1f;
-            }
+                if (toRegen < maxToRegenMastered)
+                {
+                    toRegen += 0.15f;
+                }
 
-            if (toRegen >= maxToRegen)
+                if (toRegen >= maxToRegenMastered)
+                {
+                    toRegen = maxToRegenMastered;
+                }
+            }
+            else
             {
-                toRegen = maxToRegen;
+                if (toRegen < maxToRegenDefault)
+                {
+                    toRegen += 0.1f;
+                }
+
+                if (toRegen >= maxToRegenDefault)
+                {
+                    toRegen = maxToRegenDefault;
+                }
             }
         }
         else
@@ -48,19 +90,44 @@ public class SkillHPRegen : MonoBehaviour
 
     private void ResetLoading()
     {
-        toRegen = minToRegen;
+        if (GetComponent<SkillController>().mastering >= 1f)
+        {
+            toRegen = minToRegenMastered;
+        }
+        else
+        {
+            toRegen = minToRegenDefault;
+        }
+
         loadingTime = 0f;
     }
 
     private void HealthRegen()
     {
-        regenerated += regenPerTick;
-        player.GetComponent<StatsController>().RegenerateHealth(regenPerTick);
-        if(regenerated >= toRegen)
+        if (GetComponent<SkillController>().mastering >= 1f)
+        {
+            regenerated += regenPerTickMastered;
+            player.GetComponent<StatsController>().RegenerateHealth(regenPerTickMastered);
+        }
+        else
+        {
+            regenerated += regenPerTickDefault;
+            player.GetComponent<StatsController>().RegenerateHealth(regenPerTickDefault);
+        }
+
+        if (regenerated >= toRegen)
         {
             regenerated = 0f;
             CancelInvoke(nameof(HealthRegen));
-            toRegen = minToRegen;
+
+            if (GetComponent<SkillController>().mastering >= 1f)
+            {
+                toRegen = minToRegenMastered;
+            }
+            else
+            {
+                toRegen = minToRegenDefault;
+            }
         }
     }
 }

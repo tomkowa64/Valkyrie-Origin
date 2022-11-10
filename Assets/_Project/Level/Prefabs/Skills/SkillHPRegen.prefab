@@ -48,9 +48,11 @@ MonoBehaviour:
   skillName: Health Regeneration
   manaCost: 20
   cooldownTime: 20
-  cdTimer: 0
-  onCooldown: 0
+  standardCooldownTime: 20
+  cdTimer: 4.049998
+  onCooldown: 1
   playerCanMoveWhileLoading: 1
+  mastering: 0.5837998
 --- !u!114 &-6095025365967434301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,8 +65,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42f7d108597313c4db21e692ccce7265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regenerated: 0
-  minToRegen: 40
-  toRegen: 40
-  maxToRegen: 60
-  regenPerTick: 0.5
+  regenerated: 20.5
+  minToRegenDefault: 40
+  minToRegenMastered: 50
+  toRegen: 52.199814
+  maxToRegenDefault: 60
+  maxToRegenMastered: 80
+  regenPerTickDefault: 0.5
+  regenPerTickMastered: 0.75
+  sumOfHealthRegen: 1990
+  regenForLevelOne: 2000

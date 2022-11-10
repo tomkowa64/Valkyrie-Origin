@@ -47,10 +47,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Charge
   manaCost: 10
-  cooldownTime: 5
-  cdTimer: 4.530009
-  onCooldown: 1
+  cooldownTime: 12
+  standardCooldownTime: 12
+  cdTimer: 0
+  onCooldown: 0
   playerCanMoveWhileLoading: 0
+  mastering: 0
 --- !u!114 &2389940921483190451
 MonoBehaviour:
   m_ObjectHideFlags: 0
