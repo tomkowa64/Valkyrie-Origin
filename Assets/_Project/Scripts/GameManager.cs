@@ -9,10 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     public string saveName;
     public SaveData saveData;
-
-    #region Skills
-
-    #endregion
+    public GameObject[] skills;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +25,7 @@ public class GameManager : MonoBehaviour
         }
 
         saveData = SaveSystem.Load(saveName);
+        LoadSkillsData();
 
         if (saveData.levelNumber == -1)
         {
@@ -45,6 +43,13 @@ public class GameManager : MonoBehaviour
     {
         saveName = "test";
         saveData = SaveSystem.Load(saveName);
+        LoadSkillsData();
         SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+    }
+
+    public void LoadSkillsData()
+    {
+        skills[0].GetComponent<SkillHeal>().sumOfHealingDone = saveData.skillHealProgress;
+        skills[0].GetComponent<SkillController>().mastering = saveData.skillHealProgress / skills[0].GetComponent<SkillHeal>().healingForLevelOne;
     }
 }

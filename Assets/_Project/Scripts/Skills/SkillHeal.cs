@@ -9,6 +9,8 @@ public class SkillHeal : MonoBehaviour
     private float healAmount;
     public float maxHealAmount;
     private float loadingTime = 0f;
+    public float sumOfHealingDone;
+    public float healingForLevelOne;
 
     private void UseSkill()
     {
@@ -19,6 +21,18 @@ public class SkillHeal : MonoBehaviour
             healAmount = minHealAmount;
         }
 
+        if (sumOfHealingDone <= healingForLevelOne)
+        {
+            sumOfHealingDone += healAmount;
+            GetComponent<SkillController>().mastering = sumOfHealingDone / healingForLevelOne;
+
+            if (sumOfHealingDone >= healingForLevelOne)
+            {
+                sumOfHealingDone = healingForLevelOne;
+                GetComponent<SkillController>().mastering = sumOfHealingDone / healingForLevelOne;
+            }
+        }
+
         player.GetComponent<StatsController>().RegenerateHealth(healAmount);
         healAmount = minHealAmount;
         loadingTime = 0f;
@@ -26,21 +40,28 @@ public class SkillHeal : MonoBehaviour
 
     private void LoadSkill()
     {
-        if (loadingTime >= 1.0f)
+        if (GetComponent<SkillController>().mastering >= 1f)
         {
-            if (healAmount < maxHealAmount)
-            {
-                healAmount += 0.1f;
-            }
-
-            if (healAmount >= maxHealAmount)
-            {
-                healAmount = maxHealAmount;
-            }
+            healAmount = maxHealAmount;
         }
         else
         {
-            loadingTime += 0.01f;
+            if (loadingTime >= 1.0f)
+            {
+                if (healAmount < maxHealAmount)
+                {
+                    healAmount += 0.1f;
+                }
+
+                if (healAmount >= maxHealAmount)
+                {
+                    healAmount = maxHealAmount;
+                }
+            }
+            else
+            {
+                loadingTime += 0.01f;
+            }
         }
     }
 
