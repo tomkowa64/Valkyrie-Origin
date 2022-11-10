@@ -11,6 +11,8 @@ public class SkillHeal : MonoBehaviour
     private float loadingTime = 0f;
     public float sumOfHealingDone;
     public float healingForLevelOne;
+    public float healingForLevelTwo;
+    private float standardCooldown = 0f;
 
     private void UseSkill()
     {
@@ -25,11 +27,16 @@ public class SkillHeal : MonoBehaviour
         {
             sumOfHealingDone += healAmount;
             GetComponent<SkillController>().mastering = sumOfHealingDone / healingForLevelOne;
+        }
+        else if (sumOfHealingDone <= healingForLevelTwo)
+        {
+            sumOfHealingDone += healAmount;
+            GetComponent<SkillController>().mastering = 1 + sumOfHealingDone / healingForLevelTwo;
 
-            if (sumOfHealingDone >= healingForLevelOne)
+            if (sumOfHealingDone >= healingForLevelTwo)
             {
-                sumOfHealingDone = healingForLevelOne;
-                GetComponent<SkillController>().mastering = sumOfHealingDone / healingForLevelOne;
+                sumOfHealingDone = healingForLevelTwo;
+                GetComponent<SkillController>().mastering = 1 + sumOfHealingDone / healingForLevelTwo;
             }
         }
 
@@ -40,6 +47,16 @@ public class SkillHeal : MonoBehaviour
 
     private void LoadSkill()
     {
+        if (GetComponent<SkillController>().mastering >= 2f)
+        {
+            if(standardCooldown == 0f)
+            {
+                standardCooldown = GetComponent<SkillController>().cooldownTime;
+            }
+            
+            GetComponent<SkillController>().cooldownTime = standardCooldown / 2;
+        }
+
         if (GetComponent<SkillController>().mastering >= 1f)
         {
             healAmount = maxHealAmount;

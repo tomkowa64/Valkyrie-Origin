@@ -13,7 +13,15 @@ public class SaveData
     public float skillHealProgress;
     #endregion
 
-    public SaveData (GameObject player, SceneController scene, GameObject[] skills)
+    public SaveData()
+    {
+        playerHealth = 200;
+        levelNumber = 0;
+        checkpointNumber = 0;
+        skillHealProgress = 0;
+    }
+
+    public SaveData(GameObject player, SceneController scene, GameObject[] skills)
     {
         playerHealth = player.GetComponent<StatsController>().health;
         levelNumber = scene.levelNumber;
