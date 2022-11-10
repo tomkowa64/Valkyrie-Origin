@@ -12,6 +12,7 @@ public class SaveData
     #region Skills mastering
     public float skillHealProgress;
     public float skillHealthRegenProgeess;
+    public int skillChargeProgress;
     #endregion
 
     public SaveData()
@@ -21,6 +22,7 @@ public class SaveData
         checkpointNumber = 0;
         skillHealProgress = 0;
         skillHealthRegenProgeess = 0;
+        skillChargeProgress = 0;
     }
 
     public SaveData(GameObject player, SceneController scene, GameObject[] skills)
@@ -30,5 +32,6 @@ public class SaveData
         checkpointNumber = scene.lastCheckpoint.GetComponent<CheckpointController>().checkpointNumber;
         skillHealProgress = skills[0].GetComponent<SkillHeal>().sumOfHealingDone;
         skillHealthRegenProgeess = skills[1].GetComponent<SkillHPRegen>().sumOfHealthRegen;
+        skillChargeProgress = skills[2].GetComponent<SkillCharge>().sumOfEnemiesHit;
     }
 }

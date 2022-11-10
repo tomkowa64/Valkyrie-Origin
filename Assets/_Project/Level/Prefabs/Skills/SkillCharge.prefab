@@ -49,8 +49,8 @@ MonoBehaviour:
   manaCost: 10
   cooldownTime: 12
   standardCooldownTime: 12
-  cdTimer: 0
-  onCooldown: 0
+  cdTimer: 4.2900033
+  onCooldown: 1
   playerCanMoveWhileLoading: 0
   mastering: 0
 --- !u!114 &2389940921483190451
@@ -68,3 +68,5 @@ MonoBehaviour:
   minChargePower: 3
   maxChargePower: 6
   damage: 100
+  sumOfEnemiesHit: 99
+  hitsForLevelOne: 100
