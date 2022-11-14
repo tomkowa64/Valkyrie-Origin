@@ -4503,7 +4503,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1016915149}
         m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
-        m_MethodName: Quit
+        m_MethodName: QuitToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5076,7 +5076,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -665.42, y: -373}
+  m_AnchoredPosition: {x: -665.4199, y: -373}
   m_SizeDelta: {x: -1466.8, y: -1084.94}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1690500717
@@ -6235,7 +6235,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1016915149}
         m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
-        m_MethodName: Pause
+        m_MethodName: LoadOptionsMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

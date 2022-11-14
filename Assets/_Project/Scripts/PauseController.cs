@@ -35,12 +35,14 @@ public class PauseController : MonoBehaviour
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
-    public void LoadMenu()
+    public void LoadOptionsMenu()
     {
-        Debug.Log("menu");
+        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
     public void QuitToMenu()
     {
+        Time.timeScale = 1f;
+        GameIsPaused = false;
         SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
    
