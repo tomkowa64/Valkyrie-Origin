@@ -2,15 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
-    public GameObject playerPrefab;
-    public string saveName;
-    private string newSaveName;
+    [Header("Do not touch")]
     public SaveData saveData;
+    private static GameManager instance;
+    private string newSaveName;
+
+    [Header("To fill")]
+    public GameObject playerPrefab;
+    public GameObject communicate;
     public GameObject[] skills;
+
+    [Header("If you want to use sandbox set it to name of your save")]
+    public string saveName;
 
     // Start is called before the first frame update
     void Start()
@@ -26,38 +33,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*
-        saveData = SaveSystem.Load(saveName);
-        LoadSkillsData();
-
-        if (saveData.levelNumber == -1)
-        {
-            SceneManager.LoadScene("Sandbox", LoadSceneMode.Single);
-        }
-     */
-
     public void SaveNameInput(string value)
     {
         newSaveName = value;
+        communicate.SetActive(false);
     }
 
     public void CreateNewSave()
     {
         if (newSaveName != null && newSaveName != "")
         {
-            if (SaveSystem.SaveExists(newSaveName))
+            if (SaveSystem.GetAllSaves().Count >= 5)
             {
-                Debug.LogError("Save with that name already exists");
+                communicate.GetComponent<TextMeshProUGUI>().text = "You have reached max saves count";
+                communicate.SetActive(true);
+                Debug.LogError("You have reached max saves count");
             }
             else
             {
-                SaveSystem.NewSave(newSaveName);
-                saveName = newSaveName;
-                LoadGame();
+                if (SaveSystem.SaveExists(newSaveName))
+                {
+                    communicate.GetComponent<TextMeshProUGUI>().text = "Save with that name already exists";
+                    communicate.SetActive(true);
+                    Debug.LogError("Save with that name already exists");
+                }
+                else
+                {
+                    SaveSystem.NewSave(newSaveName);
+                    saveName = newSaveName;
+                    LoadGame();
+                }
             }
         }
         else
         {
+            communicate.GetComponent<TextMeshProUGUI>().text = "Save name cannot be empty";
+            communicate.SetActive(true);
             Debug.LogError("Cannot create save with no name");
         }
     }
@@ -66,7 +77,15 @@ public class GameManager : MonoBehaviour
     {
         saveData = SaveSystem.Load(saveName);
         LoadSkillsData();
-        SceneManager.LoadScene("Level" + saveData.levelNumber, LoadSceneMode.Single);
+
+        if (saveData.levelNumber >= 0)
+        {
+            SceneManager.LoadScene("Level" + saveData.levelNumber, LoadSceneMode.Single);
+        }
+        else if (saveData.levelNumber == -1)
+        {
+            SceneManager.LoadScene("Sandbox", LoadSceneMode.Single);
+        }
     }
 
     public void LoadTestField()
