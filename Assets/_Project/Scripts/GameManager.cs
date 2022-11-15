@@ -6,13 +6,18 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Do not touch")]
+    public SaveData saveData;
     private static GameManager instance;
+    private string newSaveName;
+
+    [Header("To fill")]
     public GameObject playerPrefab;
     public GameObject communicate;
-    public string saveName;
-    private string newSaveName;
-    public SaveData saveData;
     public GameObject[] skills;
+
+    [Header("If you want to use sandbox set it to name of your save")]
+    public string saveName;
 
     // Start is called before the first frame update
     void Start()

@@ -12,7 +12,6 @@ public class DeleteSavePrompt : MonoBehaviour
 
     [Header("To fill")]
     public GameObject text;
-    private Scene scene;
 
     public void ClosePrompt()
     {
