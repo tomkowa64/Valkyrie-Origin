@@ -1,13 +1,15 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
+using System.Linq;
 
 public static class SaveSystem
 {
     private static string path = Application.persistentDataPath + "/saves/";
     private static string fileExtension = ".vo";
 
-    public static void NewSave (string saveName)
+    public static void NewSave(string saveName)
     {
         if (!Directory.Exists(path))
         {
@@ -23,7 +25,7 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static void Save (string saveName, GameObject player, SceneController scene, GameObject[] skills)
+    public static void Save(string saveName, GameObject player, SceneController scene, GameObject[] skills)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path + saveName + fileExtension, FileMode.Create);
@@ -34,12 +36,12 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static bool SaveExists (string saveName)
+    public static bool SaveExists(string saveName)
     {
         return File.Exists(path + saveName + fileExtension);
     }
 
-    public static SaveData Load (string saveName)
+    public static SaveData Load(string saveName)
     {
         if (File.Exists(path + saveName + fileExtension))
         {
@@ -58,5 +60,19 @@ public static class SaveSystem
             Debug.LogError("Save file not found in " + path);
             return null;
         }
+    }
+
+    public static List<FileInfo> GetAllSaves()
+    {
+        if (!Directory.Exists(path))
+        {
+            return new List<FileInfo>();
+        }
+        else
+        {
+            List<FileInfo> files = new DirectoryInfo(path).GetFiles().OrderBy(p => p.CreationTime).ToList();
+            return files;
+        }
+
     }
 }

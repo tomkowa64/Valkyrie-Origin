@@ -5,6 +5,7 @@ using UnityEngine;
 public class CheckpointController : MonoBehaviour
 {
     public int checkpointNumber;
+    public string locationName;
     public bool isStartingPoint = false;
 
     // Start is called before the first frame update
