@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     #region Variables
     private StatsController playerStats;
+    private GameManager gameManager;
 
     [SerializeField] private LayerMask jumpableGround;
     public Rigidbody2D rb;
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Skills")]
     public GameObject[] skills;
+    public int chosenSkillSlot;
     [SerializeField] private GameObject chosenSkill;
     public bool skillCancelled = false;
     public bool skillIsLoading = false;
@@ -47,9 +49,11 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         playerStats = GetComponent<StatsController>();
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+        chosenSkillSlot = gameManager.saveData.choosenSkillSlot;
         GetComponent<LineRenderer>().positionCount = 0;
 
         foreach (GameObject skill in skills)
@@ -191,6 +195,7 @@ public class PlayerController : MonoBehaviour
             if (skills[0] != null)
             {
                 chosenSkill = skills[0];
+                chosenSkillSlot = 1;
             }
         }
 
@@ -199,6 +204,7 @@ public class PlayerController : MonoBehaviour
             if (skills[1] != null)
             {
                 chosenSkill = skills[1];
+                chosenSkillSlot = 2;
             }
         }
 
@@ -207,6 +213,7 @@ public class PlayerController : MonoBehaviour
             if (skills[2] != null)
             {
                 chosenSkill = skills[2];
+                chosenSkillSlot = 3;
             }
         }
     }
@@ -293,7 +300,7 @@ public class PlayerController : MonoBehaviour
 
                 foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
                 {
-                    if (script.GetType().ToString() != "SkillController")
+                    if (script.GetType().ToString() != "SkillController" && script.GetType().ToString() != "UnityEngine.UI.Image")
                     {
                         script.Invoke("LoadSkill", 0f);
                     }
@@ -317,7 +324,7 @@ public class PlayerController : MonoBehaviour
 
         foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
         {
-            if (script.GetType().ToString() != "SkillController")
+            if (script.GetType().ToString() != "SkillController" && script.GetType().ToString() != "UnityEngine.UI.Image")
             {
                 script.Invoke("ResetLoading", 0f);
             }
@@ -339,11 +346,11 @@ public class PlayerController : MonoBehaviour
 
                     foreach (MonoBehaviour script in chosenSkill.GetComponents<MonoBehaviour>())
                     {
-                        if (script.GetType().ToString() != "SkillController")
+                        if (script.GetType().ToString() != "SkillController" && script.GetType().ToString() != "UnityEngine.UI.Image")
                         {
                             script.Invoke("UseSkill", 0f);
                         }
-                        else
+                        else if (script.GetType().ToString() != "UnityEngine.UI.Image")
                         {
                             script.Invoke("StartCooldown", 0f);
                         }
