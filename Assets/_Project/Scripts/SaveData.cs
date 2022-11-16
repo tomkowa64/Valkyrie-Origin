@@ -10,7 +10,7 @@ public class SaveData
     public int checkpointNumber;
     public string locationName;
 
-    #region Skills mastering
+    #region Skills mastering 
     public float skillHealProgress;
     public float skillHealthRegenProgeess;
     public int skillChargeProgress;
