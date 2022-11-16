@@ -53,8 +53,13 @@ public class PlayerController : MonoBehaviour
         playerStats = GetComponent<StatsController>();
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
-        chosenSkillSlot = gameManager.saveData.choosenSkillSlot;
         GetComponent<LineRenderer>().positionCount = 0;
+        chosenSkillSlot = gameManager.saveData.chosenSkillSlot;
+
+        if (chosenSkillSlot > 0 && chosenSkillSlot <= 3)
+        {
+            chosenSkill = skills[chosenSkillSlot - 1];
+        }
 
         foreach (GameObject skill in skills)
         {

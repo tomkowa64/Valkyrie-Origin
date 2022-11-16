@@ -105,6 +105,7 @@ public class IngameInterfaceController : MonoBehaviour
         if (playerController.skills[0] != null)
         {
             skillOneImage.sprite = playerController.skills[0].GetComponent<Image>().sprite;
+            skillOneImage.color = playerController.skills[0].GetComponent<Image>().color;
             skillOneBar.value = playerController.skills[0].GetComponent<SkillController>().loadingProgress;
 
             if (playerController.skills[0].GetComponent<SkillController>().onCooldown)
@@ -129,6 +130,7 @@ public class IngameInterfaceController : MonoBehaviour
         if (playerController.skills[1] != null)
         {
             skillTwoImage.sprite = playerController.skills[1].GetComponent<Image>().sprite;
+            skillTwoImage.color = playerController.skills[1].GetComponent<Image>().color;
             skillTwoBar.value = playerController.skills[1].GetComponent<SkillController>().loadingProgress;
 
             if (playerController.skills[1].GetComponent<SkillController>().onCooldown)
@@ -153,6 +155,7 @@ public class IngameInterfaceController : MonoBehaviour
         if (playerController.skills[2] != null)
         {
             skillThreeImage.sprite = playerController.skills[2].GetComponent<Image>().sprite;
+            skillThreeImage.color = playerController.skills[2].GetComponent<Image>().color;
             skillThreeBar.value = playerController.skills[2].GetComponent<SkillController>().loadingProgress;
 
             if (playerController.skills[2].GetComponent<SkillController>().onCooldown)

@@ -9,7 +9,7 @@ public class SaveData
     public int levelNumber;
     public int checkpointNumber;
     public string locationName;
-    public int choosenSkillSlot;
+    public int chosenSkillSlot;
 
     #region Skills mastering
     public float skillHealProgress;
@@ -23,7 +23,7 @@ public class SaveData
         levelNumber = 0;
         checkpointNumber = 0;
         locationName = "";
-        choosenSkillSlot = 0;
+        chosenSkillSlot = 0;
         skillHealProgress = 0;
         skillHealthRegenProgeess = 0;
         skillChargeProgress = 0;
@@ -35,7 +35,7 @@ public class SaveData
         levelNumber = scene.levelNumber;
         checkpointNumber = scene.lastCheckpoint.GetComponent<CheckpointController>().checkpointNumber;
         locationName = scene.lastCheckpoint.GetComponent<CheckpointController>().locationName;
-        choosenSkillSlot = player.GetComponent<PlayerController>().chosenSkillSlot;
+        chosenSkillSlot = player.GetComponent<PlayerController>().chosenSkillSlot;
         skillHealProgress = skills[0].GetComponent<SkillHeal>().sumOfHealingDone;
         skillHealthRegenProgeess = skills[1].GetComponent<SkillHPRegen>().sumOfHealthRegen;
         skillChargeProgress = skills[2].GetComponent<SkillCharge>().sumOfEnemiesHit;

@@ -32,6 +32,8 @@ public static class SaveSystem
 
         SaveData data = new SaveData(player, scene, skills);
 
+        Debug.Log("Game saved");
+
         formatter.Serialize(stream, data);
         stream.Close();
     }
