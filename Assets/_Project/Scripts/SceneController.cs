@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class SceneController : MonoBehaviour
 {
-    public int levelNumber;
+    [Header("Do not touch")]
+    public GameObject lastCheckpoint;
     private GameManager gameManager;
     private GameObject playerPrefab;
     private GameObject player;
     private GameObject[] checkpoints;
     private GameObject startingPoint;
-    public GameObject lastCheckpoint;
     private int startingPointsCounter = 0;
+
+    [Header("To set")]
+    public int levelNumber;
 
     // Start is called before the first frame update
     void Start()
@@ -59,8 +62,11 @@ public class SceneController : MonoBehaviour
 
     public void CheckpointReached(GameObject checkpoint)
     {
-        lastCheckpoint = checkpoint;
-        SaveSystem.Save(gameManager.saveName, player, this, gameManager.skills);
+        if (lastCheckpoint.GetComponent<CheckpointController>().checkpointNumber < checkpoint.GetComponent<CheckpointController>().checkpointNumber)
+        {
+            lastCheckpoint = checkpoint;
+            SaveSystem.Save(gameManager.saveName, player, this, gameManager.skills);
+        }
     }
 
     public void RespawnPlayer()

@@ -12,6 +12,7 @@ public class SkillController : MonoBehaviour
     public bool onCooldown = false;
     public bool playerCanMoveWhileLoading = true;
     public float mastering;
+    public float loadingProgress;
 
     private void StartCooldown()
     {

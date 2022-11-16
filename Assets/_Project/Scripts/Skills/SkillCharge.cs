@@ -91,6 +91,7 @@ public class SkillCharge : MonoBehaviour
 
             chargePower = minChargePower;
             loadingTime = 0f;
+            GetComponent<SkillController>().loadingProgress = 0f;
         }
     }
 
@@ -129,6 +130,8 @@ public class SkillCharge : MonoBehaviour
                     chargePower = maxChargePower;
                 }
             }
+
+            GetComponent<SkillController>().loadingProgress = (chargePower - minChargePower) / (maxChargePower - minChargePower);
         }
         else
         {
@@ -140,5 +143,6 @@ public class SkillCharge : MonoBehaviour
     {
         chargePower = minChargePower;
         loadingTime = 0f;
+        GetComponent<SkillController>().loadingProgress = 0f;
     }
 }
