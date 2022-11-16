@@ -160,7 +160,7 @@ MonoBehaviour:
   attackStaminaCost: 15
   skills:
   - {fileID: 3043863169511407678, guid: 96e220c2605c0094c9bde90b9e0cac30, type: 3}
-  - {fileID: 0}
+  - {fileID: 5291843138108624243, guid: 9829f54eb323d1a4da0273652d555a54, type: 3}
   - {fileID: 5147196970901925947, guid: df04ca8f424d4c1489d27438412e49dc, type: 3}
   chosenSkillSlot: 0
   chosenSkill: {fileID: 0}

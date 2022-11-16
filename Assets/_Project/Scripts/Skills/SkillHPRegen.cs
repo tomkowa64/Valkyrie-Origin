@@ -51,6 +51,7 @@ public class SkillHPRegen : MonoBehaviour
 
         InvokeRepeating(nameof(HealthRegen), 0f, 0.1f);
         loadingTime = 0f;
+        GetComponent<SkillController>().loadingProgress = 0f;
     }
 
     private void LoadSkill()
@@ -68,6 +69,8 @@ public class SkillHPRegen : MonoBehaviour
                 {
                     toRegen = maxToRegenMastered;
                 }
+
+                GetComponent<SkillController>().loadingProgress = (toRegen - minToRegenMastered) / (maxToRegenMastered - minToRegenMastered);
             }
             else
             {
@@ -80,6 +83,8 @@ public class SkillHPRegen : MonoBehaviour
                 {
                     toRegen = maxToRegenDefault;
                 }
+
+                GetComponent<SkillController>().loadingProgress = (toRegen - minToRegenDefault) / (maxToRegenDefault - minToRegenDefault);
             }
         }
         else
@@ -100,6 +105,7 @@ public class SkillHPRegen : MonoBehaviour
         }
 
         loadingTime = 0f;
+        GetComponent<SkillController>().loadingProgress = 0f;
     }
 
     private void HealthRegen()

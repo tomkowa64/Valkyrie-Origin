@@ -43,6 +43,7 @@ public class SkillHeal : MonoBehaviour
         player.GetComponent<StatsController>().RegenerateHealth(healAmount);
         healAmount = minHealAmount;
         loadingTime = 0f;
+        GetComponent<SkillController>().loadingProgress = 0f;
     }
 
     private void LoadSkill()
@@ -80,11 +81,14 @@ public class SkillHeal : MonoBehaviour
                 loadingTime += 0.01f;
             }
         }
+
+        GetComponent<SkillController>().loadingProgress = (healAmount - minHealAmount) / (maxHealAmount - minHealAmount);
     }
 
     private void ResetLoading()
     {
         healAmount = minHealAmount;
         loadingTime = 0f;
+        GetComponent<SkillController>().loadingProgress = 0f;
     }
 }

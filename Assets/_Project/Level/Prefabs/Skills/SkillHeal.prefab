@@ -59,7 +59,8 @@ MonoBehaviour:
   cdTimer: 0
   onCooldown: 0
   playerCanMoveWhileLoading: 0
-  mastering: 2
+  mastering: 0
+  loadingProgress: 0
 --- !u!114 &-1205658764138950861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minHealAmount: 20
   maxHealAmount: 30
-  sumOfHealingDone: 3000
+  sumOfHealingDone: 0
   healingForLevelOne: 1000
   healingForLevelTwo: 3000
 --- !u!222 &8934302964268583951

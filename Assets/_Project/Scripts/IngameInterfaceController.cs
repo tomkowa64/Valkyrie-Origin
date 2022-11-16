@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class IngameInterfaceController : MonoBehaviour
 {
     #region Variables
     private PlayerController playerController;
     private StatsController playerStats;
+    public GameObject pauseMenu;
+    private static bool gameIsPaused = false;
 
     [Header("Status bars")]
     public Slider healthBar;
@@ -43,11 +46,18 @@ public class IngameInterfaceController : MonoBehaviour
     public GameObject skillTwoBorder;
     public GameObject skillThreeBorder;
     #endregion
+
+    #region Loading bars
+    [Header("Skill loading bar")]
+    public Slider skillOneBar;
+    public Slider skillTwoBar;
+    public Slider skillThreeBar;
+    #endregion
     #endregion
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
+    // Update is called once per frame
+    void Update()
     {
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<StatsController>();
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -58,18 +68,44 @@ public class IngameInterfaceController : MonoBehaviour
         manaBar.maxValue = playerStats.maxMana;
         staminaBar.minValue = 0f;
         staminaBar.maxValue = playerStats.maxStamina;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         healthBar.value = playerStats.health;
         manaBar.value = playerStats.mana;
         staminaBar.value = playerStats.stamina;
+        skillOneBar.interactable = false;
+        skillTwoBar.interactable = false;
+        skillThreeBar.interactable = false;
+
+        if (skillOneBar.value == 0f)
+        {
+            skillOneBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            skillOneBar.gameObject.SetActive(true);
+        }
+
+        if (skillTwoBar.value == 0f)
+        {
+            skillTwoBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            skillTwoBar.gameObject.SetActive(true);
+        }
+
+        if (skillThreeBar.value == 0f)
+        {
+            skillThreeBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            skillThreeBar.gameObject.SetActive(true);
+        }
 
         if (playerController.skills[0] != null)
         {
             skillOneImage.sprite = playerController.skills[0].GetComponent<Image>().sprite;
+            skillOneBar.value = playerController.skills[0].GetComponent<SkillController>().loadingProgress;
 
             if (playerController.skills[0].GetComponent<SkillController>().onCooldown)
             {
@@ -85,10 +121,15 @@ public class IngameInterfaceController : MonoBehaviour
                 skillOneCDTimer.SetActive(false);
             }
         }
+        else
+        {
+            skillOneBar.value = 0f;
+        }
 
         if (playerController.skills[1] != null)
         {
             skillTwoImage.sprite = playerController.skills[1].GetComponent<Image>().sprite;
+            skillTwoBar.value = playerController.skills[1].GetComponent<SkillController>().loadingProgress;
 
             if (playerController.skills[1].GetComponent<SkillController>().onCooldown)
             {
@@ -104,10 +145,15 @@ public class IngameInterfaceController : MonoBehaviour
                 skillTwoCDTimer.SetActive(false);
             }
         }
+        else
+        {
+            skillTwoBar.value = 0f;
+        }
 
         if (playerController.skills[2] != null)
         {
             skillThreeImage.sprite = playerController.skills[2].GetComponent<Image>().sprite;
+            skillThreeBar.value = playerController.skills[2].GetComponent<SkillController>().loadingProgress;
 
             if (playerController.skills[2].GetComponent<SkillController>().onCooldown)
             {
@@ -122,6 +168,10 @@ public class IngameInterfaceController : MonoBehaviour
             {
                 skillThreeCDTimer.SetActive(false);
             }
+        }
+        else
+        {
+            skillThreeBar.value = 0f;
         }
 
         switch (playerController.chosenSkillSlot)
@@ -147,5 +197,43 @@ public class IngameInterfaceController : MonoBehaviour
             default:
                 break;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameIsPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
+        }
+    }
+
+    public void Resume()
+    {
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1f;
+        gameIsPaused = false;
+    }
+
+    public void Pause()
+    {
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0f;
+        gameIsPaused = true;
+    }
+
+    public void LoadOptionsMenu()
+    {
+        Debug.Log("Show options menu");
+    }
+
+    public void QuitToMenu()
+    {
+        Time.timeScale = 1f;
+        gameIsPaused = false;
+        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
 }

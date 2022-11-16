@@ -124,7 +124,6 @@ public class PlayerController : MonoBehaviour
                 if (canFlip)
                 {
                     canFlip = false;
-                    GameObject.FindGameObjectWithTag("DoAFlip").GetComponent<Text>().color = Color.white;
                     InvokeRepeating(nameof(DoAFlip), 0f, 0.01f);
                 }
             }
@@ -271,7 +270,6 @@ public class PlayerController : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().rotation = 0f;
             rotationCounter = 0f;
-            GameObject.FindGameObjectWithTag("DoAFlip").GetComponent<Text>().color = new Color(0f, 0f, 0f, 0f);
             canFlip = true;
             CancelInvoke(nameof(DoAFlip));
         }
