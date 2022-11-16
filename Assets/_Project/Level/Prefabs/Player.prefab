@@ -153,6 +153,9 @@ MonoBehaviour:
   jumpableGround:
     serializedVersion: 2
     m_Bits: 64
+  dontMoveIfFacing:
+    serializedVersion: 2
+    m_Bits: 320
   rb: {fileID: 0}
   triggerTarget: {fileID: 0}
   lastXDir: 1

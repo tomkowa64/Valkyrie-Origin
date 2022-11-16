@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
 
     [SerializeField] private LayerMask jumpableGround;
+    [SerializeField] private LayerMask dontMoveIfFacing;
     public Rigidbody2D rb;
     private BoxCollider2D coll;
     public GameObject triggerTarget;
@@ -92,7 +93,7 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
         }
 
-        if (canMove)
+        if (canMove && !IsFacingObject())
         {
             rb.velocity = new Vector2(dirX * playerStats.movementSpeed, rb.velocity.y);
         }
@@ -241,6 +242,11 @@ public class PlayerController : MonoBehaviour
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.left, .1f, jumpableGround) 
             || Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.right, .1f, jumpableGround);
+    }
+
+    public bool IsFacingObject()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, new Vector2(lastXDir, 0f), .1f, dontMoveIfFacing);
     }
 
     private void Climb()
