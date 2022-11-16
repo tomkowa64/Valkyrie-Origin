@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask dontMoveIfFacing;
     public Rigidbody2D rb;
     private BoxCollider2D coll;
+    private CircleCollider2D circleColl;
     public GameObject triggerTarget;
 
     public float lastXDir = 1;
@@ -41,10 +42,14 @@ public class PlayerController : MonoBehaviour
     public float climbingStaminaCost = 3f;
 
     [Header("Rest")]
+    public bool canMove = true;
     private float rotationCounter = 0f;
     private bool canFlip = true;
-    public bool canMove = true;
     public float gravity;
+    public bool isJumping;
+    public bool jumpInputReleased;
+    private float coyoteTimeCounter;
+    private float jumpBufferCounter;
     #endregion
 
     // Start is called before the first frame update
@@ -54,6 +59,8 @@ public class PlayerController : MonoBehaviour
         playerStats = GetComponent<StatsController>();
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
+        circleColl = GetComponent<CircleCollider2D>();
+        gravity = rb.gravityScale;
         GetComponent<LineRenderer>().positionCount = 0;
         chosenSkillSlot = gameManager.saveData.chosenSkillSlot;
 
@@ -95,7 +102,53 @@ public class PlayerController : MonoBehaviour
 
         if (canMove && !IsFacingObject())
         {
-            rb.velocity = new Vector2(dirX * playerStats.movementSpeed, rb.velocity.y);
+            float targetSpeed = dirX * playerStats.movementSpeed;
+            float speedDiff = targetSpeed - rb.velocity.x;
+            float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? playerStats.acceleration : playerStats.decceleration;
+            float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, playerStats.velocityPower) * Mathf.Sign(speedDiff);
+
+            rb.AddForce(movement * Vector2.right);
+        }
+
+        if (IsGrounded())
+        {
+            coyoteTimeCounter = playerStats.coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (Input.GetButtonDown("Jump") && canMove)
+        {
+            jumpInputReleased = false;
+            jumpBufferCounter = playerStats.jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f && !isJumping)
+        {
+            rb.AddForce(Vector2.up * playerStats.jumpPower, ForceMode2D.Impulse);
+            isJumping = true;
+            jumpBufferCounter = 0f;
+        }
+        else if (Input.GetButtonDown("Jump") && canMove && IsNextToWall() && playerStats.stamina >= climbingStaminaCost * 0.1f)
+        {
+            InvokeRepeating(nameof(Climb), 0f, 0.01f);
+        }
+
+        if (Input.GetButtonUp("Jump"))
+        {
+            coyoteTimeCounter = 0f;
+            jumpInputReleased = true;
+
+            if (rb.velocity.y > 0 && isJumping)
+            {
+                rb.AddForce((1 - playerStats.jumpCutMultiplier) * rb.velocity.y * Vector2.down, ForceMode2D.Impulse);
+            }
         }
 
         if (Input.GetButtonUp("Jump") || IsGrounded() || !IsNextToWall() || playerStats.stamina == 0f)
@@ -104,16 +157,18 @@ public class PlayerController : MonoBehaviour
             playerStats.UseStamina(0f, false);
         }
 
-        if (Input.GetButtonDown("Jump") && canMove)
+        if (IsGrounded() && jumpInputReleased)
         {
-            if (IsGrounded())
-            {
-                rb.velocity = new Vector2(rb.velocity.x, playerStats.jumpPower);
-            } 
-            else if (IsNextToWall() && playerStats.stamina >= climbingStaminaCost * 0.1f)
-            {
-                InvokeRepeating(nameof(Climb), 0f, 0.01f);
-            }
+            isJumping = false;
+        }
+
+        if (rb.velocity.y < 0)
+        {
+            rb.gravityScale = gravity * playerStats.fallGravityMultiplier;
+        }
+        else
+        {
+            rb.gravityScale = gravity;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && canMove)
@@ -235,7 +290,8 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        //return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        return Physics2D.CircleCast(circleColl.bounds.center, circleColl.radius, Vector2.down, .01f, jumpableGround);
     }
 
     public bool IsNextToWall()

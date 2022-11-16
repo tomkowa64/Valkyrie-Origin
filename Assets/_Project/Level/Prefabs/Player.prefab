@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5936557769075872633}
   - component: {fileID: 5936557769075872632}
   - component: {fileID: 5936557769075872519}
+  - component: {fileID: 738745409666954585}
   - component: {fileID: 5936557769075872518}
   - component: {fileID: 5936557769075872634}
   - component: {fileID: 5265136329306072748}
@@ -104,7 +105,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.022006035, y: -0.002349019}
+  m_Offset: {x: -0.03353274, y: 0.12231791}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -115,8 +116,24 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7647104, y: 1.9928916}
+  m_Size: {x: 0.53, y: 1.7208543}
   m_EdgeRadius: 0
+--- !u!58 &738745409666954585
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5936557769075872516}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.03353274, y: -0.74}
+  serializedVersion: 2
+  m_Radius: 0.26
 --- !u!50 &5936557769075872518
 Rigidbody2D:
   serializedVersion: 4
@@ -132,11 +149,11 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 5
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_GravityScale: 3
+  m_Material: {fileID: 6200000, guid: 98a1bb6c0e80cc7439429b23aad44e32, type: 2}
+  m_Interpolate: 1
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &5936557769075872634
 MonoBehaviour:
@@ -152,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpableGround:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   dontMoveIfFacing:
     serializedVersion: 2
     m_Bits: 320
@@ -173,6 +190,10 @@ MonoBehaviour:
   climbingStaminaCost: 3
   canMove: 1
   gravity: 0
+  isJumping: 0
+  jumpInputReleased: 0
+  coyoteTimeCounter: 0
+  jumpBufferCounter: 0
 --- !u!114 &5265136329306072748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,8 +218,15 @@ MonoBehaviour:
   defence: 0
   attackingTime: 0.5
   attackCooldown: 0.5
-  movementSpeed: 8.5
-  jumpPower: 18
+  movementSpeed: 10
+  acceleration: 7
+  decceleration: 7
+  velocityPower: 0.9
+  jumpPower: 16
+  jumpCutMultiplier: 0.3
+  fallGravityMultiplier: 1.9
+  coyoteTime: 0.2
+  jumpBufferTime: 0.2
   dashPower: 2.5
   climbingSpeed: 5
   dodgingTime: 0.2
@@ -230,7 +258,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5936557769075872516}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
