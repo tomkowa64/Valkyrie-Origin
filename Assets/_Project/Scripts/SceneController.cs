@@ -62,8 +62,11 @@ public class SceneController : MonoBehaviour
 
     public void CheckpointReached(GameObject checkpoint)
     {
-        lastCheckpoint = checkpoint;
-        SaveSystem.Save(gameManager.saveName, player, this, gameManager.skills);
+        if (lastCheckpoint.GetComponent<CheckpointController>().checkpointNumber < checkpoint.GetComponent<CheckpointController>().checkpointNumber)
+        {
+            lastCheckpoint = checkpoint;
+            SaveSystem.Save(gameManager.saveName, player, this, gameManager.skills);
+        }
     }
 
     public void RespawnPlayer()
