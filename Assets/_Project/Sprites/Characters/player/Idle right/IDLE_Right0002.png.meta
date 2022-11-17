@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1c62548beba41d24b81059afde64c4dc
+guid: 4b6e56d57cf1b744d94dc9648f0f5300
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -115,7 +115,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: IDLE_Right0002_0
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 7
+        width: 126
+        height: 246
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fdb0e09766165d49bd574c16d134eaa
+      internalID: 1016972793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +147,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      IDLE_Right0002_3: 2002888781
+      IDLE_Right0002_0: 1016972793
+      IDLE_Right0002_1: 1433882814
+      IDLE_Right0002_4: 1511820733
+      IDLE_Right0002_2: 1652706997
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

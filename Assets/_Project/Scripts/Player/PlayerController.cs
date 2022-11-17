@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D coll;
     private CircleCollider2D circleColl;
     public GameObject triggerTarget;
+    public Animator animator;
 
     public float lastXDir = 1;
 
@@ -108,6 +109,11 @@ public class PlayerController : MonoBehaviour
             float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, playerStats.velocityPower) * Mathf.Sign(speedDiff);
 
             rb.AddForce(movement * Vector2.right);
+        }
+
+        if (canMove)
+        {
+            animator.SetFloat("Speed", Mathf.Abs(dirX * playerStats.movementSpeed));
         }
 
         if (IsGrounded())
