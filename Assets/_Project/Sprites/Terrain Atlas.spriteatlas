@@ -38,14 +38,18 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 6d96dea3b1debb543a7660111addc63c, type: 3}
   - {fileID: 21300000, guid: 1499d128c761c094da831299032642af, type: 3}
   - {fileID: 21300000, guid: 497d83a8f01955f4bb9d52e8dce9da84, type: 3}
   - {fileID: 21300000, guid: 1c62548beba41d24b81059afde64c4dc, type: 3}
+  - {fileID: 21300000, guid: 5740e0acf77b760498ab7d5401fb4262, type: 3}
   - {fileID: 21300000, guid: ee1f85acba473644095efee00bba4ad0, type: 3}
   m_PackedSpriteNamesToIndex:
+  - ground-grass-corner
   - ground-grass
   - ground
   - tak
+  - ground-grass-side
   - rock
   m_RenderDataMap: {}
   m_Tag: Terrain Atlas
