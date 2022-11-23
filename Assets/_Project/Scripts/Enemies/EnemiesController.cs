@@ -10,7 +10,7 @@ public class EnemiesController : MonoBehaviour
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask dontMoveIfFacing;
     public Rigidbody2D rb;
-    private BoxCollider2D coll;
+    private CapsuleCollider2D coll;
     public Animator animator;
 
     private bool isDead = false;
@@ -37,7 +37,7 @@ public class EnemiesController : MonoBehaviour
     {
         enemyStats = GetComponent<StatsController>();
         rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<BoxCollider2D>();
+        coll = GetComponent<CapsuleCollider2D>();
         gravity = rb.gravityScale;
 
         if (movesRandomly && wandering)
@@ -70,28 +70,18 @@ public class EnemiesController : MonoBehaviour
 
         if (!isAggroed)
         {
-            if (IsFacingObject())
+            if (canMove)
             {
-                lastXDir *= -1;
-                transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            }
-            else
-            {
-                if (canMove)
+                if (movesRandomly)
                 {
-                    if (movesRandomly)
-                    {
-                        StartCoroutine(RandomMovement());
-                    }
-                    else if (wandering)
-                    {
-
-                    }
+                    StartCoroutine(RandomMovement());
+                }
+                else if (wandering)
+                {
+                    Wander();
                 }
             }
         }
-
-        Debug.Log(WillFall());
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -105,6 +95,12 @@ public class EnemiesController : MonoBehaviour
     private IEnumerator RandomMovement()
     {
         canMove = false;
+
+        if(IsFacingObject())
+        {
+            lastXDir *= -1;
+            transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
 
         if (!CantChangeDirection())
         {
@@ -146,14 +142,33 @@ public class EnemiesController : MonoBehaviour
         }
     }
 
+    private void Wander()
+    {
+        if (IsFacingObject() || WillFall())
+        {
+            rb.velocity = new Vector2(0f, rb.velocity.y);
+            lastXDir *= -1;
+            transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            float targetSpeed = lastXDir * enemyStats.movementSpeed / 1.5f;
+            float speedDiff = targetSpeed - rb.velocity.x;
+            float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? enemyStats.acceleration : enemyStats.decceleration;
+            movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, enemyStats.velocityPower) * Mathf.Sign(speedDiff);
+
+            rb.AddForce(movement * Vector2.right);
+        }
+    }
+
     public bool IsFacingObject()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, new Vector2(lastXDir, 0f), .1f, dontMoveIfFacing);
+        return Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f), 0f, new Vector2(lastXDir, 0f), .1f, dontMoveIfFacing);
     }
 
     public bool CantChangeDirection()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, new Vector2(lastXDir * -1, 0f), .1f, dontMoveIfFacing);
+        return Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f), 0f, new Vector2(lastXDir * -1, 0f), .1f, dontMoveIfFacing);
     }
 
     public bool WillFall()
@@ -164,7 +179,7 @@ public class EnemiesController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector3(coll.bounds.center.x + coll.bounds.size.x * lastXDir, coll.bounds.center.y, coll.bounds.center.z), new Vector3(coll.bounds.size.x / 2, coll.bounds.size.y, coll.bounds.size.z));
+        Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f));
     }
 
     void Die()
