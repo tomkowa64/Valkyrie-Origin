@@ -40,22 +40,28 @@ SpriteAtlas:
   m_PackedSprites:
   - {fileID: 21300000, guid: 929186f0359336240bc1670d125e128c, type: 3}
   - {fileID: 21300000, guid: e677b2a1fb7280940bbed34cb4ebf4cb, type: 3}
+  - {fileID: 21300000, guid: 2583b643fdc306f41b4d42251d3bf6ac, type: 3}
+  - {fileID: 21300000, guid: 255483649a974f442beac623faee946f, type: 3}
   - {fileID: 21300000, guid: 013be6f59aabcf34da1104c6de33f3ee, type: 3}
   - {fileID: 21300000, guid: 0b70b1b98fe83b847bc5e764b6822419, type: 3}
   - {fileID: 21300000, guid: a28bcff940a4f61438fabb3f2428a317, type: 3}
   - {fileID: 21300000, guid: 43c8efea9362b054e99e593c771f1761, type: 3}
   - {fileID: 21300000, guid: bec81b6b2df2bb0468194eaed5d27ada, type: 3}
   - {fileID: 21300000, guid: 3aff848b7af23f94eaae892275e475df, type: 3}
+  - {fileID: 21300000, guid: 2297c0dc605be5f4d8a6dab339f9e144, type: 3}
   - {fileID: 21300000, guid: d2546fed7e9539b4f88c985a6f272450, type: 3}
   m_PackedSpriteNamesToIndex:
   - shrine
   - withered-tree-2
+  - skull
+  - wooden-crate
   - diseased-plant-2
   - bush
   - withered-tree
   - triangle
   - diseased-plant
   - rock
+  - bush-2
   - withered-tree-3
   m_RenderDataMap: {}
   m_Tag: Objects Atlas
