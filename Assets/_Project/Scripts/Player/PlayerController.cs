@@ -94,8 +94,6 @@ public class PlayerController : MonoBehaviour
         if (dirX != 0 && canMove)
         {
             lastXDir = dirX;
-
-            // transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
         }
 
         if (canMove && !IsFacingObject())
@@ -120,6 +118,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            rb.velocity = new Vector2(0f, rb.velocity.y);
             animator.SetFloat("Direction", Mathf.Abs(0f));
         }
 
