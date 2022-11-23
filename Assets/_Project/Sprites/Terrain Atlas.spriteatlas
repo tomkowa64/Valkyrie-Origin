@@ -41,24 +41,34 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7e4d50104d54ba542a6550a7b0e4673b, type: 3}
   - {fileID: 21300000, guid: 6d96dea3b1debb543a7660111addc63c, type: 3}
   - {fileID: 21300000, guid: 7504980783ddfe7499fff14d5ee65502, type: 3}
+  - {fileID: 21300000, guid: 9298ad37c43609d49a6e78c31c2c9ca8, type: 3}
   - {fileID: 21300000, guid: 1499d128c761c094da831299032642af, type: 3}
   - {fileID: 21300000, guid: 497d83a8f01955f4bb9d52e8dce9da84, type: 3}
+  - {fileID: 21300000, guid: 2af314392a0206149bb7df17a1dbea26, type: 3}
+  - {fileID: 21300000, guid: bc89a2aa9d395b04fbd8d6e50e7c016a, type: 3}
   - {fileID: 21300000, guid: 1c62548beba41d24b81059afde64c4dc, type: 3}
   - {fileID: 21300000, guid: 5740e0acf77b760498ab7d5401fb4262, type: 3}
   - {fileID: 21300000, guid: ee1f85acba473644095efee00bba4ad0, type: 3}
+  - {fileID: 21300000, guid: 6f6737bca90918749bca84957825898d, type: 3}
   - {fileID: 21300000, guid: d32e774d640d89a42a54f23aa515361e, type: 3}
   - {fileID: 21300000, guid: 2c3345fd0f9fccb4482ff4655da82a57, type: 3}
+  - {fileID: 21300000, guid: 7595b2cf1145a7f4cab330896f0e5864, type: 3}
   m_PackedSpriteNamesToIndex:
   - ground-grass-side-2
   - ground-grass-corner
   - ground-grass-corner-2
+  - ground-grass-corner-only-1
   - ground-grass
   - ground
+  - ground-grass-down
+  - ground-grass-corner-only-4
   - tak
   - ground-grass-side
   - rock
+  - ground-grass-corner-only-3
   - ground-grass-corner-4
   - ground-grass-corner-3
+  - ground-grass-corner-only-2
   m_RenderDataMap: {}
   m_Tag: Terrain Atlas
   m_IsVariant: 0
