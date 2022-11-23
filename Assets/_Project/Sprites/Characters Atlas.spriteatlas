@@ -81,6 +81,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: b96410171a8f53d48ba29e3ccde5e0e1, type: 3}
   - {fileID: 21300000, guid: 15c4cc58f8d12f24d9ed6d40a1550538, type: 3}
   - {fileID: 1812399990, guid: 76d2b929b836c0d4cac653ca985f09f5, type: 3}
+  - {fileID: 21300000, guid: 402be1391e7a23e43a1b5b47d417a312, type: 3}
   - {fileID: 74629082, guid: be318079f42939e468583ce7726fb14b, type: 3}
   - {fileID: 21300000, guid: cb4762e93963ef849ae99f6a248d5267, type: 3}
   - {fileID: -185941014, guid: 4846ec3b80e16da41aa5bdd2a66abd34, type: 3}
@@ -140,6 +141,7 @@ SpriteAtlas:
   - IDLE_LEFT0009
   - IDLE_LEFT0012
   - IDLE_Right0008_1
+  - duck
   - IDLE_Right0010_1
   - WALK_R0005
   - IDLE_Right0005_1

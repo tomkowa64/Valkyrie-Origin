@@ -40,6 +40,9 @@ SpriteAtlas:
   m_PackedSprites:
   - {fileID: 21300000, guid: 929186f0359336240bc1670d125e128c, type: 3}
   - {fileID: 21300000, guid: e677b2a1fb7280940bbed34cb4ebf4cb, type: 3}
+  - {fileID: 21300000, guid: 637bb1b21e1ed514dbeeab3a1bd7bfbd, type: 3}
+  - {fileID: 21300000, guid: bbfb5aa4d5e24ed4fb15a514991101a4, type: 3}
+  - {fileID: 21300000, guid: 83b79ec43e4f8bd49a332f9b397c8bbc, type: 3}
   - {fileID: 21300000, guid: 013be6f59aabcf34da1104c6de33f3ee, type: 3}
   - {fileID: 21300000, guid: 0b70b1b98fe83b847bc5e764b6822419, type: 3}
   - {fileID: 21300000, guid: a28bcff940a4f61438fabb3f2428a317, type: 3}
@@ -50,6 +53,9 @@ SpriteAtlas:
   m_PackedSpriteNamesToIndex:
   - shrine
   - withered-tree-2
+  - skull
+  - wooden-crate
+  - bush-2
   - diseased-plant-2
   - bush
   - withered-tree

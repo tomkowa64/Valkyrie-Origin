@@ -104,7 +104,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03353274, y: 0.12231791}
+  m_Offset: {x: -0.03353274, y: 0.14725506}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -115,7 +115,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.53, y: 1.7208543}
+  m_Size: {x: 0.52, y: 1.67098}
   m_EdgeRadius: 0
 --- !u!58 &738745409666954585
 CircleCollider2D:
@@ -130,7 +130,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.03353274, y: -0.74}
+  m_Offset: {x: -0.03353274, y: -0.69}
   serializedVersion: 2
   m_Radius: 0.26
 --- !u!50 &5936557769075872518
@@ -187,7 +187,6 @@ MonoBehaviour:
   skillCancelled: 0
   skillIsLoading: 0
   dodgeStaminaCost: 20
-  climbingStaminaCost: 3
   canMove: 1
   gravity: 0
   isJumping: 0
@@ -226,7 +225,6 @@ MonoBehaviour:
   coyoteTime: 0.2
   jumpBufferTime: 0.2
   dashPower: 2.5
-  climbingSpeed: 5
   dodgingTime: 0.2
   dodgeCooldown: 0.5
 --- !u!120 &-4659056473318536446
