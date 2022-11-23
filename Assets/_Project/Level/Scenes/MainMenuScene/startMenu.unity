@@ -8112,21 +8112,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3148c5d64f0cd149ace83539cd60b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5936557769075872516, guid: a18092ad83047ad459a3afb7a7f73a9c, type: 3}
-  communicate: {fileID: 53446}
-  saveName: test
   saveData:
     playerHealth: 0
     levelNumber: 0
     checkpointNumber: 0
     locationName: 
+    chosenSkillSlot: 0
     skillHealProgress: 0
     skillHealthRegenProgeess: 0
     skillChargeProgress: 0
+  playerPrefab: {fileID: 5936557769075872516, guid: a18092ad83047ad459a3afb7a7f73a9c, type: 3}
+  communicate: {fileID: 53446}
   skills:
   - {fileID: 3043863169511407678, guid: 96e220c2605c0094c9bde90b9e0cac30, type: 3}
   - {fileID: 5291843138108624243, guid: 9829f54eb323d1a4da0273652d555a54, type: 3}
   - {fileID: 5147196970901925947, guid: df04ca8f424d4c1489d27438412e49dc, type: 3}
+  saveName: test
 --- !u!4 &1070865130
 Transform:
   m_ObjectHideFlags: 0

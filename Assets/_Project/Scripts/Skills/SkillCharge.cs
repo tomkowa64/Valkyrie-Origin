@@ -22,7 +22,7 @@ public class SkillCharge : MonoBehaviour
     {
         rb.gravityScale = 0f;
         player.GetComponent<BoxCollider2D>().isTrigger = true;
-        rb.AddForce(new Vector2(player.GetComponent<PlayerController>().lastXDir * Time.deltaTime * 10000f * chargePower, 0f));
+        rb.AddForce(new Vector2(player.GetComponent<PlayerController>().lastXDir * Time.deltaTime * 50000f * chargePower, 0f));
 
         if (player.GetComponent<PlayerController>().triggerTarget.layer == LayerMask.NameToLayer("Enemy") && 
             player.GetComponent<PlayerController>().triggerTarget != lastTarget)

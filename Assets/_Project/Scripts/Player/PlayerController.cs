@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour
     public bool isJumping;
     public bool jumpInputReleased;
 
-    public bool isGrounded;
     #endregion
 
     // Start is called before the first frame update
@@ -95,7 +94,8 @@ public class PlayerController : MonoBehaviour
         if (dirX != 0 && canMove)
         {
             lastXDir = dirX;
-            transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
+
+            // transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
         }
 
         if (canMove && !IsFacingObject())
@@ -108,10 +108,23 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(movement * Vector2.right);
         }
 
-        if (canMove)
+        #region Animations
+        if (canMove && !IsFacingObject())
         {
-            animator.SetFloat("Speed", Mathf.Abs(dirX * playerStats.movementSpeed));
+            animator.SetFloat("Direction", dirX);
         }
+        else if (!canMove && !IsFacingObject())
+        {
+            rb.velocity = new Vector2(0f, 0f);
+            animator.SetFloat("Direction", Mathf.Abs(0f));
+        }
+        else
+        {
+            animator.SetFloat("Direction", Mathf.Abs(0f));
+        }
+
+        animator.SetBool("IsJumping", isJumping);
+        #endregion
 
         if (Input.GetButtonDown("Jump") && canMove && IsGrounded())
         {
@@ -263,7 +276,6 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        isGrounded = Physics2D.CircleCast(circleColl.bounds.center, circleColl.radius, Vector2.down, .1f, jumpableGround);
         return Physics2D.CircleCast(circleColl.bounds.center, circleColl.radius, Vector2.down, .1f, jumpableGround);
     }
 
