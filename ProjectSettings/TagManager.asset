@@ -44,6 +44,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Ground
+    uniqueID: 834257437
+    locked: 0
   - name: Checkpoint
     uniqueID: 2374340435
     locked: 0

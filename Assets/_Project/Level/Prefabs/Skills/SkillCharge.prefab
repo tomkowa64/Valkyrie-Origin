@@ -76,7 +76,7 @@ MonoBehaviour:
   minChargePower: 3
   maxChargePower: 6
   damage: 100
-  sumOfEnemiesHit: 0
+  sumOfEnemiesHit: 1
   hitsForLevelOne: 100
 --- !u!222 &1520949502246563632
 CanvasRenderer:

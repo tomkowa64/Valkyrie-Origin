@@ -39,9 +39,6 @@ public class PlayerController : MonoBehaviour
     private bool isDodging;
     public float dodgeStaminaCost = 20f;
 
-    [Header("Climb")]
-    public float climbingStaminaCost = 3f;
-
     [Header("Rest")]
     public bool canMove = true;
     private float rotationCounter = 0f;
@@ -49,8 +46,7 @@ public class PlayerController : MonoBehaviour
     public float gravity;
     public bool isJumping;
     public bool jumpInputReleased;
-    private float coyoteTimeCounter;
-    private float jumpBufferCounter;
+
     #endregion
 
     // Start is called before the first frame update
@@ -98,7 +94,8 @@ public class PlayerController : MonoBehaviour
         if (dirX != 0 && canMove)
         {
             lastXDir = dirX;
-            transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
+
+            // transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
         }
 
         if (canMove && !IsFacingObject())
@@ -111,56 +108,39 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(movement * Vector2.right);
         }
 
-        if (canMove)
+        #region Animations
+        if (canMove && !IsFacingObject())
         {
-            animator.SetFloat("Speed", Mathf.Abs(dirX * playerStats.movementSpeed));
+            animator.SetFloat("Direction", dirX);
         }
-
-        if (IsGrounded())
+        else if (!canMove && !IsFacingObject())
         {
-            coyoteTimeCounter = playerStats.coyoteTime;
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        if (Input.GetButtonDown("Jump") && canMove)
-        {
-            jumpInputReleased = false;
-            jumpBufferCounter = playerStats.jumpBufferTime;
+            rb.velocity = new Vector2(0f, 0f);
+            animator.SetFloat("Direction", Mathf.Abs(0f));
         }
         else
         {
-            jumpBufferCounter -= Time.deltaTime;
+            animator.SetFloat("Direction", Mathf.Abs(0f));
         }
 
-        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f && !isJumping)
+        animator.SetBool("IsJumping", isJumping);
+        #endregion
+
+        if (Input.GetButtonDown("Jump") && canMove && IsGrounded())
         {
             rb.AddForce(Vector2.up * playerStats.jumpPower, ForceMode2D.Impulse);
             isJumping = true;
-            jumpBufferCounter = 0f;
-        }
-        else if (Input.GetButtonDown("Jump") && canMove && IsNextToWall() && playerStats.stamina >= climbingStaminaCost * 0.1f)
-        {
-            InvokeRepeating(nameof(Climb), 0f, 0.01f);
+            jumpInputReleased = false;
         }
 
         if (Input.GetButtonUp("Jump"))
         {
-            coyoteTimeCounter = 0f;
             jumpInputReleased = true;
 
             if (rb.velocity.y > 0 && isJumping)
             {
                 rb.AddForce((1 - playerStats.jumpCutMultiplier) * rb.velocity.y * Vector2.down, ForceMode2D.Impulse);
             }
-        }
-
-        if (Input.GetButtonUp("Jump") || IsGrounded() || !IsNextToWall() || playerStats.stamina == 0f)
-        {
-            CancelInvoke(nameof(Climb));
-            playerStats.UseStamina(0f, false);
         }
 
         if (IsGrounded() && jumpInputReleased)
@@ -296,8 +276,7 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        //return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
-        return Physics2D.CircleCast(circleColl.bounds.center, circleColl.radius, Vector2.down, .01f, jumpableGround);
+        return Physics2D.CircleCast(circleColl.bounds.center, circleColl.radius, Vector2.down, .1f, jumpableGround);
     }
 
     public bool IsNextToWall()
@@ -309,12 +288,6 @@ public class PlayerController : MonoBehaviour
     public bool IsFacingObject()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, new Vector2(lastXDir, 0f), .1f, dontMoveIfFacing);
-    }
-
-    private void Climb()
-    {
-        playerStats.UseStamina(climbingStaminaCost * 0.1f, true);
-        rb.velocity = new Vector2(rb.velocity.x, playerStats.climbingSpeed);
     }
 
     private IEnumerator Dodge()

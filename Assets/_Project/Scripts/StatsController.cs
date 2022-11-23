@@ -38,10 +38,7 @@ public class StatsController : MonoBehaviour
     public float jumpPower;
     public float jumpCutMultiplier;
     public float fallGravityMultiplier;
-    public float coyoteTime;
-    public float jumpBufferTime;
     public float dashPower;
-    public float climbingSpeed;
     public float dodgingTime;
     public float dodgeCooldown;
     #endregion
