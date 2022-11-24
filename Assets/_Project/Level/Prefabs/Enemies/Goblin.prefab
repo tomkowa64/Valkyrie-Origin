@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -6607968515408136211}
   - component: {fileID: 3041782006285450467}
   m_Layer: 8
-  m_Name: Spider
+  m_Name: Goblin
   m_TagString: Enemy
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 7938570352953962964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.1, y: 7.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 817086935
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3d09bc289ad3e084ca2aa0b06abc7760, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 98757ff7fe7c37d468912dfe9c58d6ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -231,7 +231,7 @@ Animator:
   m_GameObject: {fileID: 7938570352953962964}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 209daed33223a344db9cced87fa41dfe, type: 2}
+  m_Controller: {fileID: 9100000, guid: 210306dceb59e9641bf31173a63a2eb7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -254,6 +254,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.004660327, y: -0.32067555}
-  m_Size: {x: 1.9901237, y: 1.3601288}
+  m_Offset: {x: -0.0046603405, y: -0.18926556}
+  m_Size: {x: 1.9901239, y: 1.6229546}
   m_Direction: 1

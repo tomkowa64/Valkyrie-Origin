@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -6607968515408136211}
   - component: {fileID: 3041782006285450467}
   m_Layer: 8
-  m_Name: Spider
+  m_Name: Wolf
   m_TagString: Enemy
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 7938570352953962964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.1, y: 7.46, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 817086935
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3d09bc289ad3e084ca2aa0b06abc7760, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b73aabb754704e54e830db7104140f9d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -231,7 +231,7 @@ Animator:
   m_GameObject: {fileID: 7938570352953962964}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 209daed33223a344db9cced87fa41dfe, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1e2093b0a37226641a49f042952d9626, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
