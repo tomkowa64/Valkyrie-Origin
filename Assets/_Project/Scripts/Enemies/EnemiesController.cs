@@ -8,14 +8,23 @@ public class EnemiesController : MonoBehaviour
     private StatsController enemyStats;
 
     [SerializeField] private LayerMask ground;
+    [SerializeField] private LayerMask player;
     [SerializeField] private LayerMask dontMoveIfFacing;
     public Rigidbody2D rb;
     private CapsuleCollider2D coll;
     public Animator animator;
 
     private bool isDead = false;
-    public bool isAggroed = false;
     private readonly int[] directionsList = { -1, 1 };
+
+    [Header("Aggro")]
+    public bool isAggroed = false;
+    public float aggroRangeTop;
+    public float aggroRangeBottom;
+    public float aggroRangeRight;
+    public float aggroRangeLeft;
+    public float aggroCounter;
+    public float aggroTime;
 
     [Header("Attack")]
     private bool canAttack = true;
@@ -32,7 +41,6 @@ public class EnemiesController : MonoBehaviour
     private float movementTime;
     #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         enemyStats = GetComponent<StatsController>();
@@ -46,7 +54,6 @@ public class EnemiesController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (isDead)
@@ -80,6 +87,31 @@ public class EnemiesController : MonoBehaviour
                 {
                     Wander();
                 }
+            }
+        }
+
+        if (SeePlayer())
+        {
+            if (aggroCounter < aggroTime)
+            {
+                aggroCounter += Time.deltaTime;
+            }
+            else
+            {
+                aggroCounter = aggroTime;
+                isAggroed = true;
+            }
+        }
+        else
+        {
+            if (aggroCounter > 0)
+            {
+                aggroCounter -= Time.deltaTime;
+            }
+            else
+            {
+                aggroCounter = 0f;
+                isAggroed = false;
             }
         }
     }
@@ -161,25 +193,45 @@ public class EnemiesController : MonoBehaviour
         }
     }
 
-    public bool IsFacingObject()
+    private bool IsFacingObject()
     {
         return Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f), 0f, new Vector2(lastXDir, 0f), .1f, dontMoveIfFacing);
     }
 
-    public bool CantChangeDirection()
+    private bool CantChangeDirection()
     {
         return Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f), 0f, new Vector2(lastXDir * -1, 0f), .1f, dontMoveIfFacing);
     }
 
-    public bool WillFall()
+    private bool WillFall()
     {
         return !Physics2D.BoxCast(new Vector2(coll.bounds.center.x + coll.bounds.size.x * lastXDir, coll.bounds.center.y), new Vector2(coll.bounds.size.x / 2, coll.bounds.size.y), 0f, Vector2.down, .1f, ground);
+    }
+
+    private bool SeePlayer()
+    {
+        if (transform.localScale.x > 0)
+        {
+            return Physics2D.BoxCast(new Vector2(coll.bounds.center.x - (aggroRangeLeft / 2) + (aggroRangeRight / 2), coll.bounds.center.y + aggroRangeTop / 2 - aggroRangeBottom / 2), new Vector2(aggroRangeLeft + aggroRangeRight, aggroRangeBottom + aggroRangeTop), 0f, Vector2.left, .1f, player);
+        }
+        else
+        {
+            return Physics2D.BoxCast(new Vector2(coll.bounds.center.x + (aggroRangeLeft / 2) - (aggroRangeRight / 2), coll.bounds.center.y + aggroRangeTop / 2 - aggroRangeBottom / 2), new Vector2(aggroRangeLeft + aggroRangeRight, aggroRangeBottom + aggroRangeTop), 0f, Vector2.right, .1f, player);
+        }
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f));
+
+        if (transform.localScale.x > 0)
+        {
+            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x - (aggroRangeLeft / 2) + (aggroRangeRight / 2), coll.bounds.center.y + aggroRangeTop / 2 - aggroRangeBottom / 2), new Vector2(aggroRangeLeft + aggroRangeRight, aggroRangeBottom + aggroRangeTop));
+        }
+        else
+        {
+            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (aggroRangeLeft / 2) - (aggroRangeRight / 2), coll.bounds.center.y + aggroRangeTop / 2 - aggroRangeBottom / 2), new Vector2(aggroRangeLeft + aggroRangeRight, aggroRangeBottom + aggroRangeTop));
+        }
     }
 
     void Die()

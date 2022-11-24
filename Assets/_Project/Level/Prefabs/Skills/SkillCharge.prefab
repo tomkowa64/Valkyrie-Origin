@@ -75,8 +75,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minChargePower: 3
   maxChargePower: 6
-  damage: 100
-  sumOfEnemiesHit: 1
+  damage: 20
+  sumOfEnemiesHit: 2
   hitsForLevelOne: 100
 --- !u!222 &1520949502246563632
 CanvasRenderer:

@@ -6,7 +6,6 @@ public class SkillCharge : MonoBehaviour
 {
     private GameObject player;
     private Rigidbody2D rb;
-    private Collider2D coll;
     private float loadingTime = 0f;
     public float minChargePower;
     public float maxChargePower;
@@ -22,6 +21,7 @@ public class SkillCharge : MonoBehaviour
     {
         rb.gravityScale = 0f;
         player.GetComponent<BoxCollider2D>().isTrigger = true;
+        player.GetComponent<CircleCollider2D>().isTrigger = true;
         rb.AddForce(new Vector2(player.GetComponent<PlayerController>().lastXDir * Time.deltaTime * 50000f * chargePower, 0f));
 
         if (player.GetComponent<PlayerController>().triggerTarget.layer == LayerMask.NameToLayer("Enemy") && 
@@ -64,6 +64,7 @@ public class SkillCharge : MonoBehaviour
         rb.velocity = new Vector2(0f, 0f);
         player.GetComponent<PlayerController>().canMove = true;
         player.GetComponent<BoxCollider2D>().isTrigger = false;
+        player.GetComponent<CircleCollider2D>().isTrigger = false;
         rb.gravityScale = gravity;
     }
 
@@ -76,8 +77,7 @@ public class SkillCharge : MonoBehaviour
             lastTarget = null;
             player = GameObject.FindGameObjectWithTag("Player");
             rb = player.GetComponent<Rigidbody2D>();
-            coll = player.GetComponent<BoxCollider2D>();
-            gravity = rb.gravityScale;
+            gravity = player.GetComponent<PlayerController>().gravity;
 
             if (chargePower < minChargePower)
             {

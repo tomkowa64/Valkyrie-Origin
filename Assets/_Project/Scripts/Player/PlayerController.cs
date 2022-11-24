@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private GameManager gameManager;
 
     [SerializeField] private LayerMask jumpableGround;
+    [SerializeField] private LayerMask wall;
     [SerializeField] private LayerMask dontMoveIfFacing;
     public Rigidbody2D rb;
     private BoxCollider2D coll;
@@ -280,8 +281,8 @@ public class PlayerController : MonoBehaviour
 
     public bool IsNextToWall()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.left, .1f, jumpableGround) 
-            || Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.right, .1f, jumpableGround);
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.left, .1f, wall) 
+            || Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.right, .1f, wall);
     }
 
     public bool IsFacingObject()
@@ -291,16 +292,17 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Dodge()
     {
-        gravity = rb.gravityScale;
         canDodge = false;
         isDodging = true;
         rb.gravityScale = 0f;
         coll.isTrigger = true;
+        circleColl.isTrigger = true;
         rb.velocity = new Vector2(lastXDir * playerStats.movementSpeed * playerStats.dashPower, rb.velocity.y);
         playerStats.UseStamina(dodgeStaminaCost, true);
         yield return new WaitForSeconds(playerStats.dodgingTime);
         isDodging = false;
         coll.isTrigger = false;
+        circleColl.isTrigger = false;
         rb.gravityScale = gravity;
         playerStats.UseStamina(0f, false);
         yield return new WaitForSeconds(playerStats.dodgeCooldown);
