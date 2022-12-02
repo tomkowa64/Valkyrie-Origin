@@ -10,6 +10,7 @@ public class EnemiesController : MonoBehaviour
     [SerializeField] private LayerMask ground;
     [SerializeField] private LayerMask player;
     [SerializeField] private LayerMask dontMoveIfFacing;
+    [SerializeField] private LayerMask enemies;
     public Rigidbody2D rb;
     private CapsuleCollider2D coll;
     public Animator animator;
@@ -134,7 +135,7 @@ public class EnemiesController : MonoBehaviour
     {
         canMove = false;
 
-        if(IsFacingObject())
+        if(IsFacingObject() || IsFacingAnotherEnemy())
         {
             lastXDir *= -1;
             transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
@@ -162,7 +163,7 @@ public class EnemiesController : MonoBehaviour
 
     private void TryToMove()
     {
-        if (IsFacingObject() || movementTime <= 0f)
+        if (IsFacingObject() || IsFacingAnotherEnemy() || movementTime <= 0f)
         {
             movementTime = 0f;
             CancelInvoke(nameof(TryToMove));
@@ -182,7 +183,7 @@ public class EnemiesController : MonoBehaviour
 
     private void Wander()
     {
-        if (IsFacingObject() || WillFall())
+        if (IsFacingObject() || IsFacingAnotherEnemy() || WillFall())
         {
             rb.velocity = new Vector2(0f, rb.velocity.y);
             lastXDir *= -1;
@@ -202,6 +203,16 @@ public class EnemiesController : MonoBehaviour
     private bool IsFacingObject()
     {
         return Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f), 0f, new Vector2(lastXDir, 0f), .1f, dontMoveIfFacing);
+    }
+
+    private bool IsFacingAnotherEnemy()
+    {
+        if (Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f), 0f, new Vector2(lastXDir, 0f), .1f, enemies).collider.gameObject != gameObject)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private bool CantChangeDirection()
