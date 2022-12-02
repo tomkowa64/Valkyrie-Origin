@@ -121,6 +121,12 @@ public class EnemiesController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             rb.velocity = new Vector2(0f, rb.velocity.y);
+
+            if (!isAggroed)
+            {
+                isAggroed = true;
+                aggroCounter = aggroTime;
+            }
         }
     }
 
