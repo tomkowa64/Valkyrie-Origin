@@ -7,8 +7,8 @@ public class EnemiesController : MonoBehaviour
     #region Variables
     private StatsController enemyStats;
 
-    [SerializeField] private LayerMask ground;
-    [SerializeField] private LayerMask player;
+    public LayerMask ground;
+    public LayerMask player;
     [SerializeField] private LayerMask dontMoveIfFacing;
     [SerializeField] private LayerMask enemies;
     public Rigidbody2D rb;
@@ -28,13 +28,14 @@ public class EnemiesController : MonoBehaviour
     public float aggroTime;
 
     [Header("Attack")]
-    private bool canAttack = true;
+    public bool canAttack = true;
     public bool isAttacking = false;
     public float attackStaminaCost = 15f;
 
     [Header("Movement")]
     public bool canMove = true;
     public float gravity;
+    public bool gravityWorking = true;
     public float lastXDir;
     public bool movesRandomly;
     public bool wandering;
@@ -67,13 +68,16 @@ public class EnemiesController : MonoBehaviour
             Die();
         }
 
-        if (rb.velocity.y < 0)
+        if (gravityWorking)
         {
-            rb.gravityScale = gravity * enemyStats.fallGravityMultiplier;
-        }
-        else
-        {
-            rb.gravityScale = gravity;
+            if (rb.velocity.y < 0)
+            {
+                rb.gravityScale = gravity * enemyStats.fallGravityMultiplier;
+            }
+            else
+            {
+                rb.gravityScale = gravity;
+            }
         }
 
         if (!isAggroed)
@@ -147,7 +151,7 @@ public class EnemiesController : MonoBehaviour
             transform.localScale = new Vector3(-1 * lastXDir * transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
 
-        float targetSpeed = lastXDir * enemyStats.movementSpeed;
+        float targetSpeed = lastXDir * enemyStats.movementSpeed / 2f;
         float speedDiff = targetSpeed - rb.velocity.x;
         float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? enemyStats.acceleration : enemyStats.decceleration;
         movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, enemyStats.velocityPower) * Mathf.Sign(speedDiff);
@@ -191,7 +195,7 @@ public class EnemiesController : MonoBehaviour
         }
         else
         {
-            float targetSpeed = lastXDir * enemyStats.movementSpeed / 1.5f;
+            float targetSpeed = lastXDir * enemyStats.movementSpeed / 2f / 1.5f;
             float speedDiff = targetSpeed - rb.velocity.x;
             float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? enemyStats.acceleration : enemyStats.decceleration;
             movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, enemyStats.velocityPower) * Mathf.Sign(speedDiff);
@@ -200,12 +204,17 @@ public class EnemiesController : MonoBehaviour
         }
     }
 
-    private bool IsFacingObject()
+    public bool IsGrounded()
+    {
+        return Physics2D.CapsuleCast(coll.bounds.center, coll.size, coll.direction, 0f, Vector2.down, .1f, ground);
+    }
+
+    public bool IsFacingObject()
     {
         return Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f), 0f, new Vector2(lastXDir, 0f), .1f, dontMoveIfFacing);
     }
 
-    private bool IsFacingAnotherEnemy()
+    public bool IsFacingAnotherEnemy()
     {
         if (Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f), 0f, new Vector2(lastXDir, 0f), .1f, enemies).collider.gameObject != gameObject)
         {
@@ -239,7 +248,7 @@ public class EnemiesController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.yellow;
 
         if (transform.localScale.x > 0)
         {
