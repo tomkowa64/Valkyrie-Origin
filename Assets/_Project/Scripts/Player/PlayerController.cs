@@ -325,11 +325,17 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Attack()
     {
         canAttack = false;
+
         isAttacking = true;
+        animator.SetBool("IsAttacking", isAttacking);
+
         playerStats.UseStamina(attackStaminaCost, true);
         yield return new WaitForSeconds(playerStats.attackingTime);
+
         isAttacking = false;
+        animator.SetBool("IsAttacking", isAttacking);
         playerStats.UseStamina(0f, false);
+
         yield return new WaitForSeconds(playerStats.attackCooldown);
         canAttack = true;
     }
