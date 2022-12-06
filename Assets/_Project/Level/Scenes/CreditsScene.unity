@@ -231,8 +231,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 33.994995, y: -433}
-  m_SizeDelta: {x: 3627.1348, y: 2596.782}
+  m_AnchoredPosition: {x: -40.926514, y: 260}
+  m_SizeDelta: {x: 1846.9019, y: 2596.782}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &948765003
 MonoBehaviour:
@@ -254,14 +254,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "So ... How evertything  started. \nSit down little fuck and listen this
-    unbeliveble story.\n\nEpisode IV, \nA NEW HOPE \nIt is a period of civil war.
-    Rebel spaceships, striking from a hidden base, have won their first victory against
-    the evil Galactic Empire. During the battle, Rebel spies managed to steal secret
-    plans to the Empire\u2019s ultimate weapon, the DEATH STAR, an armored space
-    station with enough power to destroy an entire planet. Pursued by the Empire\u2019s
-    sinister agents, Princess Leia races home aboard her starship, custodian of the
-    stolen plans that can save her people and restore freedom to the galaxy\u2026."
+  m_text: '
+
+
+    Thanks for playing our game
+
+
+    Studio KTS
+
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
