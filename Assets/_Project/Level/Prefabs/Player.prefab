@@ -175,6 +175,9 @@ MonoBehaviour:
   dontMoveIfFacing:
     serializedVersion: 2
     m_Bits: 320
+  enemy:
+    serializedVersion: 2
+    m_Bits: 256
   rb: {fileID: 0}
   triggerTarget: {fileID: 0}
   animator: {fileID: 2467474103505613240}

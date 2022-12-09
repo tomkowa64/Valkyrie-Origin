@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask jumpableGround;
     [SerializeField] private LayerMask wall;
     [SerializeField] private LayerMask dontMoveIfFacing;
+    [SerializeField] private LayerMask enemy;
     public Rigidbody2D rb;
     private BoxCollider2D coll;
     private CircleCollider2D circleColl;
@@ -23,9 +24,11 @@ public class PlayerController : MonoBehaviour
     private bool isDead = false;
 
     [Header ("Attack")]
-    private bool canAttack = true;
     public bool isAttacking = false;
+    private bool canAttack = true;
     public float attackStaminaCost = 15f;
+    private GameObject attackTarget;
+    List<GameObject> targetsHit;
 
     [Header("Skills")]
     public GameObject[] skills;
@@ -61,6 +64,7 @@ public class PlayerController : MonoBehaviour
         gravity = rb.gravityScale;
         GetComponent<LineRenderer>().positionCount = 0;
         chosenSkillSlot = gameManager.saveData.chosenSkillSlot;
+        targetsHit = new List<GameObject>();
 
         if (chosenSkillSlot > 0 && chosenSkillSlot <= 3)
         {
@@ -124,6 +128,7 @@ public class PlayerController : MonoBehaviour
         }
 
         animator.SetBool("IsJumping", isJumping);
+        animator.SetBool("IsAttacking", isAttacking);
         #endregion
 
         if (Input.GetButtonDown("Jump") && canMove && IsGrounded())
@@ -325,19 +330,70 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Attack()
     {
         canAttack = false;
-
         isAttacking = true;
-        animator.SetBool("IsAttacking", isAttacking);
 
+        targetsHit.Clear();
         playerStats.UseStamina(attackStaminaCost, true);
+        InvokeRepeating(nameof(TryAttack), 0f, 0.01f);
         yield return new WaitForSeconds(playerStats.attackingTime);
 
+        CancelInvoke(nameof(TryAttack));
+        targetsHit.Clear();
         isAttacking = false;
-        animator.SetBool("IsAttacking", isAttacking);
         playerStats.UseStamina(0f, false);
 
         yield return new WaitForSeconds(playerStats.attackCooldown);
         canAttack = true;
+    }
+
+    private bool AttackHit()
+    {
+        var attackArea = Physics2D.BoxCast(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir), coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2, coll.bounds.size.y + .2f), 0f, Vector2.right * lastXDir, .1f, enemy);
+
+        if (attackArea)
+        {
+            attackTarget = attackArea.collider.gameObject;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void TryAttack()
+    {
+        if (AttackHit())
+        {
+            if (!targetsHit.Contains(attackTarget))
+            {
+                float damage;
+                StatsController targetStats;
+
+                targetsHit.Add(attackTarget);
+                attackTarget.TryGetComponent<StatsController>(out targetStats);
+
+                if (targetStats.defence >= playerStats.attack / 2)
+                {
+                    damage = playerStats.attack / 2;
+                }
+                else
+                {
+                    damage = playerStats.attack - targetStats.defence;
+                }
+
+                targetStats.DealDamage(damage);
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        #region Attack HitBox
+        /*Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir), coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2, coll.bounds.size.y + .2f));*/
+        #endregion
     }
 
     private void LoadSkill()
