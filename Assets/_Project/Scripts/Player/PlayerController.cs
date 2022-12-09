@@ -422,7 +422,9 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         isDead = true;
-        Destroy(gameObject);
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<SceneController>().RespawnPlayer();
+        gameManager.LoadGame();
+
+        /*Destroy(gameObject);
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<SceneController>().RespawnPlayer();*/
     }
 }
