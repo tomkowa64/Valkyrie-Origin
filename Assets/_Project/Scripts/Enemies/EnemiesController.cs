@@ -248,15 +248,18 @@ public class EnemiesController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.yellow;
 
-        if (transform.localScale.x > 0)
-        {
-            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x - (aggroRangeLeft / 2) + (aggroRangeRight / 2), coll.bounds.center.y + aggroRangeTop / 2 - aggroRangeBottom / 2), new Vector2(aggroRangeLeft + aggroRangeRight, aggroRangeBottom + aggroRangeTop));
-        }
-        else
-        {
-            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (aggroRangeLeft / 2) - (aggroRangeRight / 2), coll.bounds.center.y + aggroRangeTop / 2 - aggroRangeBottom / 2), new Vector2(aggroRangeLeft + aggroRangeRight, aggroRangeBottom + aggroRangeTop));
+            if (transform.localScale.x > 0)
+            {
+                Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x - (aggroRangeLeft / 2) + (aggroRangeRight / 2), coll.bounds.center.y + aggroRangeTop / 2 - aggroRangeBottom / 2), new Vector2(aggroRangeLeft + aggroRangeRight, aggroRangeBottom + aggroRangeTop));
+            }
+            else
+            {
+                Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (aggroRangeLeft / 2) - (aggroRangeRight / 2), coll.bounds.center.y + aggroRangeTop / 2 - aggroRangeBottom / 2), new Vector2(aggroRangeLeft + aggroRangeRight, aggroRangeBottom + aggroRangeTop));
+            }
         }
     }
 

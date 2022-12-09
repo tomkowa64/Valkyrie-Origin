@@ -116,11 +116,11 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetFloat("Direction", dirX);
         }
-        else if (!canMove && !IsFacingObject())
+        /*else if (!canMove && !IsFacingObject())
         {
             rb.velocity = new Vector2(0f, 0f);
             animator.SetFloat("Direction", Mathf.Abs(0f));
-        }
+        }*/
         else
         {
             rb.velocity = new Vector2(0f, rb.velocity.y);
@@ -180,10 +180,19 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else if (Input.GetKeyDown(KeyCode.LeftShift) && isAttacking)
+        {
+            if (IsGrounded() && canDodge && playerStats.stamina >= dodgeStaminaCost && !IsNextToWall())
+            {
+                StopAttack();
+                EndAttackCooldown();
+                StartCoroutine(Dodge());
+            }
+        }
 
         if (Input.GetButtonDown("Fire1") && canAttack && playerStats.stamina >= attackStaminaCost && !skillIsLoading)
         {
-            StartCoroutine(Attack());
+            Attack();
         }
 
         if (Input.GetButtonDown("Fire1") && skillIsLoading)
@@ -327,23 +336,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator Attack()
+    private void Attack()
     {
         canAttack = false;
         isAttacking = true;
-
-        targetsHit.Clear();
-        playerStats.UseStamina(attackStaminaCost, true);
-        InvokeRepeating(nameof(TryAttack), 0f, 0.01f);
-        yield return new WaitForSeconds(playerStats.attackingTime);
-
-        CancelInvoke(nameof(TryAttack));
-        targetsHit.Clear();
-        isAttacking = false;
-        playerStats.UseStamina(0f, false);
-
-        yield return new WaitForSeconds(playerStats.attackCooldown);
-        canAttack = true;
+        canMove = false;
     }
 
     private bool AttackHit()
@@ -361,39 +358,59 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void StartAttack()
+    {
+        targetsHit.Clear();
+        playerStats.UseStamina(attackStaminaCost, true);
+        InvokeRepeating(nameof(TryAttack), 0f, 0.01f);
+    }
+
+    private void StopAttack()
+    {
+        CancelInvoke(nameof(TryAttack));
+        targetsHit.Clear();
+    }
+
+    private void EndAttackCooldown()
+    {
+        isAttacking = false;
+        canMove = true;
+        playerStats.UseStamina(0f, false);
+        canAttack = true;
+    }
+
     private void TryAttack()
     {
-        if (AttackHit())
+        if (AttackHit() && !targetsHit.Contains(attackTarget))
         {
-            if (!targetsHit.Contains(attackTarget))
+            float damage;
+
+            targetsHit.Add(attackTarget);
+            attackTarget.TryGetComponent<StatsController>(out StatsController targetStats);
+
+            if (targetStats.defence >= playerStats.attack / 2)
             {
-                float damage;
-                StatsController targetStats;
-
-                targetsHit.Add(attackTarget);
-                attackTarget.TryGetComponent<StatsController>(out targetStats);
-
-                if (targetStats.defence >= playerStats.attack / 2)
-                {
-                    damage = playerStats.attack / 2;
-                }
-                else
-                {
-                    damage = playerStats.attack - targetStats.defence;
-                }
-
-                targetStats.DealDamage(damage);
+                damage = playerStats.attack / 2;
             }
+            else
+            {
+                damage = playerStats.attack - targetStats.defence;
+            }
+
+            targetStats.DealDamage(damage);
         }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.red;
 
-        #region Attack HitBox
-        /*Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir), coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2, coll.bounds.size.y + .2f));*/
-        #endregion
+            #region Attack HitBox
+            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir), coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2, coll.bounds.size.y + .2f));
+            #endregion
+        }
     }
 
     private void LoadSkill()

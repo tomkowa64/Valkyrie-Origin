@@ -193,12 +193,15 @@ public class SpiderController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.red;
 
-        Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + 0.5f * enemy.lastXDir, coll.bounds.center.y + 0.25f), new Vector2(1f, 1f));
+            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + 0.5f * enemy.lastXDir, coll.bounds.center.y + 0.25f), new Vector2(1f, 1f));
 
-        Gizmos.color = Color.black;
+            Gizmos.color = Color.black;
 
-        Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x, coll.bounds.center.y + coll.bounds.size.y + 3f), new Vector2(coll.bounds.size.x, coll.bounds.size.y + 6f));
+            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x, coll.bounds.center.y + coll.bounds.size.y + 3f), new Vector2(coll.bounds.size.x, coll.bounds.size.y + 6f));
+        }
     }
 }
