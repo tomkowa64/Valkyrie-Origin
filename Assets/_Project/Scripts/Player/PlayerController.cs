@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
         if (dirX != 0 && canMove)
         {
             lastXDir = dirX;
+            transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
         }
 
         if (canMove && !IsFacingObject())
@@ -114,7 +115,7 @@ public class PlayerController : MonoBehaviour
         #region Animations
         if (canMove && !IsFacingObject())
         {
-            animator.SetFloat("Direction", dirX);
+            animator.SetFloat("Direction", Mathf.Abs(dirX));
         }
         /*else if (!canMove && !IsFacingObject())
         {
