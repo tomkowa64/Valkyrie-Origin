@@ -53,6 +53,15 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Enumerators
+    private IEnumerator TakeHit(SpriteRenderer targetSprite)
+    {
+        targetSprite.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        targetSprite.color = Color.white;
+    }
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
@@ -388,6 +397,7 @@ public class PlayerController : MonoBehaviour
 
             targetsHit.Add(attackTarget);
             attackTarget.TryGetComponent<StatsController>(out StatsController targetStats);
+            attackTarget.TryGetComponent<SpriteRenderer>(out SpriteRenderer targetSprite);
 
             if (targetStats.defence >= playerStats.attack / 2)
             {
@@ -399,6 +409,11 @@ public class PlayerController : MonoBehaviour
             }
 
             targetStats.DealDamage(damage);
+
+            if (targetStats.health > 0)
+            {
+                StartCoroutine(TakeHit(targetSprite));
+            }
         }
     }
 
