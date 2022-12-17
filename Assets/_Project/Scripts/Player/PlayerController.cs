@@ -93,197 +93,200 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDodging || isDead)
+        if (!PauseController.gameIsPaused)
         {
-            return;
-        }
-
-        if (playerStats.health <= 0)
-        {
-            Die();
-        }
-
-        float dirX = Input.GetAxisRaw("Horizontal");
-
-        if (dirX != 0 && canMove)
-        {
-            lastXDir = dirX;
-            transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
-        }
-
-        if (canMove && !IsFacingObject())
-        {
-            float targetSpeed = dirX * playerStats.movementSpeed;
-            float speedDiff = targetSpeed - rb.velocity.x;
-            float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? playerStats.acceleration : playerStats.decceleration;
-            float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, playerStats.velocityPower) * Mathf.Sign(speedDiff);
-
-            rb.AddForce(movement * Vector2.right);
-        }
-
-        #region Animations
-        if (canMove && !IsFacingObject())
-        {
-            animator.SetFloat("Direction", Mathf.Abs(dirX));
-        }
-        /*else if (!canMove && !IsFacingObject())
-        {
-            rb.velocity = new Vector2(0f, 0f);
-            animator.SetFloat("Direction", Mathf.Abs(0f));
-        }*/
-        else
-        {
-            rb.velocity = new Vector2(0f, rb.velocity.y);
-            animator.SetFloat("Direction", Mathf.Abs(0f));
-        }
-
-        animator.SetBool("IsJumping", isJumping);
-        animator.SetBool("IsAttacking", isAttacking);
-        #endregion
-
-        if (Input.GetButtonDown("Jump") && canMove && IsGrounded())
-        {
-            rb.AddForce(Vector2.up * playerStats.jumpPower, ForceMode2D.Impulse);
-            isJumping = true;
-            jumpInputReleased = false;
-        }
-
-        if (Input.GetButtonUp("Jump"))
-        {
-            jumpInputReleased = true;
-
-            if (rb.velocity.y > 0 && isJumping)
+            if (isDodging || isDead)
             {
-                rb.AddForce((1 - playerStats.jumpCutMultiplier) * rb.velocity.y * Vector2.down, ForceMode2D.Impulse);
+                return;
             }
-        }
 
-        if (IsGrounded() && jumpInputReleased)
-        {
-            isJumping = false;
-        }
-
-        if (rb.velocity.y < 0)
-        {
-            rb.gravityScale = gravity * playerStats.fallGravityMultiplier;
-        }
-        else
-        {
-            rb.gravityScale = gravity;
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canMove)
-        {
-            if (IsGrounded())
+            if (playerStats.health <= 0)
             {
-                if (canDodge && playerStats.stamina >= dodgeStaminaCost && !IsNextToWall())
+                Die();
+            }
+
+            float dirX = Input.GetAxisRaw("Horizontal");
+
+            if (dirX != 0 && canMove)
+            {
+                lastXDir = dirX;
+                transform.localScale = new Vector3(dirX, transform.localScale.y, transform.localScale.z);
+            }
+
+            if (canMove && !IsFacingObject())
+            {
+                float targetSpeed = dirX * playerStats.movementSpeed;
+                float speedDiff = targetSpeed - rb.velocity.x;
+                float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? playerStats.acceleration : playerStats.decceleration;
+                float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, playerStats.velocityPower) * Mathf.Sign(speedDiff);
+
+                rb.AddForce(movement * Vector2.right);
+            }
+
+            #region Animations
+            if (canMove && !IsFacingObject())
+            {
+                animator.SetFloat("Direction", Mathf.Abs(dirX));
+            }
+            /*else if (!canMove && !IsFacingObject())
+            {
+                rb.velocity = new Vector2(0f, 0f);
+                animator.SetFloat("Direction", Mathf.Abs(0f));
+            }*/
+            else
+            {
+                rb.velocity = new Vector2(0f, rb.velocity.y);
+                animator.SetFloat("Direction", Mathf.Abs(0f));
+            }
+
+            animator.SetBool("IsJumping", isJumping);
+            animator.SetBool("IsAttacking", isAttacking);
+            #endregion
+
+            if (Input.GetButtonDown("Jump") && canMove && IsGrounded())
+            {
+                rb.AddForce(Vector2.up * playerStats.jumpPower, ForceMode2D.Impulse);
+                isJumping = true;
+                jumpInputReleased = false;
+            }
+
+            if (Input.GetButtonUp("Jump"))
+            {
+                jumpInputReleased = true;
+
+                if (rb.velocity.y > 0 && isJumping)
                 {
-                    StartCoroutine(Dodge());
+                    rb.AddForce((1 - playerStats.jumpCutMultiplier) * rb.velocity.y * Vector2.down, ForceMode2D.Impulse);
                 }
+            }
+
+            if (IsGrounded() && jumpInputReleased)
+            {
+                isJumping = false;
+            }
+
+            if (rb.velocity.y < 0)
+            {
+                rb.gravityScale = gravity * playerStats.fallGravityMultiplier;
             }
             else
             {
-                if (canFlip)
-                {
-                    canFlip = false;
-                    InvokeRepeating(nameof(DoAFlip), 0f, 0.01f);
-                }
+                rb.gravityScale = gravity;
             }
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftShift) && isAttacking)
-        {
-            if (IsGrounded() && canDodge && playerStats.stamina >= dodgeStaminaCost && !IsNextToWall())
-            {
-                StopAttack();
-                EndAttackCooldown();
-                StartCoroutine(Dodge());
-            }
-        }
 
-        if (Input.GetButtonDown("Fire1") && canAttack && playerStats.stamina >= attackStaminaCost && !skillIsLoading)
-        {
-            Attack();
-        }
-
-        if (Input.GetButtonDown("Fire1") && skillIsLoading)
-        {
-            skillCancelled = true;
-            skillIsLoading = false;
-            GetComponent<LineRenderer>().positionCount = 0;
-        }
-
-        if (Input.GetButtonDown("Fire2") && chosenSkill != null && !skillCancelled)
-        {
-            if (chosenSkill.GetComponent<SkillController>().playerCanMoveWhileLoading)
-            {
-                skillIsLoading = true;
-                InvokeRepeating(nameof(LoadSkill), 0f, 0.01f);
-            }
-            else
+            if (Input.GetKeyDown(KeyCode.LeftShift) && canMove)
             {
                 if (IsGrounded())
                 {
-                    skillIsLoading = true;
-                    InvokeRepeating(nameof(LoadSkill), 0f, 0.01f);
+                    if (canDodge && playerStats.stamina >= dodgeStaminaCost && !IsNextToWall())
+                    {
+                        StartCoroutine(Dodge());
+                    }
+                }
+                else
+                {
+                    if (canFlip)
+                    {
+                        canFlip = false;
+                        InvokeRepeating(nameof(DoAFlip), 0f, 0.01f);
+                    }
                 }
             }
-        }
-
-        if (skillCancelled)
-        {
-            CancelInvoke(nameof(LoadSkill));
-            CancelLoading();
-        }
-
-        if (Input.GetButtonUp("Fire2") && chosenSkill != null)
-        {
-            CancelInvoke(nameof(LoadSkill));
-            skillIsLoading = false;
-
-            if (skillCancelled)
+            else if (Input.GetKeyDown(KeyCode.LeftShift) && isAttacking)
             {
-                skillCancelled = false;
+                if (IsGrounded() && canDodge && playerStats.stamina >= dodgeStaminaCost && !IsNextToWall())
+                {
+                    StopAttack();
+                    EndAttackCooldown();
+                    StartCoroutine(Dodge());
+                }
             }
-            else
+
+            if (Input.GetButtonDown("Fire1") && canAttack && playerStats.stamina >= attackStaminaCost && !skillIsLoading)
+            {
+                Attack();
+            }
+
+            if (Input.GetButtonDown("Fire1") && skillIsLoading)
+            {
+                skillCancelled = true;
+                skillIsLoading = false;
+                GetComponent<LineRenderer>().positionCount = 0;
+            }
+
+            if (Input.GetButtonDown("Fire2") && chosenSkill != null && !skillCancelled)
             {
                 if (chosenSkill.GetComponent<SkillController>().playerCanMoveWhileLoading)
                 {
-                    UseSkill();
+                    skillIsLoading = true;
+                    InvokeRepeating(nameof(LoadSkill), 0f, 0.01f);
                 }
                 else
                 {
                     if (IsGrounded())
                     {
-                        UseSkill();
+                        skillIsLoading = true;
+                        InvokeRepeating(nameof(LoadSkill), 0f, 0.01f);
                     }
                 }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !skillIsLoading)
-        {
-            if (skills[0] != null)
+            if (skillCancelled)
             {
-                chosenSkill = skills[0];
-                chosenSkillSlot = 1;
+                CancelInvoke(nameof(LoadSkill));
+                CancelLoading();
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !skillIsLoading)
-        {
-            if (skills[1] != null)
+            if (Input.GetButtonUp("Fire2") && chosenSkill != null)
             {
-                chosenSkill = skills[1];
-                chosenSkillSlot = 2;
+                CancelInvoke(nameof(LoadSkill));
+                skillIsLoading = false;
+
+                if (skillCancelled)
+                {
+                    skillCancelled = false;
+                }
+                else
+                {
+                    if (chosenSkill.GetComponent<SkillController>().playerCanMoveWhileLoading)
+                    {
+                        UseSkill();
+                    }
+                    else
+                    {
+                        if (IsGrounded())
+                        {
+                            UseSkill();
+                        }
+                    }
+                }
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3) && !skillIsLoading)
-        {
-            if (skills[2] != null)
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !skillIsLoading)
             {
-                chosenSkill = skills[2];
-                chosenSkillSlot = 3;
+                if (skills[0] != null)
+                {
+                    chosenSkill = skills[0];
+                    chosenSkillSlot = 1;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2) && !skillIsLoading)
+            {
+                if (skills[1] != null)
+                {
+                    chosenSkill = skills[1];
+                    chosenSkillSlot = 2;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3) && !skillIsLoading)
+            {
+                if (skills[2] != null)
+                {
+                    chosenSkill = skills[2];
+                    chosenSkillSlot = 3;
+                }
             }
         }
     }

@@ -63,60 +63,63 @@ public class EnemiesController : MonoBehaviour
             return;
         }
 
-        if (enemyStats.health <= 0)
+        if (!PauseController.gameIsPaused)
         {
-            Die();
-        }
-
-        if (gravityWorking)
-        {
-            if (rb.velocity.y < 0)
+            if (enemyStats.health <= 0)
             {
-                rb.gravityScale = gravity * enemyStats.fallGravityMultiplier;
+                Die();
             }
-            else
-            {
-                rb.gravityScale = gravity;
-            }
-        }
 
-        if (!isAggroed)
-        {
-            if (canMove)
+            if (gravityWorking)
             {
-                if (movesRandomly)
+                if (rb.velocity.y < 0)
                 {
-                    StartCoroutine(RandomMovement());
+                    rb.gravityScale = gravity * enemyStats.fallGravityMultiplier;
                 }
-                else if (wandering)
+                else
                 {
-                    Wander();
+                    rb.gravityScale = gravity;
                 }
             }
-        }
 
-        if (SeePlayer())
-        {
-            if (aggroCounter < aggroTime)
+            if (!isAggroed)
             {
-                aggroCounter += Time.deltaTime;
+                if (canMove)
+                {
+                    if (movesRandomly)
+                    {
+                        StartCoroutine(RandomMovement());
+                    }
+                    else if (wandering)
+                    {
+                        Wander();
+                    }
+                }
+            }
+
+            if (SeePlayer())
+            {
+                if (aggroCounter < aggroTime)
+                {
+                    aggroCounter += Time.deltaTime;
+                }
+                else
+                {
+                    aggroCounter = aggroTime;
+                    isAggroed = true;
+                }
             }
             else
             {
-                aggroCounter = aggroTime;
-                isAggroed = true;
-            }
-        }
-        else
-        {
-            if (aggroCounter > 0)
-            {
-                aggroCounter -= Time.deltaTime;
-            }
-            else
-            {
-                aggroCounter = 0f;
-                isAggroed = false;
+                if (aggroCounter > 0)
+                {
+                    aggroCounter -= Time.deltaTime;
+                }
+                else
+                {
+                    aggroCounter = 0f;
+                    isAggroed = false;
+                }
             }
         }
     }

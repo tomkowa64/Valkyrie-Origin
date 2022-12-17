@@ -11,7 +11,6 @@ public class IngameInterfaceController : MonoBehaviour
     private PlayerController playerController;
     private StatsController playerStats;
     public GameObject pauseMenu;
-    private static bool gameIsPaused = false;
 
     [Header("Status bars")]
     public Slider healthBar;
@@ -203,29 +202,18 @@ public class IngameInterfaceController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (gameIsPaused)
+            if (PauseController.gameIsPaused)
             {
-                Resume();
+                pauseMenu.SetActive(false);
+
+                PauseController.Resume();
             }
             else
             {
-                Pause();
+                PauseController.Pause();
+                pauseMenu.SetActive(true);
             }
         }
-    }
-
-    public void Resume()
-    {
-        pauseMenu.SetActive(false);
-        Time.timeScale = 1f;
-        gameIsPaused = false;
-    }
-
-    public void Pause()
-    {
-        pauseMenu.SetActive(true);
-        Time.timeScale = 0f;
-        gameIsPaused = true;
     }
 
     public void LoadOptionsMenu()
@@ -235,8 +223,7 @@ public class IngameInterfaceController : MonoBehaviour
 
     public void QuitToMenu()
     {
-        Time.timeScale = 1f;
-        gameIsPaused = false;
+        PauseController.Resume();
         SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
 }

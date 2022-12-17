@@ -22,22 +22,25 @@ public class TargetDummyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(dummyStats.health <= 1)
+        if (!PauseController.gameIsPaused)
         {
-            dummyStats.health = dummyStats.maxHealth;
-        }
+            if (dummyStats.health <= 1)
+            {
+                dummyStats.health = dummyStats.maxHealth;
+            }
 
-        if(timeFromLastDamage == healAfterSeconds && dummyStats.health < dummyStats.maxHealth)
-        {
-            isRegenerating = true;
-        }
+            if (timeFromLastDamage == healAfterSeconds && dummyStats.health < dummyStats.maxHealth)
+            {
+                isRegenerating = true;
+            }
 
-        if(isRegenerating)
-        {
-            dummyStats.RegenerateHealth(dummyStats.maxHealth);
-            lastRecordedHealth = dummyStats.health;
-            isRegenerating = false;
-            timeFromLastDamage = 0;
+            if (isRegenerating)
+            {
+                dummyStats.RegenerateHealth(dummyStats.maxHealth);
+                lastRecordedHealth = dummyStats.health;
+                isRegenerating = false;
+                timeFromLastDamage = 0;
+            }
         }
     }
 

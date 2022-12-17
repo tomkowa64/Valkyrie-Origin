@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Level/Scenes/Levels/Level0.unity
     guid: 828966006ea0473468e643430271b7bf
+  - enabled: 1
+    path: Assets/_Project/Level/Scenes/ChooseOfSkillsPanel.unity
+    guid: f0fec36321dac4a4f88c3132562a87a2
   m_configObjects: {}

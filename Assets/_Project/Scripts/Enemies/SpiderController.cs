@@ -47,36 +47,39 @@ public class SpiderController : MonoBehaviour
 
     void Update()
     {
-        if (enemy.isAggroed)
+        if (!PauseController.gameIsPaused)
         {
-            timeWithNoAggro = 0f;
-
-            if (isHanging)
+            if (enemy.isAggroed)
             {
-                StopHanging();
-            }
-            else
-            {
-                StayInRange();
+                timeWithNoAggro = 0f;
 
-                if (enemy.canAttack)
+                if (isHanging)
                 {
-                    if (PlayerInAttackRange())
+                    StopHanging();
+                }
+                else
+                {
+                    StayInRange();
+
+                    if (enemy.canAttack)
                     {
-                        StartCoroutine(UseBasicAttack());
+                        if (PlayerInAttackRange())
+                        {
+                            StartCoroutine(UseBasicAttack());
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            if (timeWithNoAggro < timeToHang)
-            {
-                timeWithNoAggro += Time.deltaTime;
-            }
             else
             {
-                Hang();
+                if (timeWithNoAggro < timeToHang)
+                {
+                    timeWithNoAggro += Time.deltaTime;
+                }
+                else
+                {
+                    Hang();
+                }
             }
         }
     }

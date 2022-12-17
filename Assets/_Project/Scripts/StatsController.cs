@@ -59,26 +59,29 @@ public class StatsController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(staminaInUse)
+        if (!PauseController.gameIsPaused)
         {
-            regeneratingStamina = false;
-            CancelInvoke(nameof(RegenerateStamina));
-        }
+            if (staminaInUse)
+            {
+                regeneratingStamina = false;
+                CancelInvoke(nameof(RegenerateStamina));
+            }
 
-        if(manaInUse)
-        {
-            regeneratingMana = false;
-            CancelInvoke(nameof(RegenerateMana));
-        }
+            if (manaInUse)
+            {
+                regeneratingMana = false;
+                CancelInvoke(nameof(RegenerateMana));
+            }
 
-        if(mana < maxMana && !regeneratingMana && !manaInUse)
-        {
-            InvokeRepeating(nameof(RegenerateMana), 0f, 1f / manaRegen);
-        }
+            if (mana < maxMana && !regeneratingMana && !manaInUse)
+            {
+                InvokeRepeating(nameof(RegenerateMana), 0f, 1f / manaRegen);
+            }
 
-        if(stamina < maxStamina && !regeneratingStamina && !staminaInUse)
-        {
-            InvokeRepeating(nameof(RegenerateStamina), 0f, 1f / staminaRegen);
+            if (stamina < maxStamina && !regeneratingStamina && !staminaInUse)
+            {
+                InvokeRepeating(nameof(RegenerateStamina), 0f, 1f / staminaRegen);
+            }
         }
     }
 
