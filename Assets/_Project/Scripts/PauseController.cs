@@ -5,6 +5,7 @@ using UnityEngine;
 public static class PauseController
 {
     public static bool gameIsPaused = false;
+    public static bool choosingSkills = false;
 
     public static void Pause()
     {

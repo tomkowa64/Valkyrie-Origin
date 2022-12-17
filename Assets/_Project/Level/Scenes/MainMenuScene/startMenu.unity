@@ -8114,6 +8114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveData:
     playerHealth: 0
+    playerSkills: 000000000000000000000000
     levelNumber: 0
     checkpointNumber: 0
     locationName: 

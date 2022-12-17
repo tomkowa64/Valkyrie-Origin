@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     List<GameObject> targetsHit;
 
     [Header("Skills")]
-    public GameObject[] skills;
+    public GameObject[] skills = new GameObject[3];
     public int chosenSkillSlot;
     [SerializeField] public GameObject chosenSkill;
     public bool skillCancelled = false;
@@ -74,6 +74,14 @@ public class PlayerController : MonoBehaviour
         GetComponent<LineRenderer>().positionCount = 0;
         chosenSkillSlot = gameManager.saveData.chosenSkillSlot;
         targetsHit = new List<GameObject>();
+
+        for (int i = 0; i < gameManager.saveData.playerSkills.Length; i++)
+        {
+            if (gameManager.saveData.playerSkills[i] != -1)
+            {
+                skills[i] = gameManager.skills[gameManager.saveData.playerSkills[i]];
+            }
+        }
 
         if (chosenSkillSlot > 0 && chosenSkillSlot <= 3)
         {

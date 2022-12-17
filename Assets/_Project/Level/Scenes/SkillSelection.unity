@@ -1886,6 +1886,7 @@ MonoBehaviour:
   - {fileID: 1191841057}
   - {fileID: 652051066}
   - {fileID: 582623930}
+  noActiveSkill: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   skillName: {fileID: 873693221}
   skillDesc: {fileID: 624563258}
 --- !u!1 &1100618420 stripped

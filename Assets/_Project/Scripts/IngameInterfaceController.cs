@@ -200,12 +200,11 @@ public class IngameInterfaceController : MonoBehaviour
                 break;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !PauseController.choosingSkills)
         {
             if (PauseController.gameIsPaused)
             {
                 pauseMenu.SetActive(false);
-
                 PauseController.Resume();
             }
             else

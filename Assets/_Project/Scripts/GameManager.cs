@@ -90,7 +90,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadTestField()
     {
-        saveName = "test";
         saveData = SaveSystem.Load(saveName);
         LoadSkillsData();
         SceneManager.LoadScene("Sandbox", LoadSceneMode.Single);

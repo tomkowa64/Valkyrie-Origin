@@ -17,6 +17,7 @@ public class CheckpointController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F) && canInteract)
             {
                 PauseController.Pause();
+                PauseController.choosingSkills = true;
                 SceneManager.LoadScene("SkillSelection", LoadSceneMode.Additive);
             }
         }
