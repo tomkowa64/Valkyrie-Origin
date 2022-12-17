@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillName: Health Regeneration
+  skillDescription: Regenerates your health over time
   manaCost: 20
   cooldownTime: 20
   standardCooldownTime: 20

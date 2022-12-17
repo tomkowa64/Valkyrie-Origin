@@ -5,6 +5,7 @@ using UnityEngine;
 public class SkillController : MonoBehaviour
 {
     public string skillName;
+    public string skillDescription;
     public float manaCost;
     public float cooldownTime;
     public float standardCooldownTime;

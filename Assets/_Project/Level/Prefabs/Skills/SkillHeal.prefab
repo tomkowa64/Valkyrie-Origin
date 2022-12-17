@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillName: Heal
+  skillDescription: Time to heal your wounds
   manaCost: 20
   cooldownTime: 15
   standardCooldownTime: 15

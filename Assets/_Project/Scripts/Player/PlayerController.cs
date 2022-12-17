@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     [Header("Skills")]
     public GameObject[] skills;
     public int chosenSkillSlot;
-    [SerializeField] private GameObject chosenSkill;
+    [SerializeField] public GameObject chosenSkill;
     public bool skillCancelled = false;
     public bool skillIsLoading = false;
     private float skillLoadingTime = 0f;
