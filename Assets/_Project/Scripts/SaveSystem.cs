@@ -25,12 +25,12 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static void Save(string saveName, GameObject player, SceneController scene, GameObject[] skills)
+    public static void Save(string saveName, GameObject player, SceneController scene, GameObject[] skills, GameManager gameManager)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path + saveName + fileExtension, FileMode.Create);
 
-        SaveData data = new SaveData(player, scene, skills);
+        SaveData data = new SaveData(player, scene, skills, gameManager);
 
         Debug.Log("Game saved");
 

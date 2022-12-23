@@ -8,6 +8,7 @@ public class SaveData
 {
     public float playerHealth;
     public int[] playerSkills = new int[3];
+    public int[] unlockedSkills;
     public int levelNumber;
     public int checkpointNumber;
     public string locationName;
@@ -25,6 +26,7 @@ public class SaveData
         playerSkills[0] = -1;
         playerSkills[1] = -1;
         playerSkills[2] = -1;
+        unlockedSkills = new int[0];
         levelNumber = 0;
         checkpointNumber = 0;
         locationName = "";
@@ -34,12 +36,13 @@ public class SaveData
         skillChargeProgress = 0;
     }
 
-    public SaveData(GameObject player, SceneController scene, GameObject[] skills)
+    public SaveData(GameObject player, SceneController scene, GameObject[] skills, GameManager gameManager)
     {
         playerHealth = player.GetComponent<StatsController>().health;
         playerSkills[0] = Array.IndexOf(skills, player.GetComponent<PlayerController>().skills[0]);
         playerSkills[1] = Array.IndexOf(skills, player.GetComponent<PlayerController>().skills[1]);
         playerSkills[2] = Array.IndexOf(skills, player.GetComponent<PlayerController>().skills[2]);
+        unlockedSkills = gameManager.unlockedSkills;
         levelNumber = scene.levelNumber;
         checkpointNumber = scene.lastCheckpoint.GetComponent<CheckpointController>().checkpointNumber;
         locationName = scene.lastCheckpoint.GetComponent<CheckpointController>().locationName;

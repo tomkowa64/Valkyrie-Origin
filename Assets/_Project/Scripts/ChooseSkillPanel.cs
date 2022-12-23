@@ -41,11 +41,12 @@ public class ChooseSkillPanel : MonoBehaviour
         }
 
         allSkills = GameObject.FindGameObjectsWithTag("SkillSelectionSkills");
+        Array.Sort(gameManager.unlockedSkills);
 
-        for (int i = 0; i < gameManager.skills.Length; i++)
+        for (int i = 0; i < gameManager.unlockedSkills.Length; i++)
         {
-            allSkills[i].GetComponent<Image>().sprite = gameManager.skills[i].GetComponent<Image>().sprite;
-            allSkills[i].GetComponent<Image>().color = gameManager.skills[i].GetComponent<Image>().color;
+            allSkills[i].GetComponent<Image>().sprite = gameManager.skills[gameManager.unlockedSkills[i]].GetComponent<Image>().sprite;
+            allSkills[i].GetComponent<Image>().color = gameManager.skills[gameManager.unlockedSkills[i]].GetComponent<Image>().color;
         }
 
         skillName.GetComponent<TextMeshProUGUI>().text = "";
@@ -74,10 +75,10 @@ public class ChooseSkillPanel : MonoBehaviour
 
     public void StartSkillHover(int slotNumber)
     {
-        if (slotNumber < gameManager.skills.Length)
+        if (slotNumber < gameManager.unlockedSkills.Length)
         {
-            skillName.GetComponent<TextMeshProUGUI>().text = gameManager.skills[slotNumber].GetComponent<SkillController>().skillName;
-            skillDesc.GetComponent<TextMeshProUGUI>().text = gameManager.skills[slotNumber].GetComponent<SkillController>().skillDescription;
+            skillName.GetComponent<TextMeshProUGUI>().text = gameManager.skills[gameManager.unlockedSkills[slotNumber]].GetComponent<SkillController>().skillName;
+            skillDesc.GetComponent<TextMeshProUGUI>().text = gameManager.skills[gameManager.unlockedSkills[slotNumber]].GetComponent<SkillController>().skillDescription;
         }
     }
 
@@ -89,24 +90,24 @@ public class ChooseSkillPanel : MonoBehaviour
 
     public void SelectSkill(int slotNumber)
     {
-        if (slotNumber < gameManager.skills.Length)
+        if (slotNumber < gameManager.unlockedSkills.Length)
         {
-            int position = Array.IndexOf(player.skills, gameManager.skills[slotNumber]);
+            int position = Array.IndexOf(player.skills, gameManager.skills[gameManager.unlockedSkills[slotNumber]]);
 
             if (position > -1)
             {
                 player.skills[position] = player.skills[clickedSkillSlot];
                 activeSkillsImages[position].sprite = player.skills[clickedSkillSlot].GetComponent<Image>().sprite;
                 activeSkillsImages[position].color = player.skills[clickedSkillSlot].GetComponent<Image>().color;
-                player.skills[clickedSkillSlot] = gameManager.skills[slotNumber];
-                activeSkillsImages[clickedSkillSlot].sprite = gameManager.skills[slotNumber].GetComponent<Image>().sprite;
-                activeSkillsImages[clickedSkillSlot].color = gameManager.skills[slotNumber].GetComponent<Image>().color;
+                player.skills[clickedSkillSlot] = gameManager.skills[gameManager.unlockedSkills[slotNumber]];
+                activeSkillsImages[clickedSkillSlot].sprite = gameManager.skills[gameManager.unlockedSkills[slotNumber]].GetComponent<Image>().sprite;
+                activeSkillsImages[clickedSkillSlot].color = gameManager.skills[gameManager.unlockedSkills[slotNumber]].GetComponent<Image>().color;
             }
             else
             {
-                player.skills[clickedSkillSlot] = gameManager.skills[slotNumber];
-                activeSkillsImages[clickedSkillSlot].sprite = gameManager.skills[slotNumber].GetComponent<Image>().sprite;
-                activeSkillsImages[clickedSkillSlot].color = gameManager.skills[slotNumber].GetComponent<Image>().color;
+                player.skills[clickedSkillSlot] = gameManager.skills[gameManager.unlockedSkills[slotNumber]];
+                activeSkillsImages[clickedSkillSlot].sprite = gameManager.skills[gameManager.unlockedSkills[slotNumber]].GetComponent<Image>().sprite;
+                activeSkillsImages[clickedSkillSlot].color = gameManager.skills[gameManager.unlockedSkills[slotNumber]].GetComponent<Image>().color;
             }
 
             if (player.chosenSkillSlot > 0)
@@ -118,7 +119,7 @@ public class ChooseSkillPanel : MonoBehaviour
 
     public void BackToGame()
     {
-        SaveSystem.Save(gameManager.saveName, GameObject.FindGameObjectWithTag("Player"), GameObject.FindGameObjectWithTag("GameController").GetComponent<SceneController>(), gameManager.skills);
+        SaveSystem.Save(gameManager.saveName, GameObject.FindGameObjectWithTag("Player"), GameObject.FindGameObjectWithTag("GameController").GetComponent<SceneController>(), gameManager.skills, gameManager);
         SceneManager.UnloadSceneAsync("SkillSelection");
         PauseController.choosingSkills = false;
         PauseController.Resume();

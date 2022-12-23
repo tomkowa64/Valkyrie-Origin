@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Do not touch")]
     public SaveData saveData;
+    public int[] unlockedSkills;
     private static GameManager instance;
     private string newSaveName;
 
@@ -97,6 +99,8 @@ public class GameManager : MonoBehaviour
 
     private void LoadSkillsData()
     {
+        unlockedSkills = saveData.unlockedSkills;
+
         #region Heal data
         skills[0].GetComponent<SkillHeal>().sumOfHealingDone = saveData.skillHealProgress;
         if (saveData.skillHealProgress <= skills[0].GetComponent<SkillHeal>().healingForLevelOne)

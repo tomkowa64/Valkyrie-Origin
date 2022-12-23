@@ -8115,6 +8115,7 @@ MonoBehaviour:
   saveData:
     playerHealth: 0
     playerSkills: 000000000000000000000000
+    unlockedSkills: 
     levelNumber: 0
     checkpointNumber: 0
     locationName: 
@@ -8122,6 +8123,7 @@ MonoBehaviour:
     skillHealProgress: 0
     skillHealthRegenProgeess: 0
     skillChargeProgress: 0
+  unlockedSkills: 
   playerPrefab: {fileID: 5936557769075872516, guid: a18092ad83047ad459a3afb7a7f73a9c, type: 3}
   communicate: {fileID: 53446}
   skills:
