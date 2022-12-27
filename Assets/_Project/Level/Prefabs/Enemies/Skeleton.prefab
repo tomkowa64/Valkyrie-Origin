@@ -149,19 +149,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee9e7eae82cf0248b07bf0f00892dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
-  mana: 20
-  maxMana: 20
+  health: 300
+  maxHealth: 300
+  mana: 15
+  maxMana: 15
   manaRegen: 2
   stamina: 100
   maxStamina: 100
   staminaRegen: 10
-  attack: 10
-  defence: 0
+  attack: 15
+  defence: 10
   attackingTime: 0.5
   attackCooldown: 0.5
-  movementSpeed: 7
+  movementSpeed: 8
   acceleration: 5
   decceleration: 15
   velocityPower: 0.7
@@ -192,19 +192,24 @@ MonoBehaviour:
   dontMoveIfFacing:
     serializedVersion: 2
     m_Bits: 192
+  enemies:
+    serializedVersion: 2
+    m_Bits: 256
   rb: {fileID: 0}
   animator: {fileID: -6607968515408136211}
   isAggroed: 0
-  aggroRangeTop: 4
-  aggroRangeBottom: 1
+  aggroRangeTop: 2
+  aggroRangeBottom: 0.8
   aggroRangeRight: 1
   aggroRangeLeft: 5
   aggroCounter: 0
   aggroTime: 1
+  canAttack: 1
   isAttacking: 0
   attackStaminaCost: 15
   canMove: 1
   gravity: 0
+  gravityWorking: 1
   lastXDir: -1
   movesRandomly: 0
   wandering: 0
