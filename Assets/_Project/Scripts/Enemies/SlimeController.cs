@@ -1,0 +1,115 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SlimeController : MonoBehaviour
+{
+    #region Variables
+    private EnemiesController enemy;
+    private StatsController enemyStats;
+    private Rigidbody2D rb;
+    private GameObject player;
+    private CapsuleCollider2D coll;
+    private bool isJumping;
+    [SerializeField] private float justJumpedTimer;
+    [SerializeField] private float movementCdTimer;
+    [SerializeField] private float movementCd;
+    [SerializeField] private float followRange;
+    #endregion
+
+    void Start()
+    {
+        enemy = GetComponent<EnemiesController>();
+        enemyStats = GetComponent<StatsController>();
+        rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        coll = GetComponent<CapsuleCollider2D>();
+    }
+
+    void Update()
+    {
+        if (!PauseController.gameIsPaused)
+        {
+            if (movementCdTimer > 0f)
+            {
+                movementCdTimer -= Time.deltaTime;
+            }
+            else
+            {
+                movementCdTimer = 0f;
+            }
+
+            if (justJumpedTimer > 0f)
+            {
+                justJumpedTimer -= Time.deltaTime;
+            }
+            else
+            {
+                justJumpedTimer = 0f;
+            }
+
+            if (justJumpedTimer == 0f && isJumping && enemy.IsGrounded())
+            {
+                isJumping = false;
+                movementCdTimer = movementCd;
+            }
+
+            if (isJumping)
+            {
+                Debug.Log("jumping");
+            }
+
+            if (isJumping && HasCeilingAbove() && rb.velocity.y > 0)
+            {
+                rb.AddForce((1 - enemyStats.jumpCutMultiplier) * rb.velocity.y * Vector2.down, ForceMode2D.Impulse);
+            }
+
+            if (enemy.isAggroed)
+            {
+                
+            }
+            else
+            {
+                if (enemy.canMove && enemy.IsGrounded() && movementCdTimer <= 0f && !isJumping)
+                {
+                    if (enemy.IsFacingObject() || enemy.IsFacingAnotherEnemy() || enemy.WillFall())
+                    {
+                        enemy.lastXDir *= -1;
+                        transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    }
+
+                    Move();
+                }
+            }
+        }
+    }
+
+    private bool HasCeilingAbove()
+    {
+        return Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y + 0.5f), new Vector2(0.5f, 1f), 0f, Vector2.up, .1f, enemy.ground);
+    }
+
+    private void Move()
+    {
+        float targetSpeed = enemy.lastXDir * enemyStats.movementSpeed * 20f;
+        float speedDiff = targetSpeed - rb.velocity.x;
+        float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? enemyStats.acceleration : enemyStats.decceleration;
+        float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, enemyStats.velocityPower) * Mathf.Sign(speedDiff);
+
+        rb.AddForce(enemyStats.jumpPower * Vector2.up, ForceMode2D.Impulse);
+        rb.AddForce(movement * Vector2.right);
+
+        isJumping = true;
+        justJumpedTimer = 0.2f;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.black;
+
+            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x, coll.bounds.center.y + 0.5f), new Vector2(0.5f, 1f));
+        }
+    }
+}

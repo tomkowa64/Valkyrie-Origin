@@ -8070,6 +8070,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1829651064}
     m_Modifications:
+    - target: {fileID: -4717438204606692937, guid: e7d6b8d52c91db34f8248863df66b29f, type: 3}
+      propertyPath: movementCdTimer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7938570352953962922, guid: e7d6b8d52c91db34f8248863df66b29f, type: 3}
       propertyPath: m_RootOrder
       value: 6

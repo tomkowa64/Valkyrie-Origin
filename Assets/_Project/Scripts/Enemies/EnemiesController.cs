@@ -232,7 +232,7 @@ public class EnemiesController : MonoBehaviour
         return Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y), new Vector2(coll.bounds.size.x, coll.bounds.size.y - 0.1f), 0f, new Vector2(lastXDir * -1, 0f), .1f, dontMoveIfFacing);
     }
 
-    private bool WillFall()
+    public bool WillFall()
     {
         return !Physics2D.BoxCast(new Vector2(coll.bounds.center.x + coll.bounds.size.x * lastXDir, coll.bounds.center.y), new Vector2(coll.bounds.size.x / 2, coll.bounds.size.y), 0f, Vector2.down, .1f, ground);
     }
