@@ -131,7 +131,7 @@ MonoBehaviour:
   stamina: 100
   maxStamina: 100
   staminaRegen: 10
-  attack: 10
+  attack: 20
   defence: 0
   attackingTime: 0.5
   attackCooldown: 0.5
@@ -238,4 +238,3 @@ MonoBehaviour:
   justJumpedTimer: 0
   movementCdTimer: 0
   movementCd: 1
-  followRange: 0

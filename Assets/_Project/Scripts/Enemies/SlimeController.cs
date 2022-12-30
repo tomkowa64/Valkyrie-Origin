@@ -11,10 +11,10 @@ public class SlimeController : MonoBehaviour
     private GameObject player;
     private CapsuleCollider2D coll;
     private bool isJumping;
+    private bool isAttacking;
     [SerializeField] private float justJumpedTimer;
     [SerializeField] private float movementCdTimer;
     [SerializeField] private float movementCd;
-    [SerializeField] private float followRange;
     #endregion
 
     void Start()
@@ -54,9 +54,9 @@ public class SlimeController : MonoBehaviour
                 movementCdTimer = movementCd;
             }
 
-            if (isJumping)
+            if (isJumping && isAttacking)
             {
-                Debug.Log("jumping");
+                HitPlayer();
             }
 
             if (isJumping && HasCeilingAbove() && rb.velocity.y > 0)
@@ -66,20 +66,11 @@ public class SlimeController : MonoBehaviour
 
             if (enemy.isAggroed)
             {
-                
+                TryMove(true);
             }
             else
             {
-                if (enemy.canMove && enemy.IsGrounded() && movementCdTimer <= 0f && !isJumping)
-                {
-                    if (enemy.IsFacingObject() || enemy.IsFacingAnotherEnemy() || enemy.WillFall())
-                    {
-                        enemy.lastXDir *= -1;
-                        transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                    }
-
-                    Move();
-                }
+                TryMove(false);
             }
         }
     }
@@ -87,6 +78,14 @@ public class SlimeController : MonoBehaviour
     private bool HasCeilingAbove()
     {
         return Physics2D.BoxCast(new Vector2(coll.bounds.center.x, coll.bounds.center.y + 0.5f), new Vector2(0.5f, 1f), 0f, Vector2.up, .1f, enemy.ground);
+    }
+
+    private bool CollideWithPlayer()
+    {
+        return Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, coll.direction, 0f, Vector2.down, .1f, enemy.player)
+            || Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, coll.direction, 0f, Vector2.up, .1f, enemy.player)
+            || Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, coll.direction, 0f, Vector2.right, .1f, enemy.player)
+            || Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, coll.direction, 0f, Vector2.left, .1f, enemy.player);
     }
 
     private void Move()
@@ -100,7 +99,34 @@ public class SlimeController : MonoBehaviour
         rb.AddForce(movement * Vector2.right);
 
         isJumping = true;
+        isAttacking = true;
         justJumpedTimer = 0.2f;
+    }
+
+    private void TryMove(bool isAggroed)
+    {
+        if (enemy.canMove && enemy.IsGrounded() && movementCdTimer <= 0f && !isJumping)
+        {
+            if (enemy.IsFacingObject() || enemy.IsFacingAnotherEnemy() || enemy.WillFall())
+            {
+                enemy.lastXDir *= -1;
+                transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+
+            Move();
+        }
+    }
+
+    private void HitPlayer()
+    {
+        if (CollideWithPlayer())
+        {
+            isAttacking = false;
+
+            Debug.Log("dmg");
+
+            player.GetComponent<StatsController>().DealDamage(enemyStats.attack);
+        }
     }
 
     private void OnDrawGizmos()
