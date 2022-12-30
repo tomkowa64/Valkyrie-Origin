@@ -186,7 +186,7 @@ public class SpiderController : MonoBehaviour
 
     private bool CollideWithPlayer()
     {
-        return Physics2D.CapsuleCast(coll.bounds.center, coll.size, coll.direction, 0f, Vector2.down, .1f, enemy.player);
+        return Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, coll.direction, 0f, Vector2.down, .1f, enemy.player);
     }
 
     private bool IsCeilingAbove()
