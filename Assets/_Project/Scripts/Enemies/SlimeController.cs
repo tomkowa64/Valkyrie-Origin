@@ -64,14 +64,7 @@ public class SlimeController : MonoBehaviour
                 rb.AddForce((1 - enemyStats.jumpCutMultiplier) * rb.velocity.y * Vector2.down, ForceMode2D.Impulse);
             }
 
-            if (enemy.isAggroed)
-            {
-                TryMove(true);
-            }
-            else
-            {
-                TryMove(false);
-            }
+            TryMove(enemy.isAggroed);
         }
     }
 
@@ -88,9 +81,9 @@ public class SlimeController : MonoBehaviour
             || Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, coll.direction, 0f, Vector2.left, .1f, enemy.player);
     }
 
-    private void Move()
+    private void Move(float x)
     {
-        float targetSpeed = enemy.lastXDir * enemyStats.movementSpeed * 20f;
+        float targetSpeed = enemy.lastXDir * enemyStats.movementSpeed * x;
         float speedDiff = targetSpeed - rb.velocity.x;
         float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? enemyStats.acceleration : enemyStats.decceleration;
         float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, enemyStats.velocityPower) * Mathf.Sign(speedDiff);
@@ -107,13 +100,31 @@ public class SlimeController : MonoBehaviour
     {
         if (enemy.canMove && enemy.IsGrounded() && movementCdTimer <= 0f && !isJumping)
         {
-            if (enemy.IsFacingObject() || enemy.IsFacingAnotherEnemy() || enemy.WillFall())
+            if (isAggroed)
             {
-                enemy.lastXDir *= -1;
-                transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                enemy.lastXDir = Mathf.Sign(player.transform.position.x - transform.position.x);
+                transform.localScale = new Vector3(enemy.lastXDir * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
+                if (Mathf.Abs(player.transform.position.x - transform.position.x) * 100 > 300f)
+                {
+                    Move(20f);
+                }
+                else
+                {
+                    Move(Mathf.Abs(player.transform.position.x - transform.position.x) * 100 / enemyStats.movementSpeed);
+                }
+            }
+            else
+            {
+                if (enemy.IsFacingObject() || enemy.IsFacingAnotherEnemy() || enemy.WillFall())
+                {
+                    enemy.lastXDir *= -1;
+                    transform.localScale = new Vector3(-1 * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                }
+
+                Move(20f);
             }
 
-            Move();
         }
     }
 
@@ -122,8 +133,6 @@ public class SlimeController : MonoBehaviour
         if (CollideWithPlayer())
         {
             isAttacking = false;
-
-            Debug.Log("dmg");
 
             player.GetComponent<StatsController>().DealDamage(enemyStats.attack);
         }
