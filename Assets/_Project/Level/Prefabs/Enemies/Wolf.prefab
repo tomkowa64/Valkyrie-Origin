@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2377979788613480171}
   - component: {fileID: -6607968515408136211}
   - component: {fileID: 3041782006285450467}
+  - component: {fileID: 3034542525456599953}
   m_Layer: 8
   m_Name: Wolf
   m_TagString: Enemy
@@ -136,9 +137,9 @@ MonoBehaviour:
   attackCooldown: 0.5
   movementSpeed: 16
   acceleration: 7
-  decceleration: 15
+  decceleration: 20
   velocityPower: 0.7
-  jumpPower: 0
+  jumpPower: 8
   jumpCutMultiplier: 0
   fallGravityMultiplier: 1.9
   dashPower: 0
@@ -176,7 +177,7 @@ MonoBehaviour:
   aggroRangeRight: 4
   aggroRangeLeft: 7
   aggroCounter: 0
-  aggroTime: 1
+  aggroTime: 0.5
   canAttack: 1
   isAttacking: 0
   attackStaminaCost: 15
@@ -222,3 +223,18 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0046603545, y: -0.38364613}
   m_Size: {x: 1.990124, y: 1.2341881}
   m_Direction: 1
+--- !u!114 &3034542525456599953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7938570352953962964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bf761e243259747a5318467bab8561, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpCooldown: 5
+  jumpRange: 5
+  attackRange: 1
