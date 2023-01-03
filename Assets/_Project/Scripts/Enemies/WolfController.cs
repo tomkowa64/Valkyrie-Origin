@@ -11,12 +11,15 @@ public class WolfController : MonoBehaviour
     private GameObject player;
     private Vector3 enemyScale;
     private CapsuleCollider2D coll;
-    [SerializeField] private bool isJumping;
+    private bool isJumping;
+    private bool isJumpingBack;
     private bool isAttacking;
-    [SerializeField] private bool jumpHitPlayer;
+    private bool jumpHitPlayer;
     [SerializeField] private float jumpCooldown;
-    [SerializeField] private float jumpCooldownTimer;
-    [SerializeField] private float justJumpedTimer;
+    private float jumpCooldownTimer;
+    private float justJumpedTimer;
+    [SerializeField] private float attackCooldown;
+    private float attackCooldownTimer;
     [SerializeField] private float jumpRange;
     [SerializeField] private float attackRange;
     #endregion
@@ -31,6 +34,8 @@ public class WolfController : MonoBehaviour
         coll = GetComponent<CapsuleCollider2D>();
         isJumping = false;
         isAttacking = false;
+        isJumpingBack = false;
+        jumpHitPlayer = false;
     }
 
     void Update()
@@ -39,11 +44,26 @@ public class WolfController : MonoBehaviour
         {
             if (enemy.isAggroed)
             {
-                StayInRange(jumpRange);
-
-                if (justJumpedTimer == 0f && jumpCooldownTimer == 0f && !isJumping && !isAttacking)
+                if (enemy.canMove && jumpCooldownTimer == 0f)
                 {
-                    StartCoroutine(JumpAttack());
+                    StayInRange(jumpRange);
+                }
+                else if (enemy.canMove)
+                {
+                    StayInRange(attackRange);
+                }
+
+                if (!isJumping && !isAttacking && !isJumpingBack)
+                {
+                    if (PlayerInAttackRange() && attackCooldownTimer == 0f)
+                    {
+                        StartCoroutine(UseBasicAttack());
+                        StartCoroutine(JumpBack(false));
+                    }
+                    else if (!PlayerInAttackRange() && justJumpedTimer == 0f && jumpCooldownTimer == 0f)
+                    {
+                        StartCoroutine(JumpAttack());
+                    }
                 }
             }
 
@@ -57,12 +77,60 @@ public class WolfController : MonoBehaviour
 
             if (jumpHitPlayer && enemy.IsGrounded())
             {
-                StartCoroutine(JumpBack());
+                StartCoroutine(JumpBack(false));
             }
 
-            if (justJumpedTimer == 0f && enemy.IsGrounded())
+            if (isJumpingBack && justJumpedTimer == 0f && enemy.IsGrounded())
             {
+                enemy.canMove = true;
+                enemy.canAttack = true;
+                isJumpingBack = false;
+            }
+
+            if (isJumping && enemy.IsGrounded() && justJumpedTimer == 0f)
+            {
+                float wolfPosition = transform.position.x;
+                float playerPosition = player.transform.position.x;
+
                 isJumping = false;
+                if (enemy.lastXDir > 0)
+                {
+                    if (playerPosition > wolfPosition)
+                    {
+                        if (PlayerInAttackRange())
+                        {
+                            StartCoroutine(UseBasicAttack());
+                            StartCoroutine(JumpBack(false));
+                        }
+                        else
+                        {
+                            StartCoroutine(JumpBack(true));
+                        }
+                    }
+                    else
+                    {
+                        StartCoroutine(JumpBack(false));
+                    }
+                }
+                else
+                {
+                    if (playerPosition < wolfPosition)
+                    {
+                        if (PlayerInAttackRange())
+                        {
+                            StartCoroutine(UseBasicAttack());
+                            StartCoroutine(JumpBack(false));
+                        }
+                        else
+                        {
+                            StartCoroutine(JumpBack(true));
+                        }
+                    }
+                    else
+                    {
+                        StartCoroutine(JumpBack(false));
+                    }
+                }
             }
 
             if (jumpCooldownTimer > 0f)
@@ -81,6 +149,15 @@ public class WolfController : MonoBehaviour
             else
             {
                 justJumpedTimer = 0f;
+            }
+
+            if (attackCooldownTimer > 0f)
+            {
+                attackCooldownTimer -= Time.deltaTime;
+            }
+            else
+            {
+                attackCooldownTimer = 0f;
             }
         }
     }
@@ -104,6 +181,10 @@ public class WolfController : MonoBehaviour
 
                 rb.AddForce(movement * Vector2.right);
             }
+            else
+            {
+                rb.velocity = new Vector3(0f, rb.velocity.y);
+            }
         }
     }
 
@@ -113,6 +194,11 @@ public class WolfController : MonoBehaviour
             || Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, coll.direction, 0f, Vector2.up, .1f, enemy.player)
             || Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, coll.direction, 0f, Vector2.right, .1f, enemy.player)
             || Physics2D.CapsuleCast(coll.bounds.center, coll.bounds.size, coll.direction, 0f, Vector2.left, .1f, enemy.player);
+    }
+
+    private bool PlayerInAttackRange()
+    {
+        return Physics2D.BoxCast(new Vector2(coll.bounds.center.x + (attackRange / 2) * enemy.lastXDir, coll.bounds.center.y), new Vector2(attackRange, 1f), 0f, Vector2.left, .1f, enemy.player);
     }
 
     private IEnumerator JumpAttack()
@@ -134,30 +220,45 @@ public class WolfController : MonoBehaviour
 
         jumpCooldownTimer = jumpCooldown;
 
-        enemy.canMove = true;
-        enemy.canAttack = true;
         enemy.aggroCounter = enemy.aggroTime;
         enemy.isAggroed = true;
     }
 
-    private IEnumerator JumpBack()
+    private IEnumerator JumpBack(bool changeDirection)
     {
         enemy.canMove = false;
         enemy.canAttack = false;
         jumpHitPlayer = false;
+        isJumpingBack = true;
 
+        justJumpedTimer = 0.4f;
         yield return new WaitForSeconds(0.25f);
 
-        float targetSpeed = enemy.lastXDir * enemyStats.movementSpeed * 35f;
+        float targetSpeed = enemy.lastXDir * enemyStats.movementSpeed * 40f;
+        if (changeDirection) targetSpeed *= -1;
         float speedDiff = targetSpeed - rb.velocity.x;
         float accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? enemyStats.acceleration : enemyStats.decceleration;
         float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelerationRate, enemyStats.velocityPower) * Mathf.Sign(speedDiff);
 
         rb.AddForce(enemyStats.jumpPower * Vector2.up, ForceMode2D.Impulse);
         rb.AddForce(movement * Vector2.left);
+    }
 
-        enemy.canMove = true;
-        enemy.canAttack = true;
+    private IEnumerator UseBasicAttack()
+    {
+        isAttacking = true;
+
+        yield return new WaitForSeconds(0.2f);
+
+        if (PlayerInAttackRange())
+        {
+            player.GetComponent<StatsController>().DealDamage(enemyStats.attack);
+        }
+
+        enemy.aggroCounter = enemy.aggroTime;
+        enemy.isAggroed = true;
+        isAttacking = false;
+        attackCooldownTimer = attackCooldown;
     }
 
     private void OnDrawGizmos()
@@ -167,6 +268,8 @@ public class WolfController : MonoBehaviour
             Gizmos.color = Color.red;
 
             Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (jumpRange / 2) * enemy.lastXDir, coll.bounds.center.y), new Vector2(jumpRange, 0.5f));
+
+            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (attackRange / 2) * enemy.lastXDir, coll.bounds.center.y), new Vector2(attackRange, 1f));
         }
     }
 }

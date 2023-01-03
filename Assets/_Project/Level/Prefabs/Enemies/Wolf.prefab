@@ -175,7 +175,7 @@ MonoBehaviour:
   aggroRangeTop: 3
   aggroRangeBottom: 2
   aggroRangeRight: 4
-  aggroRangeLeft: 7
+  aggroRangeLeft: 8
   aggroCounter: 0
   aggroTime: 0.5
   canAttack: 1
@@ -236,5 +236,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpCooldown: 5
-  jumpRange: 5
-  attackRange: 1
+  attackCooldown: 1.5
+  jumpRange: 6
+  attackRange: 1.5
