@@ -69,7 +69,6 @@ public class WolfController : MonoBehaviour
 
             if (isJumping && CollideWithPlayer())
             {
-                Debug.Log("player hit");
                 isJumping = false;
                 jumpHitPlayer = true;
                 player.GetComponent<StatsController>().DealDamage(enemyStats.attack);
