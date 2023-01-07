@@ -11,6 +11,8 @@ TagManager:
   - Options
   - SaveButton
   - SkillSelectionSkills
+  - Projectile
+  - Ground
   layers:
   - Default
   - TransparentFX

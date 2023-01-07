@@ -20,6 +20,7 @@ public class SkillCharge : MonoBehaviour
     private void MovePlayer()
     {
         rb.gravityScale = 0f;
+        player.GetComponent<StatsController>().isInvincible = true;
         player.GetComponent<BoxCollider2D>().isTrigger = true;
         player.GetComponent<CircleCollider2D>().isTrigger = true;
         rb.AddForce(new Vector2(player.GetComponent<PlayerController>().lastXDir * Time.deltaTime * 50000f * chargePower, 0f));
@@ -65,6 +66,7 @@ public class SkillCharge : MonoBehaviour
         player.GetComponent<PlayerController>().canMove = true;
         player.GetComponent<BoxCollider2D>().isTrigger = false;
         player.GetComponent<CircleCollider2D>().isTrigger = false;
+        player.GetComponent<StatsController>().isInvincible = false;
         rb.gravityScale = gravity;
     }
 
