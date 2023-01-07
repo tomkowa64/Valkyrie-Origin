@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
         chosenSkillSlot = gameManager.saveData.chosenSkillSlot;
         targetsHit = new List<GameObject>();
 
+        #region Load Skills
         for (int i = 0; i < gameManager.saveData.playerSkills.Length; i++)
         {
             if (gameManager.saveData.playerSkills[i] != -1)
@@ -96,6 +97,7 @@ public class PlayerController : MonoBehaviour
                 skill.GetComponent<SkillController>().onCooldown = false;
             }
         }
+        #endregion
     }
 
     // Update is called once per frame
@@ -113,6 +115,7 @@ public class PlayerController : MonoBehaviour
                 Die();
             }
 
+            #region Movement
             float dirX = Input.GetAxisRaw("Horizontal");
 
             if (dirX != 0 && canMove)
@@ -130,6 +133,7 @@ public class PlayerController : MonoBehaviour
 
                 rb.AddForce(movement * Vector2.right);
             }
+            #endregion
 
             #region Animations
             if (canMove && !IsFacingObject())
@@ -151,6 +155,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsAttacking", isAttacking);
             #endregion
 
+            #region Jump
             if (Input.GetButtonDown("Jump") && canMove && IsGrounded())
             {
                 rb.AddForce(Vector2.up * playerStats.jumpPower, ForceMode2D.Impulse);
@@ -181,7 +186,9 @@ public class PlayerController : MonoBehaviour
             {
                 rb.gravityScale = gravity;
             }
+            #endregion
 
+            #region Dodge
             if (Input.GetKeyDown(KeyCode.LeftShift) && canMove)
             {
                 if (IsGrounded())
@@ -209,12 +216,16 @@ public class PlayerController : MonoBehaviour
                     StartCoroutine(Dodge());
                 }
             }
+            #endregion
 
+            #region Attack
             if (Input.GetButtonDown("Fire1") && canAttack && playerStats.stamina >= attackStaminaCost && !skillIsLoading)
             {
                 Attack();
             }
+            #endregion
 
+            #region Skills
             if (Input.GetButtonDown("Fire1") && skillIsLoading)
             {
                 skillCancelled = true;
@@ -296,6 +307,7 @@ public class PlayerController : MonoBehaviour
                     chosenSkillSlot = 3;
                 }
             }
+            #endregion
         }
     }
 
@@ -327,6 +339,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Dodge()
     {
+        playerStats.isInvincible = true;
         canDodge = false;
         isDodging = true;
         rb.gravityScale = 0f;
@@ -340,6 +353,7 @@ public class PlayerController : MonoBehaviour
         circleColl.isTrigger = false;
         rb.gravityScale = gravity;
         playerStats.UseStamina(0f, false);
+        playerStats.isInvincible = false;
         yield return new WaitForSeconds(playerStats.dodgeCooldown);
         canDodge = true;
     }

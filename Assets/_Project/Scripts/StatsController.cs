@@ -47,14 +47,9 @@ public class StatsController : MonoBehaviour
     private bool regeneratingStamina = false;
     private bool staminaInUse = false;
     private bool manaInUse = false;
+    public bool isInvincible = false;
     #endregion
     #endregion
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -154,6 +149,11 @@ public class StatsController : MonoBehaviour
 
     public void DealDamage(float amount)
     {
+        if (isInvincible)
+        {
+            return;
+        }
+
         if(health - amount < 0f)
         {
             health = 0f;
