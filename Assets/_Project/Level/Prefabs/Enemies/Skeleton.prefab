@@ -123,8 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee9e7eae82cf0248b07bf0f00892dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 300
-  maxHealth: 300
+  health: 150
+  maxHealth: 150
   mana: 15
   maxMana: 15
   manaRegen: 2
@@ -132,7 +132,7 @@ MonoBehaviour:
   maxStamina: 100
   staminaRegen: 10
   attack: 15
-  defence: 10
+  defence: 15
   attackingTime: 0.5
   attackCooldown: 0.5
   movementSpeed: 8
@@ -172,6 +172,7 @@ MonoBehaviour:
     m_Bits: 256
   rb: {fileID: 0}
   animator: {fileID: -6607968515408136211}
+  isBoss: 0
   isAggroed: 0
   aggroRangeTop: 2
   aggroRangeBottom: 0.8

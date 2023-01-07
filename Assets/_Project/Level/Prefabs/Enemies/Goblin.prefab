@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6236030121365463408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2599658503519928144}
+  m_Layer: 0
+  m_Name: ProjectileSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2599658503519928144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6236030121365463408}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.472, y: 0.563, z: -0.012204245}
+  m_LocalScale: {x: 1.6666665, y: 1.6666665, z: 1.6666665}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7938570352953962922}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7938570352953962964
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,6 +46,7 @@ GameObject:
   - component: {fileID: 2377979788613480171}
   - component: {fileID: -6607968515408136211}
   - component: {fileID: 3041782006285450467}
+  - component: {fileID: -6004799953676257817}
   m_Layer: 8
   m_Name: Goblin
   m_TagString: Enemy
@@ -33,7 +65,8 @@ Transform:
   m_LocalPosition: {x: -1.1, y: 7.46, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 2599658503519928144}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -122,8 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee9e7eae82cf0248b07bf0f00892dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
-  maxHealth: 200
+  health: 500
+  maxHealth: 500
   mana: 50
   maxMana: 50
   manaRegen: 2
@@ -131,7 +164,7 @@ MonoBehaviour:
   maxStamina: 100
   staminaRegen: 10
   attack: 18
-  defence: 0
+  defence: 5
   attackingTime: 0.5
   attackCooldown: 0.5
   movementSpeed: 10
@@ -171,13 +204,14 @@ MonoBehaviour:
     m_Bits: 256
   rb: {fileID: 0}
   animator: {fileID: -6607968515408136211}
+  isBoss: 1
   isAggroed: 0
-  aggroRangeTop: 4
-  aggroRangeBottom: 4
-  aggroRangeRight: 0.5
-  aggroRangeLeft: 10
+  aggroRangeTop: 0
+  aggroRangeBottom: 0
+  aggroRangeRight: 0
+  aggroRangeLeft: 0
   aggroCounter: 0
-  aggroTime: 1
+  aggroTime: 0
   canAttack: 1
   isAttacking: 0
   attackStaminaCost: 15
@@ -223,3 +257,26 @@ CapsuleCollider2D:
   m_Offset: {x: 0.014385247, y: -0.30788773}
   m_Size: {x: 1.4983256, y: 1.3980443}
   m_Direction: 1
+--- !u!114 &-6004799953676257817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7938570352953962964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3bbdc7b45871c44fa04f3e2a4dbe9cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesPrefabs: []
+  teleportLocations:
+  - {fileID: 0}
+  - {fileID: 0}
+  spawnPoints: []
+  spawnedEnemies: []
+  projectilePrefab: {fileID: 4577126245488557311, guid: 1ff34745695f210478d4896406204e5d, type: 3}
+  projectileSpawner: {fileID: 6236030121365463408}
+  spawnPhaseCooldown: 10
+  projectileSpawnMinCooldown: 2
+  projectileSpawnMaxCooldown: 5

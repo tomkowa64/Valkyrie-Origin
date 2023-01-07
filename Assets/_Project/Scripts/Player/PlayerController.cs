@@ -380,7 +380,16 @@ public class PlayerController : MonoBehaviour
 
     private bool AttackHit()
     {
-        var attackArea = Physics2D.BoxCast(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir), coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2, coll.bounds.size.y + .2f), 0f, Vector2.right * lastXDir, .1f, enemy);
+        RaycastHit2D attackArea;
+
+        if (lastXDir < 0)
+        {
+            attackArea = Physics2D.BoxCast(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir) - .1f, coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2f + .2f, coll.bounds.size.y + .2f), 0f, Vector2.right * lastXDir, .1f, enemy);
+        }
+        else
+        {
+            attackArea = Physics2D.BoxCast(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir) + .1f, coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2f + .2f, coll.bounds.size.y + .2f), 0f, Vector2.right * lastXDir, .1f, enemy);
+        }
 
         if (attackArea)
         {
@@ -449,7 +458,15 @@ public class PlayerController : MonoBehaviour
             Gizmos.color = Color.red;
 
             #region Attack HitBox
-            Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir), coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2, coll.bounds.size.y + .2f));
+            if (lastXDir < 0)
+            {
+                Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir) - .1f, coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2f + .2f, coll.bounds.size.y + .2f));
+            }
+            else
+            {
+                Gizmos.DrawWireCube(new Vector2(coll.bounds.center.x + (coll.bounds.size.x * lastXDir) + .1f, coll.bounds.center.y - .1f), new Vector2(coll.bounds.size.x * 2f + .2f, coll.bounds.size.y + .2f));
+            }
+            
             #endregion
         }
     }

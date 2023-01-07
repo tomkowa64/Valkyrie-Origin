@@ -15,6 +15,7 @@ public class EnemiesController : MonoBehaviour
     private CapsuleCollider2D coll;
     public Animator animator;
 
+    public bool isBoss = false;
     private bool isDead = false;
     private readonly int[] directionsList = { -1, 1 };
 
@@ -63,6 +64,12 @@ public class EnemiesController : MonoBehaviour
             return;
         }
 
+        if (isBoss)
+        {
+            wandering = false;
+            movesRandomly = false;
+        }
+
         if (!PauseController.gameIsPaused)
         {
             if (enemyStats.health <= 0)
@@ -82,7 +89,7 @@ public class EnemiesController : MonoBehaviour
                 }
             }
 
-            if (!isAggroed)
+            if (!isAggroed && !isBoss)
             {
                 if (canMove)
                 {
@@ -97,7 +104,7 @@ public class EnemiesController : MonoBehaviour
                 }
             }
 
-            if (SeePlayer())
+            if (SeePlayer() && !isBoss)
             {
                 if (aggroCounter < aggroTime)
                 {

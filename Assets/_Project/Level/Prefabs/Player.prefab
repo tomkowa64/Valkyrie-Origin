@@ -216,8 +216,8 @@ MonoBehaviour:
   manaRegen: 2
   stamina: 100
   maxStamina: 100
-  staminaRegen: 10
-  attack: 20
+  staminaRegen: 20
+  attack: 35
   defence: 0
   attackingTime: 0.5
   attackCooldown: 0.5
@@ -231,6 +231,7 @@ MonoBehaviour:
   dashPower: 2.5
   dodgingTime: 0.2
   dodgeCooldown: 0.5
+  isInvincible: 0
 --- !u!120 &-4659056473318536446
 LineRenderer:
   m_ObjectHideFlags: 0

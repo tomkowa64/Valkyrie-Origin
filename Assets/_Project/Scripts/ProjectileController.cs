@@ -5,10 +5,8 @@ using UnityEngine;
 public class ProjectileController : MonoBehaviour
 {
     #region Variables
-    private CircleCollider2D coll;
     private Rigidbody2D rb;
     private Vector3 scale;
-    private Quaternion rotation;
     public float maxRange;
     public float damage;
     public GameObject target;
@@ -21,9 +19,7 @@ public class ProjectileController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<CircleCollider2D>();
         scale = rb.transform.localScale;
-        rotation = rb.transform.rotation;
         targetSet = false;
         startPosition = transform.position;
     }

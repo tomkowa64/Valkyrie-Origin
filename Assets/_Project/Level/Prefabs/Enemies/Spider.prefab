@@ -132,7 +132,7 @@ MonoBehaviour:
   maxStamina: 100
   staminaRegen: 10
   attack: 20
-  defence: 0
+  defence: 5
   attackingTime: 0.5
   attackCooldown: 0.5
   movementSpeed: 14
@@ -172,6 +172,7 @@ MonoBehaviour:
     m_Bits: 256
   rb: {fileID: 0}
   animator: {fileID: -6607968515408136211}
+  isBoss: 0
   isAggroed: 0
   aggroRangeTop: 4
   aggroRangeBottom: 1
