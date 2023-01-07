@@ -1680,7 +1680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 2243ba0c7f5dd914a843c6c5e2cff6d4, type: 2}
-  ResolutionDropdown: {fileID: 0}
+  resolutionDropdown: {fileID: 863914727}
 --- !u!1 &166182629
 GameObject:
   m_ObjectHideFlags: 0
@@ -10189,7 +10189,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264762447}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 561, y: 349, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -12566,7 +12566,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1620784344
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13692,10 +13692,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1401974578}
   m_HandleRect: {fileID: 1479530234}
   m_Direction: 0
-  m_MinValue: -20
+  m_MinValue: -50
   m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: -10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -15719,7 +15719,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: 2243ba0c7f5dd914a843c6c5e2cff6d4, type: 2}
   m_audioClip: {fileID: 8300000, guid: b02f80b6a13ce944182ab3cef6f0730c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.57
   m_Pitch: 1
   Loop: 0
   Mute: 0
