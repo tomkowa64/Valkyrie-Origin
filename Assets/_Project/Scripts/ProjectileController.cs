@@ -62,9 +62,5 @@ public class ProjectileController : MonoBehaviour
             collision.GetComponent<StatsController>().DealDamage(damage);
             Destroy(gameObject);
         }
-        else if (collision.CompareTag("Ground"))
-        {
-            Destroy(gameObject);
-        }
     }
 }

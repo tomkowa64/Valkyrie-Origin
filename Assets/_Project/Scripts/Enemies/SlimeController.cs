@@ -28,6 +28,11 @@ public class SlimeController : MonoBehaviour
 
     void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         if (!PauseController.gameIsPaused)
         {
             if (movementCdTimer > 0f)

@@ -11,7 +11,7 @@ public class GoblinBossController : MonoBehaviour
     private GameObject player;
     private Vector3 enemyScale;
 
-    [SerializeField] private bool bossFightStarted;
+    private bool bossFightStarted;
     [SerializeField] private GameObject bossFightStartPosition;
     [SerializeField] private GameObject[] enemiesPrefabs;
     [SerializeField] private GameObject[] teleportLocations = new GameObject[2];
@@ -19,6 +19,7 @@ public class GoblinBossController : MonoBehaviour
     [SerializeField] private List<GameObject> spawnedEnemies;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileSpawner;
+    [SerializeField] private GameObject bossFightWall;
 
     [SerializeField] private bool spawnPhase;
     [SerializeField] private float spawnPhaseCooldown;
@@ -46,6 +47,11 @@ public class GoblinBossController : MonoBehaviour
 
     void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         if (!PauseController.gameIsPaused)
         {
             if (enemy.canMove)
@@ -60,6 +66,8 @@ public class GoblinBossController : MonoBehaviour
 
             if (bossFightStarted)
             {
+                bossFightWall.SetActive(true);
+
                 if (!spawnPhase && spawnPhaseTimer <= 0f)
                 {
                     rb.transform.position = teleportLocations[1].transform.position;

@@ -40,6 +40,11 @@ public class WolfController : MonoBehaviour
 
     void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         if (!PauseController.gameIsPaused)
         {
             if (enemy.isAggroed)
