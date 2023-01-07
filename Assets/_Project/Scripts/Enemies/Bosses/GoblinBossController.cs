@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GoblinBossController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GoblinBossController : MonoBehaviour
     private GameObject player;
     private Vector3 enemyScale;
 
+    private bool healthBarSet;
     private bool bossFightStarted;
     [SerializeField] private GameObject bossFightStartPosition;
     [SerializeField] private GameObject[] enemiesPrefabs;
@@ -20,6 +22,7 @@ public class GoblinBossController : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileSpawner;
     [SerializeField] private GameObject bossFightWall;
+    [SerializeField] private Slider bossHealthBar;
 
     [SerializeField] private bool spawnPhase;
     [SerializeField] private float spawnPhaseCooldown;
@@ -43,10 +46,13 @@ public class GoblinBossController : MonoBehaviour
         enemiesCount = 0;
         spawnPhase = false;
         bossFightStarted = false;
+        healthBarSet = false;
     }
 
     void Update()
     {
+        Debug.Log(bossHealthBar);
+
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
@@ -67,6 +73,16 @@ public class GoblinBossController : MonoBehaviour
             if (bossFightStarted)
             {
                 bossFightWall.SetActive(true);
+
+                if (!healthBarSet)
+                {
+                    bossHealthBar.gameObject.SetActive(true);
+                    bossHealthBar.GetComponent<Slider>().minValue = 0f;
+                    bossHealthBar.GetComponent<Slider>().maxValue = enemyStats.maxHealth;
+                    healthBarSet = true;
+                }
+                
+                bossHealthBar.GetComponent<Slider>().value = enemyStats.health;
 
                 if (!spawnPhase && spawnPhaseTimer <= 0f)
                 {

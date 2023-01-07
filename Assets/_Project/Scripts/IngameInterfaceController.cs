@@ -16,6 +16,7 @@ public class IngameInterfaceController : MonoBehaviour
     public Slider healthBar;
     public Slider manaBar;
     public Slider staminaBar;
+    public Slider bossHealthBar;
 
     #region Skills
     #region Images
@@ -73,6 +74,11 @@ public class IngameInterfaceController : MonoBehaviour
         skillOneBar.interactable = false;
         skillTwoBar.interactable = false;
         skillThreeBar.interactable = false;
+
+        if (bossHealthBar.value <= 0f)
+        {
+            bossHealthBar.gameObject.SetActive(false);
+        }
 
         if (skillOneBar.value == 0f)
         {
