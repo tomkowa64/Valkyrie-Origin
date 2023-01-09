@@ -155,6 +155,7 @@ public class GoblinBossController : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, projectileSpawner.transform.position, Quaternion.identity);
         projectile.GetComponent<ProjectileController>().target = player;
         projectile.GetComponent<ProjectileController>().damage = enemyStats.attack;
+        projectile.GetComponent<ProjectileController>().passThroughTerrain = true;
 
         projectileSpawnTimer = Random.Range(projectileSpawnMinCooldown, projectileSpawnMaxCooldown);
     }

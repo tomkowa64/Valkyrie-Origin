@@ -14,6 +14,7 @@ public class ProjectileController : MonoBehaviour
     private Vector3 targetPosition;
     public float speed;
     private bool targetSet;
+    public bool passThroughTerrain;
     #endregion
 
     void Start()
@@ -61,6 +62,14 @@ public class ProjectileController : MonoBehaviour
         {
             collision.GetComponent<StatsController>().DealDamage(damage);
             Destroy(gameObject);
+        }
+
+        if (!passThroughTerrain)
+        {
+            if (collision.CompareTag("Ground"))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
