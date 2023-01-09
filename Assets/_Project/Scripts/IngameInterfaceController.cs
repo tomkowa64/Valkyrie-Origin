@@ -11,6 +11,8 @@ public class IngameInterfaceController : MonoBehaviour
     private PlayerController playerController;
     private StatsController playerStats;
     public GameObject pauseMenu;
+    public GameObject interactButton;
+    private GameObject[] checkpoints;
 
     [Header("Status bars")]
     public Slider healthBar;
@@ -61,6 +63,7 @@ public class IngameInterfaceController : MonoBehaviour
     {
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<StatsController>();
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
 
         healthBar.minValue = 0f;
         healthBar.maxValue = playerStats.maxHealth;
@@ -80,6 +83,7 @@ public class IngameInterfaceController : MonoBehaviour
             bossHealthBar.gameObject.SetActive(false);
         }
 
+        #region Skill Bars
         if (skillOneBar.value == 0f)
         {
             skillOneBar.gameObject.SetActive(false);
@@ -106,7 +110,9 @@ public class IngameInterfaceController : MonoBehaviour
         {
             skillThreeBar.gameObject.SetActive(true);
         }
+        #endregion
 
+        #region Player Skills
         if (playerController.skills[0] != null)
         {
             skillOneImage.sprite = playerController.skills[0].GetComponent<Image>().sprite;
@@ -205,7 +211,9 @@ public class IngameInterfaceController : MonoBehaviour
             default:
                 break;
         }
+        #endregion
 
+        #region Pause Menu
         if (Input.GetKeyDown(KeyCode.Escape) && !PauseController.choosingSkills)
         {
             if (PauseController.gameIsPaused)
@@ -219,6 +227,30 @@ public class IngameInterfaceController : MonoBehaviour
                 pauseMenu.SetActive(true);
             }
         }
+        #endregion
+
+        #region Interact
+        int checkpointCounter = 0;
+
+        foreach (GameObject checkpoint in checkpoints)
+        {
+            if (!checkpoint.GetComponent<CheckpointController>().canInteract)
+            {
+                checkpointCounter++;
+            }
+        }
+
+        if (checkpointCounter >= checkpoints.Length)
+        {
+            interactButton.SetActive(false);
+        }
+        else
+        {
+            interactButton.SetActive(true);
+        }
+
+        checkpointCounter = 0;
+        #endregion
     }
 
     public void LoadOptionsMenu()

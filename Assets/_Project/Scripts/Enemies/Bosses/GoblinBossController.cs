@@ -51,8 +51,6 @@ public class GoblinBossController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(bossHealthBar);
-
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
