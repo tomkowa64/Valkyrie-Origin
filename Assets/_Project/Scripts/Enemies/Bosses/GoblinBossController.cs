@@ -13,7 +13,7 @@ public class GoblinBossController : MonoBehaviour
     private Vector3 enemyScale;
 
     private bool healthBarSet;
-    private bool bossFightStarted;
+    public bool bossFightStarted;
     [SerializeField] private GameObject bossFightStartPosition;
     [SerializeField] private GameObject[] enemiesPrefabs;
     [SerializeField] private GameObject[] teleportLocations = new GameObject[2];
@@ -21,13 +21,13 @@ public class GoblinBossController : MonoBehaviour
     [SerializeField] private List<GameObject> spawnedEnemies;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject projectileSpawner;
-    [SerializeField] private GameObject bossFightWall;
+    public GameObject bossFightWall;
     [SerializeField] private Slider bossHealthBar;
 
-    [SerializeField] private bool spawnPhase;
-    [SerializeField] private float spawnPhaseCooldown;
-    [SerializeField] private float spawnPhaseTimer;
-    [SerializeField] private int enemiesCount;
+    private bool spawnPhase;
+    private float spawnPhaseCooldown;
+    private float spawnPhaseTimer;
+    private int enemiesCount;
 
     [SerializeField] private float projectileSpawnMinCooldown;
     [SerializeField] private float projectileSpawnMaxCooldown;

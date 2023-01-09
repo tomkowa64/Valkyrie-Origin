@@ -20,6 +20,10 @@ public class SaveData
     public int skillChargeProgress;
     #endregion
 
+    #region Level0
+    public int level0KilledEnemies;
+    #endregion
+
     public SaveData()
     {
         playerHealth = 200;
@@ -34,9 +38,10 @@ public class SaveData
         skillHealProgress = 0;
         skillHealthRegenProgeess = 0;
         skillChargeProgress = 0;
+        level0KilledEnemies = 0;
     }
 
-    public SaveData(GameObject player, SceneController scene, GameObject[] skills, GameManager gameManager)
+    public SaveData(GameObject player, SceneController scene, GameObject[] skills, GameManager gameManager, Level0Controller level0)
     {
         playerHealth = player.GetComponent<StatsController>().health;
         playerSkills[0] = Array.IndexOf(skills, player.GetComponent<PlayerController>().skills[0]);
@@ -50,5 +55,6 @@ public class SaveData
         skillHealProgress = skills[0].GetComponent<SkillHeal>().sumOfHealingDone;
         skillHealthRegenProgeess = skills[1].GetComponent<SkillHPRegen>().sumOfHealthRegen;
         skillChargeProgress = skills[2].GetComponent<SkillCharge>().sumOfEnemiesHit;
+        level0KilledEnemies = level0.killedEnemies;
     }
 }

@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     [Header("If you want to use sandbox set it to name of your save")]
     public string saveName;
 
-    // Start is called before the first frame update
     void Start()
     {
         if (instance != null)
@@ -100,6 +99,14 @@ public class GameManager : MonoBehaviour
     private void LoadSkillsData()
     {
         unlockedSkills = saveData.unlockedSkills;
+
+        // DELETE AFTER PGK PRESENTATION
+        #region PGK Demo
+        unlockedSkills = new int[3];
+        unlockedSkills.SetValue(0, 0);
+        unlockedSkills.SetValue(1, 1);
+        unlockedSkills.SetValue(2, 2);
+        #endregion
 
         #region Heal data
         skills[0].GetComponent<SkillHeal>().sumOfHealingDone = saveData.skillHealProgress;

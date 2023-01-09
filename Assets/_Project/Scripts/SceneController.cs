@@ -16,7 +16,6 @@ public class SceneController : MonoBehaviour
     [Header("To set")]
     public int levelNumber;
 
-    // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -54,21 +53,12 @@ public class SceneController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!PauseController.gameIsPaused)
-        {
-            // Every action made on scene
-        }
-    }
-
     public void CheckpointReached(GameObject checkpoint)
     {
         if (lastCheckpoint.GetComponent<CheckpointController>().checkpointNumber < checkpoint.GetComponent<CheckpointController>().checkpointNumber)
         {
             lastCheckpoint = checkpoint;
-            SaveSystem.Save(gameManager.saveName, player, this, gameManager.skills, gameManager);
+            SaveSystem.Save(gameManager.saveName, player, this, gameManager.skills, gameManager, GetComponent<Level0Controller>());
         }
     }
 

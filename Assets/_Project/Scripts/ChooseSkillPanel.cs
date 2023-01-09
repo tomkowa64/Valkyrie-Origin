@@ -119,7 +119,7 @@ public class ChooseSkillPanel : MonoBehaviour
 
     public void BackToGame()
     {
-        SaveSystem.Save(gameManager.saveName, GameObject.FindGameObjectWithTag("Player"), GameObject.FindGameObjectWithTag("GameController").GetComponent<SceneController>(), gameManager.skills, gameManager);
+        SaveSystem.Save(gameManager.saveName, GameObject.FindGameObjectWithTag("Player"), GameObject.FindGameObjectWithTag("GameController").GetComponent<SceneController>(), gameManager.skills, gameManager, GameObject.FindGameObjectWithTag("GameController").GetComponent<Level0Controller>());
         SceneManager.UnloadSceneAsync("SkillSelection");
         PauseController.choosingSkills = false;
         PauseController.Resume();
