@@ -39,7 +39,9 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: cdab6b1060fc2684ebf14b824df52797, type: 3}
+  - {fileID: 21300000, guid: 3aab1d20c9a236d48a04a781a6d9f26b, type: 3}
   - {fileID: 21300000, guid: 929186f0359336240bc1670d125e128c, type: 3}
+  - {fileID: 21300000, guid: 18e3ff71a36048346b0d8810b06793e7, type: 3}
   - {fileID: 21300000, guid: e677b2a1fb7280940bbed34cb4ebf4cb, type: 3}
   - {fileID: 21300000, guid: 637bb1b21e1ed514dbeeab3a1bd7bfbd, type: 3}
   - {fileID: 21300000, guid: 97fbbdc2d5fdb1c498eb138813ea228c, type: 3}
@@ -55,12 +57,15 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 43c8efea9362b054e99e593c771f1761, type: 3}
   - {fileID: 21300000, guid: bec81b6b2df2bb0468194eaed5d27ada, type: 3}
   - {fileID: 21300000, guid: 3aff848b7af23f94eaae892275e475df, type: 3}
+  - {fileID: 21300000, guid: 177d2fbb50a217f4c80de6a9ecfbed62, type: 3}
   - {fileID: 21300000, guid: d0c0fd4dc0372144ea1412ca11f0af64, type: 3}
   - {fileID: 21300000, guid: d2546fed7e9539b4f88c985a6f272450, type: 3}
   - {fileID: 21300000, guid: a51ca6cfe8f97f54f8b8008ba9159733, type: 3}
   m_PackedSpriteNamesToIndex:
   - vines
+  - lever_05_02
   - shrine
+  - lever_05_03
   - withered-tree-2
   - skull
   - high-grass-4
@@ -76,6 +81,7 @@ SpriteAtlas:
   - triangle
   - diseased-plant
   - rock
+  - lever_05_01
   - high-grass-3
   - withered-tree-3
   - high-grass

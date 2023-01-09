@@ -13,6 +13,7 @@ public class IngameInterfaceController : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject interactButton;
     private GameObject[] checkpoints;
+    private GameObject[] levers;
 
     [Header("Status bars")]
     public Slider healthBar;
@@ -64,6 +65,7 @@ public class IngameInterfaceController : MonoBehaviour
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<StatsController>();
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
+        levers = GameObject.FindGameObjectsWithTag("Lever");
 
         healthBar.minValue = 0f;
         healthBar.maxValue = playerStats.maxHealth;
@@ -230,6 +232,7 @@ public class IngameInterfaceController : MonoBehaviour
         #endregion
 
         #region Interact
+        #region Checkpoints
         int checkpointCounter = 0;
 
         foreach (GameObject checkpoint in checkpoints)
@@ -250,6 +253,30 @@ public class IngameInterfaceController : MonoBehaviour
         }
 
         checkpointCounter = 0;
+        #endregion
+
+        #region Levers
+        int leverCounter = 0;
+
+        foreach (GameObject lever in levers)
+        {
+            if (!lever.GetComponent<GateLeverController>().canInteract)
+            {
+                leverCounter++;
+            }
+        }
+
+        if (leverCounter >= levers.Length)
+        {
+            interactButton.SetActive(false);
+        }
+        else
+        {
+            interactButton.SetActive(true);
+        }
+
+        leverCounter = 0;
+        #endregion
         #endregion
     }
 

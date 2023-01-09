@@ -269,6 +269,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3bbdc7b45871c44fa04f3e2a4dbe9cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossFightStarted: 0
+  bossName: Goblin Summoner
+  bossFightStartPosition: {fileID: 0}
   enemiesPrefabs: []
   teleportLocations:
   - {fileID: 0}
@@ -277,6 +280,8 @@ MonoBehaviour:
   spawnedEnemies: []
   projectilePrefab: {fileID: 4577126245488557311, guid: 1ff34745695f210478d4896406204e5d, type: 3}
   projectileSpawner: {fileID: 6236030121365463408}
-  spawnPhaseCooldown: 10
+  bossFightWall: {fileID: 0}
+  bossHealthBar: {fileID: 0}
+  bossNameText: {fileID: 0}
   projectileSpawnMinCooldown: 2
   projectileSpawnMaxCooldown: 5

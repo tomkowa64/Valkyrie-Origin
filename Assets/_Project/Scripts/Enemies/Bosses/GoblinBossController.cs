@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GoblinBossController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GoblinBossController : MonoBehaviour
 
     private bool healthBarSet;
     public bool bossFightStarted;
+    [SerializeField] private string bossName;
     [SerializeField] private GameObject bossFightStartPosition;
     [SerializeField] private GameObject[] enemiesPrefabs;
     [SerializeField] private GameObject[] teleportLocations = new GameObject[2];
@@ -23,9 +25,10 @@ public class GoblinBossController : MonoBehaviour
     [SerializeField] private GameObject projectileSpawner;
     public GameObject bossFightWall;
     [SerializeField] private Slider bossHealthBar;
+    [SerializeField] private TextMeshProUGUI bossNameText;
 
     private bool spawnPhase;
-    private float spawnPhaseCooldown;
+    [SerializeField] private float spawnPhaseCooldown;
     private float spawnPhaseTimer;
     private int enemiesCount;
 
@@ -77,6 +80,7 @@ public class GoblinBossController : MonoBehaviour
                     bossHealthBar.gameObject.SetActive(true);
                     bossHealthBar.GetComponent<Slider>().minValue = 0f;
                     bossHealthBar.GetComponent<Slider>().maxValue = enemyStats.maxHealth;
+                    bossNameText.text = bossName;
                     healthBarSet = true;
                 }
                 
