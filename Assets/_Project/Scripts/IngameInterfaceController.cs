@@ -21,6 +21,11 @@ public class IngameInterfaceController : MonoBehaviour
     public Slider staminaBar;
     public Slider bossHealthBar;
 
+    #region Interaction
+    private bool checkpointInteraction;
+    private bool leverInteraction;
+    #endregion
+
     #region Skills
     #region Images
     [Header("Skill images")]
@@ -245,11 +250,11 @@ public class IngameInterfaceController : MonoBehaviour
 
         if (checkpointCounter >= checkpoints.Length)
         {
-            interactButton.SetActive(false);
+            checkpointInteraction = false;
         }
         else
         {
-            interactButton.SetActive(true);
+            checkpointInteraction = true;
         }
 
         checkpointCounter = 0;
@@ -268,15 +273,24 @@ public class IngameInterfaceController : MonoBehaviour
 
         if (leverCounter >= levers.Length)
         {
-            interactButton.SetActive(false);
+            leverInteraction = false;
         }
         else
         {
-            interactButton.SetActive(true);
+            leverInteraction = true;
         }
 
         leverCounter = 0;
         #endregion
+
+        if (checkpointInteraction || leverInteraction)
+        {
+            interactButton.SetActive(true);
+        }
+        else
+        {
+            interactButton.SetActive(false);
+        }
         #endregion
     }
 
