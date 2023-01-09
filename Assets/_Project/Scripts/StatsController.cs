@@ -154,6 +154,8 @@ public class StatsController : MonoBehaviour
             return;
         }
 
+        StartCoroutine(TakeHit(gameObject.GetComponent<SpriteRenderer>()));
+
         if(health - amount < 0f)
         {
             health = 0f;
@@ -162,6 +164,13 @@ public class StatsController : MonoBehaviour
         {
             health -= amount;
         }
+    }
+
+    private IEnumerator TakeHit(SpriteRenderer targetSprite)
+    {
+        targetSprite.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        targetSprite.color = Color.white;
     }
     #endregion
 }
