@@ -53,7 +53,7 @@ public class SlimeController : MonoBehaviour
                 justJumpedTimer = 0f;
             }
 
-            if (justJumpedTimer == 0f && isJumping && enemy.IsGrounded())
+            if (justJumpedTimer == 0f && isJumping && CanJump())
             {
                 isJumping = false;
                 movementCdTimer = movementCd;
@@ -103,7 +103,7 @@ public class SlimeController : MonoBehaviour
 
     private void TryMove(bool isAggroed)
     {
-        if (enemy.canMove && enemy.IsGrounded() && movementCdTimer <= 0f && !isJumping)
+        if (enemy.canMove && CanJump() && movementCdTimer <= 0f && !isJumping)
         {
             if (isAggroed)
             {
@@ -141,6 +141,12 @@ public class SlimeController : MonoBehaviour
 
             player.GetComponent<StatsController>().DealDamage(enemyStats.attack);
         }
+    }
+
+    public bool CanJump()
+    {
+        return Physics2D.CapsuleCast(coll.bounds.center, coll.size, coll.direction, 0f, Vector2.down, .1f, enemy.ground)
+            || Physics2D.CapsuleCast(coll.bounds.center, coll.size, coll.direction, 0f, Vector2.down, .1f, enemy.enemies);
     }
 
     private void OnDrawGizmos()

@@ -10,7 +10,7 @@ public class EnemiesController : MonoBehaviour
     public LayerMask ground;
     public LayerMask player;
     [SerializeField] private LayerMask dontMoveIfFacing;
-    [SerializeField] private LayerMask enemies;
+    public LayerMask enemies;
     public Rigidbody2D rb;
     private CapsuleCollider2D coll;
     public Animator animator;

@@ -172,6 +172,7 @@ MonoBehaviour:
     m_Bits: 256
   rb: {fileID: 0}
   animator: {fileID: -6607968515408136211}
+  isBoss: 0
   isAggroed: 0
   aggroRangeTop: 4
   aggroRangeBottom: 4
@@ -238,4 +239,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   justJumpedTimer: 0
   movementCdTimer: 0
-  movementCd: 1
+  movementCd: 1.5
