@@ -8140,6 +8140,7 @@ MonoBehaviour:
     skillHealProgress: 0
     skillHealthRegenProgeess: 0
     skillChargeProgress: 0
+    level0KilledEnemies: 0
   unlockedSkills: 
   playerPrefab: {fileID: 5936557769075872516, guid: a18092ad83047ad459a3afb7a7f73a9c, type: 3}
   communicate: {fileID: 53446}
@@ -12604,7 +12605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_Color: {r: 0.2, g: 0.54509807, b: 0.9843137, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
