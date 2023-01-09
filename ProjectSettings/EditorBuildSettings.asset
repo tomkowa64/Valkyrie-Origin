@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Level/Scenes/SkillSelection.unity
     guid: f0fec36321dac4a4f88c3132562a87a2
+  - enabled: 1
+    path: Assets/_Project/Level/Scenes/CreditsScene.unity
+    guid: e185b30d3ea0a3e42b12e70623c3e891
   m_configObjects: {}

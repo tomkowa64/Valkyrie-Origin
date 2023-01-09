@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Level0Controller : MonoBehaviour
 {
@@ -71,6 +72,13 @@ public class Level0Controller : MonoBehaviour
             if (!PlayerNextToBossFightWall())
             {
                 bossFightWallCanvas.SetActive(false);
+            }
+            #endregion
+
+            #region Boss killed
+            if (boss.GetComponent<StatsController>().health <= 0)
+            {
+                SceneManager.LoadScene("CreditsScene", LoadSceneMode.Single);
             }
             #endregion
         }
