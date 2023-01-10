@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
     [Header("Do not touch")]
     [SerializeField] private Transform player;
+    [SerializeField] private Transform backround;
 
     // Update is called once per frame
     void Update()
@@ -14,6 +15,7 @@ public class CameraController : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
             transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
+            backround.position = new Vector3(player.position.x, player.position.y, backround.position.z);
         }
     }
 }
